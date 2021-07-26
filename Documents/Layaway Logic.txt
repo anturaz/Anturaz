@@ -1,0 +1,61 @@
+var recurring_payments = [];
+    var price = 10000;
+    //date needed - date purchased
+    var date_needed = "2019-10-02T14:03:19.618Z";
+    var date_purchased = "2019-05-05T14:03:19.618Z";
+    var difference = this.$getDateDiff(date_needed, date_purchased, "months");
+    //1st payment
+    recurring_payments.push({
+      schedule: date_purchased,
+      amount: price / difference,
+      payment_details: {},
+      status: "Pending"
+    });
+    //2nd payment
+    //date purchased < 16
+    if (new Date(date_purchased).getDate() < 16) {
+      recurring_payments.push({
+        schedule: this.$adjustDate(this.$addToDate(date_purchased,0,1),1),
+        amount: price / difference,
+        payment_details: {},
+        status: "Pending"
+      });
+    }
+    //date purchased < 32
+    else {
+      recurring_payments.push({
+        schedule:  this.$adjustDate(this.$addToDate(date_purchased,0,1),16),
+        amount: price / difference,
+        payment_details: {},
+        status: "Pending"
+      });
+    }
+    //OTHER PAYMENT
+    var _this=this
+    for(var x=2;x<difference-1;x++){
+      recurring_payments.push({
+        schedule:  this.$adjustDate(this.$addToDate(date_purchased,0,x),1),
+        amount: price / difference,
+        payment_details: {},
+        status: "Pending"
+      });
+    }
+    //date needed < 16
+    if (new Date(date_needed).getDate() < 16) {
+      recurring_payments.push({
+        schedule: this.$adjustDate(this.$addToDate(date_purchased,0,difference-2),16),
+        amount: price / difference,
+        payment_details: {},
+        status: "Pending"
+      });
+    }
+    //date needed < 32
+    else {
+      recurring_payments.push({
+        schedule:  this.$adjustDate(this.$addToDate(date_purchased,0,difference-1),1),
+        amount: price / difference,
+        payment_details: {},
+        status: "Pending"
+      });
+    }
+  console.log(recurring_payments)

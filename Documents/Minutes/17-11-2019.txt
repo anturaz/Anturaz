@@ -1,0 +1,84 @@
+-Multiple Upload
+-Featured store
+	-If no advertised, hide the featured stores section
+	-Advertise the users to advertise (Show price of advertistment)
+	-Put your ads here
+	
+-Recommended Products
+	-Combination of interest and advertisment
+ 	-If Logged in- Base items in Search History and Advertisment
+	-If Logged out- by categories
+Online Payment
+	-Validation (Too close remove dp and layaway)
+
+For Review
+	-Review Button to Acknowledge Order button
+
+Unacknowledged Products
+	-Order must be acknowledge within 24 hours
+	-If not, Enturaz company will be notified
+
+To Receive
+	-48 hours, order must be acknowledge(received) and send notification
+	-72 hours, automatically received and send notification
+	-after 72 hours, send notif na automatically received
+	-When received button is clicked popup rate form
+
+For Shipping
+	-Add Shipping Form(includes Tracking number and Name of the Courier and Estimated time of Arrival)
+
+
+Layaway
+	-Banking days
+	-May errrrrooor
+	-Last payment, First Monday of the same month of date neededn
+	-New Computation
+		-Last payment will be two weeks ahead
+		-Recurring payment every 30 days
+		-Instructions for the shopper regarding the payment schedules
+
+To pay
+	-Notify Vendor and shopper regarding the payment done
+	-For approval- confirmation
+
+Bank Deposits
+	-Print PDF Function
+	-After Printing the bank deposit details, 30 days delete the image only
+	-Add reference number and other deposit slip details
+	( Reference Number, Total Amount, Date Deposited)
+
+Service Checkout
+	-Date of Fulfillment
+	-Time of Fulfilment
+	-Meeting Place instead of shipping address 
+	-Contact person (primary and secondary contact person)
+	-Contact Details (With primary and secondary contact details)
+	-
+
+Reservations (Shopper)
+	-To pay-For Acknowledgement-To Acknowledge-To Rate
+Reservations (Store Owner)
+	-Pending Payment-To Acknowledge- Status(Pending or Fulfilled and cancelled)
+
+Cancellation Policy
+	-Store Owner- 
+	-Service Inventory- Set Percentage of Cancellation Refund or Free cancellation- Days before 
+
+Gift Registry
+	-Event Date and Time
+	-Default shipping address=Wedding Venue
+	-Event Type 
+		-If Wedding (wedding details)
+		-else other event details
+	-Wait for the event types
+
+Products and Services
+	-If the user is not the receipient, add details of the receipient
+
+Search Filter
+-Free Cancellation
+
+
+
+
+	

@@ -1,0 +1,26 @@
+09/06/2019
+
+-Website: 
+	1. Featured Photos + Categories
+	2. Featured Shops
+	3. Same sequence as mobile
+-Mobile:
+	1. Featured Photos (Lazada type)
+	2. Categories
+	3. **Refer to the pdf of Mobile Wireframe
+
+-Webiste design is different from mobile design
+-Pop up announcement for mobile (use sessions)
+-Notify announcement for website (lower left)
+-Announcement
+	1. Add link
+-Featured Photos
+	1. Remove Title and Caption
+	2. Add Link
+-Same menu for mobile and web
+-Market Areas + Nationwide 
+	1.If Nationwide is selected, disable market areas
+	2. Ideate the best component (UX-wise)
+-All login page must be orange
+-Address to Business Address
+Subtitle: Event marketplace

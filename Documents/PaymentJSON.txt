@@ -1,0 +1,45 @@
+<------ ONLINE PAYMENT ------->
+
+//FULL PAYMENT
+{
+	_id
+	shopper_id
+	related_id
+	breakdown: [{
+			description
+			amount
+		}]
+	total
+	payment_type : "Full Payment"
+	payment_details
+}
+//20% Downpayment
+{
+	_id
+	shopper_id
+	related_id
+	breakdown: [{
+			description
+			amount
+		}]
+	total
+	payment_type: "20% Downpayment"
+	registration_id
+	recurring_payments:[{
+		}]
+}
+//LAYAWAY
+{
+	_id
+	shopper_id
+	related_id
+	breakdown: [{
+			description
+			amount
+		}]
+	total
+	payment_type : "Layaway"
+	registration_id
+	recurring_payments:[{
+		}]
+}

@@ -1,0 +1,34 @@
+{
+    "host": "https://backend-app.ap.ngrok.io",
+    "port": 8081,
+    "public": "../public/",
+    "paginate": {
+        "default": 99999999999999999999999999999999999999,
+        "max": 99999999999999999999999999999999999999
+    },
+    "nedb": "../data",
+    "authentication": {
+        "secret": "b9cbb8357738250f80fe6f38b34d5445dff0d9c2d8c0f580ecc38d4805514f03e298e1cd2bc748d0607c0cd6216d6e8732c29f1aec7ba3679db7ab1afcd80c99228f7dcd5668059542110669597473212c0b9e1f00923f235ebf385765b2c0b709f3ebdd7d06dfb35a2035515c7e05ea1eddf4acc9e6553b092435477a6a25856ad01e8e5b71f2a55e061d2bfb85de8142a4d2bc11bf5bb9288fc084bdadcad2c1b5d7f3d849c2fa696f607334f049f4fcf9c8aa1e0fbeb63cc136e5283625b39fb9a80d6eb7bf5c794533d99ca1fcdbff8ff383548cd7e9d5434b19a1feb46939a74066dab8b6c0443da6e9cd004b4d19725270e9d737b045160b6cbc588845",
+        "strategies": [
+            "jwt",
+            "local"
+        ],
+        "path": "/authentication",
+        "service": "users",
+        "jwt": {
+            "header": {
+                "typ": "access"
+            },
+            "audience": "https://yourdomain.com",
+            "subject": "anonymous",
+            "issuer": "feathers",
+            "algorithm": "HS256",
+            "expiresIn": "1d"
+        },
+        "local": {
+            "entity": "user",
+            "usernameField": "email",
+            "passwordField": "password"
+        }
+    }
+}

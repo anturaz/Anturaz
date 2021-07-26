@@ -1,0 +1,45 @@
+{
+  "name": "enturaz",
+  "version": "0.0.1",
+  "description": "An Event Marketplace Application",
+  "productName": "Enturaz",
+  "cordovaId": "",
+  "author": "Gilbert Cortez",
+  "private": true,
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "@feathersjs/client": "^3.7.8",
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "file-saver": "^2.0.2",
+    "jquery": "^3.4.1",
+    "money-formatter": "^0.1.4",
+    "pdfmake": "^0.1.62",
+    "quasar": "^1.0.0-beta.0",
+    "vue-sanitize": "^0.2.0",
+    "vue-session": "^1.0.0",
+    "vuetify-credit-card": "^1.0.1",
+    "wings-feathers": "^3.0.0",
+    "words-count": "^1.0.8",
+    "xlsx": "^0.15.1"
+  },
+  "devDependencies": {
+    "@quasar/app": "^1.0.0-beta.0",
+    "strip-ansi": "=3.0.1"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "last 1 version, not dead, ie >= 11"
+  ],
+  "resolutions": {
+    "ajv": "6.8.1"
+  }
+}

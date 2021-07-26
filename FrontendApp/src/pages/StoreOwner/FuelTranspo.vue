@@ -1,0 +1,135 @@
+<template>
+  <div>
+    <q-breadcrumbs class="col-12 text-grey">
+      <q-breadcrumbs-el label="Maintenance" icon="widgets" />
+      <q-breadcrumbs-el label="Fuel and Transportation" icon="drive_eta" />
+    </q-breadcrumbs>
+    <br />
+    <q-table
+      :pagination.sync="myPagination"
+      :data="data.fuel_delivery"
+      :columns="columns"
+      :filter="filter"
+      row-key="name"
+      flat
+      bordered
+    >
+      <template v-slot:top-right>
+        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+      <q-tr
+        slot="body"
+        v-if="store.market_areas.includes(props.row.location)"
+        slot-scope="props"
+        :props="props"
+      >
+        <q-td key="province" :props="props">{{props.row.location}}</q-td>
+        <q-td
+          key="fuel_transporation_fee"
+          :props="props"
+        >{{ props.row.fuel_transpo!="" && props.row.fuel_transpo!=0 ? $prettyMoney(props.row.fuel_transpo): 'FREE'}}</q-td>
+        <q-td key="edit" :props="props">
+          <q-btn icon="edit" flat dense @click="editFee(props.row.__index,props.row.fuel_transpo)" />
+        </q-td>
+      </q-tr>
+    </q-table>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      myPagination: { rowsPerPage: 10 },
+      data: {},
+      filter: "",
+      columns: [
+        {
+          name: "province",
+          label: "Province",
+          field: "location",
+          align: "center",
+          style: "width:20%"
+        },
+        {
+          name: "fuel_transporation_fee",
+          label: "Fuel/Transportation Fee",
+          field: "fuel_transpo",
+          align: "center"
+        },
+        {
+          name: "edit",
+          label: "Edit",
+          align: "center",
+          style: "width:200px"
+        }
+      ]
+    };
+  },
+  methods: {
+    editFee: function(x, y) {
+      this.$q
+        .dialog({
+          title: "Edit Fuel/Transporation Charge",
+          prompt: {
+            model: this.data.fuel_delivery[x].fuel_transpo,
+            type: "number" // optional
+          },
+          cancel: true
+        })
+        .onOk(data => {
+          this.$q
+            .dialog({
+              title: "Do you want to continue?",
+              message: "Charges apply to all services.",
+              cancel: true
+            })
+            .onOk(() => {
+              this.data.fuel_delivery[x].fuel_transpo = data;
+              this.$dbCon
+                .service("store-fuel-delivery")
+                .update(this.data._id, this.data)
+                .then(() => {
+                  this.$q.notify({
+                    message: "Successfully Updated!",
+                    position: "top-right",
+                    color: "primary",
+                    timeout: 700,
+                    icon: "check"
+                  });
+                });
+            });
+        });
+    }
+  },
+  async mounted() {
+    await this.$dbCon
+      .service("store")
+      .find({
+        query: {
+          _id: this.$local.getItem("store_token")
+        }
+      })
+      .then(result => {
+        this.store = result.data[0];
+      });
+    await this.$dbCon
+      .service("store-fuel-delivery")
+      .find({
+        query: {
+          store_id: this.$local.getItem("store_token")
+        }
+      })
+      .then(result => {
+        this.data = result.data[0];
+      });
+  }
+};
+</script>
+
+<style>
+</style>
