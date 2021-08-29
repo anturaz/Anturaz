@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-      <div  class="col-9 text-right self-center q-pr-md" >{{_data[current_count].length}}</div>
+      <div v-if="_data && _data[current_count] "  class="col-9 text-right self-center q-pr-md" >{{_data[current_count].length}}</div>
    <div class="col-3">
       <q-btn icon="pageview" @click="opened=true" size="lg" dense flat color="grey" />
     </div>
@@ -32,22 +32,22 @@
                   narrow-indicator
                 >
                   <q-tab name="Pending Payment" label="Pending Payment">
-                    <q-badge color="primary" :label="pendingPayment.length" />
+                    <q-badge v-if="pendingPayment" color="primary" :label="pendingPayment.length" />
                   </q-tab>
                   <q-tab name="For Acknowledgement" label="For Acknowledgement">
-                    <q-badge color="primary" :label="forAcknowledgement.length" />
+                    <q-badge v-if="forAcknowledgement" color="primary" :label="forAcknowledgement.length" />
                   </q-tab>
                   <q-tab name="For Packaging" label="For Packaging">
-                    <q-badge color="primary" :label="forPackaging.length" />
+                    <q-badge v-if="forPackaging" color="primary" :label="forPackaging.length" />
                   </q-tab>
                   <q-tab name="For Shipping" label="For Shipping">
-                    <q-badge color="primary" :label="forShipping.length" />
+                    <q-badge v-if="forShipping" color="primary" :label="forShipping.length" />
                   </q-tab>
                   <q-tab name="For Pickup" label="For Pickup">
-                    <q-badge color="primary" :label="forPickup.length" />
+                    <q-badge v-if="forPickup" color="primary" :label="forPickup.length" />
                   </q-tab>
                      <q-tab name="Completed" label="Completed">
-                    <q-badge color="primary" :label="completed.length" />
+                    <q-badge v-if="completed" color="primary" :label="completed.length" />
                   </q-tab>
                 </q-tabs>
 
@@ -136,12 +136,12 @@ export default {
       return results.data;
     }
   },
-  mounted() {
+  async mounted() {
     this.current_count = this.tab.split(" ").join("");
     this.current_count =
       this.current_count.charAt(0).toLowerCase() +
       this.current_count.substring(1);
-    this.$dbCon.service("product-transactions").onDataChange(async () => {
+    await this.$dbCon.service("product-transactions").onDataChange(async () => {
       this.pendingPayment = await this.getOrder("Pending Payment");
       this.forAcknowledgement = await this.getOrder("For Acknowledgement");
       this.forPackaging = await this.getOrder("For Packaging");

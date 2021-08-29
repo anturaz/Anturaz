@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     getData: async function() {
-      this.$dbCon
+      await this.$dbCon
         .service("store")
         .find({
           query: {
@@ -49,6 +49,7 @@ export default {
         .then(results => {
           console.log('results', results)
           console.log('this.$local.getItem("store_token")', this.$local.getItem("store_token"))
+          console.log("results data 0", results.data[0])
           this.store = results.data[0];
           console.log('this.store', this.store)
           if (this.store.current_step != -1) {

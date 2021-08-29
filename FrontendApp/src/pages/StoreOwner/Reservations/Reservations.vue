@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div  class="col-9 text-right self-center q-pr-md" >{{_data[current_count].length}}</div>
+    <div v-if="_data && _data[current_count] " class="col-9 text-right self-center q-pr-md" >{{_data[current_count].length}}</div>
     <div class="col-3">
       <q-btn icon="pageview" @click="opened=true" size="lg" dense flat color="grey" />
     </div>
@@ -23,7 +23,7 @@
             <q-card-section>
               <q-card flat bordered>
                 <q-tabs
-                  v-model="tab"
+                  v-model="tabData"
                   dense
                   class="text-grey"
                   active-color="primary"
@@ -47,7 +47,7 @@
 
                 <q-separator />
 
-                <q-tab-panels v-model="tab" animated>
+                <q-tab-panels v-model="tabData" animated>
                   <q-tab-panel name="Pending Payment">
                     <q-list v-for="order in pendingPayment" :key="order._id" bordered>
                       <PendingPayment :order="order" />
@@ -99,7 +99,7 @@ export default {
       toAcknowledge: [],
       status: [],
       completed: [],
-      tab: "To Acknowledge",
+      tabData: "To Acknowledge",
       opened: false,
       current_count: ""
     };

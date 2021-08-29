@@ -38,7 +38,7 @@
             ratio="1"
           />
           <div class="col self-center row">
-            <span class="text-h4 text-grey-7 col-12">{{
+            <span v-if="store.store_name" class="text-h4 text-grey-7 col-12">{{
               store.store_name.toUpperCase()
             }}</span>
             <span class="text-subtitle2 text-grey-7">
@@ -351,8 +351,8 @@ export default {
     };
   },
 
-  mounted() {
-    this.$dbCon.service("store").onDataChange(() => {
+  async mounted() {
+    await this.$dbCon.service("store").onDataChange(() => {
       this.$dbCon
         .service("store")
         .find({
