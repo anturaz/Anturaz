@@ -80,7 +80,7 @@
                   round
                   dense
                   icon="person"
-                  v-if="$local.getItem('jwt')==undefined"
+                  v-if="$local.getItem($appLink+'-jwt')==undefined"
                   @click="$router.push('/ShopperLogin')"
                 />
                 <q-btn flat round dense icon="shopping_cart" @click="$router.push('/cart')" />
@@ -90,7 +90,7 @@
                   dense
                   icon="account_circle"
                   size="lg"
-                  v-if="$local.getItem('jwt')!=undefined"
+                  v-if="$local.getItem($applink+'-jwt')!=undefined"
                 >
                   <q-menu max-width="250px">
                     <q-list style="width: 250px">
@@ -235,12 +235,12 @@
                         <q-item clickable v-close-popup>
                           <q-item-section>About Us</q-item-section>
                         </q-item>
-                        <q-item v-if="$local.getItem('jwt')!=undefined" clickable v-close-popup>
+                        <q-item v-if="$local.getItem($applink+'-jwt')!=undefined" clickable v-close-popup>
                           <q-item-section class="row">
                             <q-btn outline icon="settings" label="Settings" @click="signOut" />
                           </q-item-section>
                         </q-item>
-                        <q-item v-if="$local.getItem('jwt')!=undefined" clickable v-close-popup>
+                        <q-item v-if="$local.getItem($applink+'-jwt')!=undefined" clickable v-close-popup>
                           <q-item-section class="text-red row">
                             <q-btn outline icon="logout" label="SIGN OUT" @click="signOut" />
                           </q-item-section>
@@ -321,7 +321,7 @@ export default {
     },
     verifyPath: function () {
       if (this.$router.currentRoute.fullPath != "/CreateStore") {
-        if (!this.$local.getItem("jwt") == undefined) {
+        if (!this.$local.getItem(this.$applink +"-jwt") == undefined) {
           this.$router.push("/ShopperLogin");
         }
       }

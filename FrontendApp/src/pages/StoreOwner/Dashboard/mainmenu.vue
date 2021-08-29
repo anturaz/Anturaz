@@ -10,7 +10,7 @@
       <div
         v-for="menu in menus"
         :key="menu.label"
-        class="col-md-5 col-xs-12 col-sm-12 row justify-center"
+        class="col-md-5 col-xs-12 col-sm-12 row justify-left"
         :class="$q.screen.lt.sm ? 'q-mb-md' : 'q-mb-lg'"
       >
         <q-btn
@@ -23,7 +23,7 @@
           size="20px"
         >
           <div class="col-3 text-right" >
-            <q-icon :name="menu.icon" size="56px" class="q-pr-md"  />
+            <q-icon :name="menu.icon" class="q-pr-md"  />
           </div>
           <div class="col-9 text-left text-h6">
             {{ menu.label }}

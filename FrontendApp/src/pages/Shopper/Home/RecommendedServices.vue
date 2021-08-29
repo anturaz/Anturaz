@@ -27,11 +27,8 @@
             <q-card
               class="bg-primary text-white text-bold text-center absolute"
               style="
-                width: 70px;
+                width: 80px;
                 height: 40px;
-                top: 0;
-                left: -4px;
-                transform: translateY(60%);
                 z-index: 1;
               "
               v-if="item.sale_price != ''"

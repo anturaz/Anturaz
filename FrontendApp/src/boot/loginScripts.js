@@ -14,7 +14,7 @@ export default async({ app, router, Vue }) => {
             })  
             console.log('response', response)
             let payLoad = await this.$dbCon.passport.verifyJWT(
-                response.accessToken || this.$local.getItem("jwt")
+                response.accessToken || this.$local.getItem(this.$applink+"-jwt")
             );
             var logged_in_user = await this.$dbCon.services.users.get(
                 payLoad.userId
@@ -59,7 +59,7 @@ export default async({ app, router, Vue }) => {
                 });
             }
         } catch (error) {
-            console.log("ERROR", e);
+            console.log("ERROR", error);
             this.$dbCon.logout();
             this.$q.loading.hide();
             this.$q.notify({

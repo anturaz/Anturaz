@@ -63,6 +63,7 @@ export default {
   methods: {
     validate: function () {
       if (this.email == "" || this.password == "") {
+        console.log("validate method")
         this.$q.dialog({
           title: "Invalid Credentials",
           message:
@@ -74,6 +75,9 @@ export default {
     },
     login: function () {
       this.$q.loading.show();
+
+      console.log(this.email)
+      console.log(this.password,"hey")
       this.$dbCon
         .authenticate({
           email: this.email,
@@ -81,20 +85,21 @@ export default {
           strategy: "local",
         })
         .then(async (response) => {
+          console.log("jwt pogi")
           let payLoad = await this.$dbCon.passport.verifyJWT(
-            this.$local.getItem("jwt")
+            this.$local.getItem(this.$appLink+"-jwt")
           );
           var logged_in_user = await this.$dbCon.services.users.get(
             payLoad.userId
           );
           if (logged_in_user.system_user_type != "Shopper") {
+            console.log("shopper type?")
             this.$q.loading.hide();
             this.$q.dialog({
               title: "Invalid Credentials",
               message:
-                "The Email and Password you've entered doesn't match any account.",
+                "The credentials is of a Shopper.",
             });
-            this.$dbCon.logout();
           } else {
             if (logged_in_user.access == false) {
               this.$q.loading.hide();
@@ -107,12 +112,13 @@ export default {
             } else {
               this.$q.loading.hide();
               this.$local.set("user_token", logged_in_user._id);
-              this.$EventBus.$emit("logged-in", null);
+              this.$EventBus.$emit("logged-in", logged_in_user);
               this.afterLogin();
             }
           }
         })
         .catch((e) => {
+          console.log("catch", e)
           this.$q.loading.hide();
           this.$q.dialog({
             title: "Invalid Credentials",
