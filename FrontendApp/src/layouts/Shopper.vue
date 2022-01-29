@@ -18,7 +18,8 @@
               <q-btn dense flat label="HELP DESK" />|
               <q-btn dense flat label="PRIVACY POLICY" />|
               <q-btn dense flat label="BLOGS" />|
-              <q-btn dense flat label="ABOUT US" />
+              <q-btn dense flat label="ABOUT US" /> |
+              <q-btn v-if="$local.getItem($appLink+'-jwt')!=undefined" dense flat label="LOGOUT" />
             </div>
           </q-bar>
         </div>
@@ -329,3 +330,7 @@ export default {
   },
 };
 </script>
+
+<style lang="sss" scoped>
+
+</style>

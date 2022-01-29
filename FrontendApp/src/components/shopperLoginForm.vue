@@ -85,7 +85,6 @@ export default {
           strategy: "local",
         })
         .then(async (response) => {
-          console.log("jwt pogi")
           let payLoad = await this.$dbCon.passport.verifyJWT(
             this.$local.getItem(this.$appLink+"-jwt")
           );

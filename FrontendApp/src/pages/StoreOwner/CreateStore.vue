@@ -399,7 +399,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .q-card {
   width: 360px;
 }

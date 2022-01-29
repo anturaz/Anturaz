@@ -5,7 +5,7 @@
         <template v-slot:separator>
           <q-icon size="1.5em" name="chevron_right" color="primary" />
         </template>
-        <q-breadcrumbs-el label="Home" icon="home" />
+        <q-breadcrumbs-el label="Home" icon="home" to="/"/>
         <q-breadcrumbs-el label="Gift Registry" icon="card_giftcard" />
         <q-breadcrumbs-el :label="data.event_name" />
       </q-breadcrumbs>

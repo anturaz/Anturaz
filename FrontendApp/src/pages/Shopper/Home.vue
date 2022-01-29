@@ -25,3 +25,7 @@ export default {
   }
 };
 </script>
+<style lang="sss" scoped>
+
+
+</style>

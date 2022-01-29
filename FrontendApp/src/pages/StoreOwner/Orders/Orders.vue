@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-      <div v-if="_data && _data[current_count] "  class="col-9 text-right self-center q-pr-md" >{{_data[current_count].length}}</div>
+      <div v-if="_data && _data[current_count]   "  class="col-9 text-right self-center q-pr-md" >{{_data[current_count].length}}</div>
    <div class="col-3">
       <q-btn icon="pageview" @click="opened=true" size="lg" dense flat color="grey" />
     </div>
