@@ -50,7 +50,7 @@ export default {
         })
         .then(async response => {
           let payLoad = await this.$dbCon.passport.verifyJWT(
-            this.$local.getItem(this.$applink+"-jwt")
+            this.$local.getItem(this.$appLink+"-jwt")
           );
           var logged_in_user = await this.$dbCon.services.users.get(
             payLoad.userId

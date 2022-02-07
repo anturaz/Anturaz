@@ -15,9 +15,9 @@
                   <q-icon v-if="store.logo==''" name="store" color="primary" size="170px"/>
                 </q-card-section>
                 <q-card-section class="text-bold" style="height:35px;width:200px">{{store.store_name}}</q-card-section>
-                <q-card-section style="height:55px;width:200px" align="right">
+                <!-- <q-card-section style="height:55px;width:200px" align="right">
                   <q-btn color="primary" label="View >" unelevated @click="$router.push('/store/'+store.unique_link)" />
-                </q-card-section>  
+                </q-card-section>   -->
               </q-card>
             </div>
           </q-scroll-area>

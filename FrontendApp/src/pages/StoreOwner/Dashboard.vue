@@ -9,7 +9,8 @@
         no-caps
         :style="$q.screen.lt.md ? 'width:50vw' : 'width: 150px'"
       />
-      <a :href="$appLink + '/#/store/' + store.unique_link" target="_blank">
+      <a :href="'/#/StoreDetails?store=' + store.unique_link" target="_blank">
+      <!-- @click="$router.push(' + store._id) -->
         <q-btn
           class="bg-white"
           color="primary"

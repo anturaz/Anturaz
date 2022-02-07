@@ -14,7 +14,7 @@ export default async({ app, router, Vue }) => {
             })  
             console.log('response', response)
             let payLoad = await this.$dbCon.passport.verifyJWT(
-                response.accessToken || this.$local.getItem(this.$applink+"-jwt")
+                response.accessToken || this.$local.getItem(this.$appLink+"-jwt")
             );
             var logged_in_user = await this.$dbCon.services.users.get(
                 payLoad.userId

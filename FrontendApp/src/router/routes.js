@@ -4,19 +4,23 @@ const admin = {
         import ('layouts/Admin.vue'),
     children: [{
             path: 'Dashboard',
+            name: 'dashboard',
             component: () =>
                 import ('pages/Admin/Dashboard/Dashboard.vue')
         }, {
             path: 'Maintenance/Categories',
+            name: 'maintenanceCategories',
             component: () =>
                 import ('pages/Maintenance/Categories/Categories.vue'),
             children: [{
                     path: '',
+                    name: 'table',
                     component: () =>
                         import ('pages/Maintenance/Categories/table.vue')
                 },
                 {
                     path: 'add',
+                    name: 'addCategory',
                     component: () =>
                         import ('pages/Maintenance/Categories/addCategory.vue')
                 }

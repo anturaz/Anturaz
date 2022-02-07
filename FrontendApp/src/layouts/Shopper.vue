@@ -19,7 +19,7 @@
               <q-btn dense flat label="PRIVACY POLICY" />|
               <q-btn dense flat label="BLOGS" />|
               <q-btn dense flat label="ABOUT US" /> |
-              <q-btn v-if="$local.getItem($appLink+'-jwt')!=undefined" dense flat label="LOGOUT" />
+              <!-- <q-btn v-if="$local.getItem($appLink+'-jwt')!=undefined" dense flat label="LOGOUT1" /> -->
             </div>
           </q-bar>
         </div>
@@ -76,14 +76,32 @@
                   />&nbsp;&nbsp;
                   <q-btn  outline label="CREATE YOUR STORE" @click="$router.push('/StoreOwner/CreateStore')" />
                 </div>
-                <q-btn
+                <!-- <q-btn
                   flat
                   round
                   dense
                   icon="person"
-                  v-if="$local.getItem($appLink+'-jwt')==undefined"
+                  v-if="$local.getItem($appLink)==undefined"
                   @click="$router.push('/ShopperLogin')"
-                />
+                /> -->
+                <q-btn-dropdown flat
+                  v-if="!($local.getItem($appLink+'-jwt'))"
+                  square
+                  icon="person">
+                  <q-list>
+                    <q-item clickable  @click="$router.push('/ShopperLogin')">
+                      <q-item-section>
+                        <q-item-label>Login As Shopper</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item clickable @click="$router.push('/StoreOwner/Login')">
+                      <q-item-section>
+                        <q-item-label>Login As Store Owner</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
                 <q-btn flat round dense icon="shopping_cart" @click="$router.push('/cart')" />
                 <q-btn
                   flat
@@ -91,8 +109,8 @@
                   dense
                   icon="account_circle"
                   size="lg"
-                  v-if="$local.getItem($applink+'-jwt')!=undefined"
-                >
+                  v-if="$local.getItem($appLink+'-jwt')">
+
                   <q-menu max-width="250px">
                     <q-list style="width: 250px">
                       <q-item clickable @click="$router.push('/Orders')">
@@ -236,12 +254,12 @@
                         <q-item clickable v-close-popup>
                           <q-item-section>About Us</q-item-section>
                         </q-item>
-                        <q-item v-if="$local.getItem($applink+'-jwt')!=undefined" clickable v-close-popup>
+                        <q-item v-if="$local.getItem($appLink+'-jwt')!=undefined" clickable v-close-popup>
                           <q-item-section class="row">
                             <q-btn outline icon="settings" label="Settings" @click="signOut" />
                           </q-item-section>
                         </q-item>
-                        <q-item v-if="$local.getItem($applink+'-jwt')!=undefined" clickable v-close-popup>
+                        <q-item v-if="$local.getItem($appLink+'-jwt')!=undefined" clickable v-close-popup>
                           <q-item-section class="text-red row">
                             <q-btn outline icon="logout" label="SIGN OUT" @click="signOut" />
                           </q-item-section>
@@ -322,7 +340,7 @@ export default {
     },
     verifyPath: function () {
       if (this.$router.currentRoute.fullPath != "/CreateStore") {
-        if (!this.$local.getItem(this.$applink +"-jwt") == undefined) {
+        if (!this.$local.getItem(this.$appLink+"-jwt") == undefined) {
           this.$router.push("/ShopperLogin");
         }
       }
@@ -331,6 +349,5 @@ export default {
 };
 </script>
 
-<style lang="sss" scoped>
-
+<style scoped>
 </style>

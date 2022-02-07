@@ -6,7 +6,7 @@
           <q-icon size="1.5em" name="chevron_right" color="primary" />
         </template>
         <q-breadcrumbs-el label="Home" icon="home" to="/"  />
-        <q-breadcrumbs-el label="Reservation" icon="menu_book" />
+        <q-breadcrumbs-el label="Reservation" icon="menu_book" :to="'/ServiceDetails/' + service._id"    />
 
         <q-breadcrumbs-el label="Checkout" />
       </q-breadcrumbs>

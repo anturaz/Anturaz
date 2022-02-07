@@ -352,9 +352,8 @@
       v-model="opened"
       persistent
       :maximized="$q.screen.lt.md"
-      full-height
     >
-      <q-card style="width: 400px">
+      <q-card style="width: 80vh">
         <q-card-section class="row items-center text-grey-10">
           <div class="text-h6" v-if="step == 1">Add an item</div>
           <div class="text-h6" v-if="step != 1">

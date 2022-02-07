@@ -54,7 +54,7 @@
             </div>
           </q-card-section>
           <q-card-section style="height: 55px; width: 200px" align="right">
-            <q-btn
+            <!-- <q-btn
               v-if="'product_name' in item"
               color="primary"
               label="View >"
@@ -67,7 +67,7 @@
               label="View >"
               @click="$router.replace({ path: `/ServiceDetails/${item._id}` })"
               unelevated
-            />
+            /> -->
           </q-card-section>
         </q-card>
       </div>

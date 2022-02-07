@@ -72,7 +72,7 @@
                 enter-active-class="animated slideInUp"
                 leave-active-class="animated fadeOut"
               >
-                <q-btn
+                <!-- <q-btn
                   class="full-width"
                   v-if="'product_name' in item && currentItem == index"
                   color="primary"
@@ -81,7 +81,7 @@
                     $router.replace({ path: `/ProductDetails/${item._id}` })
                   "
                   unelevated
-                />
+                /> -->
               </transition>
               <q-btn
                 v-if="'service_name' in item"
