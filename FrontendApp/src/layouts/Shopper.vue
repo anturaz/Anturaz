@@ -1,16 +1,17 @@
 <template>
   <div>
     <q-layout view="hHh lpR fFf">
-      <q-header elevated>
+        
         <div class="q-gutter-md row items-center justify-center bg-black" v-if="!$q.screen.lt.md">
           <q-bar style="width: 100%; max-width: 1200px;" class="bg-black text-white">
-            <div class="cursor-pointer non-selectable">
+            <div class="non-selectable">
               <q-btn
                 dense
                 readonly
                 flat
-                label="Your source of event suppliers from A to Z"
+                label="THE COUNTRY'S FIRST ONE STOP EVENTS PLACE"
                 align="center"
+                class="text-primary"
               />
             </div>
             <q-space />
@@ -24,8 +25,8 @@
           </q-bar>
         </div>
 
-        <q-toolbar :class="$q.screen.lt.md? 'bg-primary text-white': 'bg-white text-black'">
-          <div class="row  full-width justify-center">
+        <q-toolbar >
+          <div class="toolbarShopper row full-width justify-center">
             <div class="row items-center" style="max-width: 1200px;">
               <q-avatar>
                 <img :src="$appLink+'/uploads/admin/sample_logo.png'" width="40px" />
@@ -36,7 +37,6 @@
               <div style="width: 90px;"></div>
               <q-btn
                 flat
-                :size="$q.screen.lt.md? 'md':'lg'"
                 dense
                 label="GIFT REGISTRY"
                 @click="giftRegistry"
@@ -45,7 +45,7 @@
               <!-- NOT VISIBLE IF IN MOBILE/TABLET MODE -->
               <div class="row items-center">
                 <div v-if="!$q.screen.lt.md" class="row items-center">
-                  <q-btn flat size="lg" label="SHOP" />
+                  <q-btn flat  label="SHOP" />
                   <!-- KEYWORD -->
                   <q-input
                     square
@@ -53,11 +53,12 @@
                     :value="$route.query.query"
                     v-model="searchquery"
                     label="What are you looking for?"
+                    style="min-width:300px"
                     dense
                   />
                   <!-- LOCATION -->
                   <q-select
-                    style="min-width:200px"
+                    style="min-width:150px;border-radius: 15px"
                     square
                     outlined
                     v-model="location"
@@ -74,7 +75,7 @@
                     icon="search"
                     unelevated
                   />&nbsp;&nbsp;
-                  <q-btn  outline label="CREATE YOUR STORE" @click="$router.push('/StoreOwner/CreateStore')" />
+                  <q-btn class="bg-primary text-white" outline rounded label="CREATE YOUR SHOP" @click="$router.push('/StoreOwner/CreateStore')" />
                 </div>
                 <!-- <q-btn
                   flat
@@ -272,18 +273,84 @@
             </div>
           </div>
         </q-toolbar>
-      </q-header>
       <q-page-container class="justify-center row">
-        <q-page class="col" style="max-width: 1200px;">
+        <q-page class="col">
           <router-view />
         </q-page>
       </q-page-container>
+          <div class="row items-center justify-center bg-black" v-if="!$q.screen.lt.md">
+          <q-bar style="width: 100%" class="bg-black text-white">
+            <div class="non-selectable">
+              <q-btn
+                dense
+                readonly
+                flat
+                label="COPYRIGHT 2022 © ANTURAZ INC"
+                align="center"
+              />
+            </div>
+            <q-space />
+            <div class="row inline">
+              <q-item clickable class="social-icons">
+                <q-item-section>
+                  <!-- <i class="fas fa-music-alt"></i> -->
+                  <q-icon class="text-white" name="music_note">
+                  </q-icon>
+                </q-item-section>
+
+              </q-item>
+              <q-item clickable class="social-icons">
+                <q-item-section>
+                  <q-icon class="text-white" name="fab fa-youtube" >
+                  </q-icon>
+                </q-item-section>
+
+              </q-item>
+              <q-item clickable class="social-icons">
+                <q-item-section>
+                  <q-icon class="text-white" name="fab fa-twitter" >
+                  </q-icon>
+                </q-item-section>
+
+              </q-item>
+              <q-item clickable class="social-icons">
+                <q-item-section>
+                  <q-icon class="text-white" name="fab fa-instagram" >
+                  </q-icon>
+                </q-item-section>
+
+              </q-item>
+              <q-item clickable class="social-icons">
+                <q-item-section>
+                  <!-- <i class="fa-brands fa-facebook-square"></i> -->
+                  <q-icon class="text-white" name="fab fa-facebook" >
+                  </q-icon>
+                </q-item-section>
+
+              </q-item>
+              <!-- <q-item clickable class="social-icons">
+                <q-item-section>
+                  <q-icon class="text-white" name="img:/../assets/tiktok_logo.png" >
+                  </q-icon>
+                </q-item-section>
+
+              </q-item> -->
+              <!-- <q-btn dense flat label="HELP DESK" />|
+              <q-btn dense flat label="PRIVACY POLICY" />|
+              <q-btn dense flat label="BLOGS" />|
+              <q-btn dense flat label="ABOUT US" /> |
+              <q-btn v-if="$local.getItem($appLink+'-jwt')!=undefined" dense flat label="LOGOUT1" /> -->
+            </div>
+          </q-bar>
+        </div>
     </q-layout>
-    <div
-      class="text-white text-h6 text-bold bg-primary q-pa-xl"
-      align="center"
-      style="height:120px"
-    >All Rights Reserved, Anturaz 2021</div>
+
+    <!-- <div class="text-white bg-black q-pa-sm">
+      <div class="row inline">
+        <span> COPYRIGHT 2022 © ANTURAZ INC </span>
+        <span class="float-right"> buttons </span>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -350,4 +417,16 @@ export default {
 </script>
 
 <style scoped>
+.bg-image {
+	background-image: url(../assets/anturaz_home.jpg);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.social-icons {
+  padding: 0px;
+  min-height: 0px;
+  padding-right: 10px;
+}
+
 </style>

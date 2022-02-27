@@ -1,13 +1,24 @@
 <template>
-  <div>
-    <div>
+  <!-- <div>
+    <div >
       <FeaturedPhotosSection v-if="!$q.screen.lt.md" />
-      <CategoriesSection :style="!$q.screen.lt.md? 'position: absolute; left:100px; top: 280px; max-width:510px': '' " />
+      
       <FeaturedStoresSection />
       <RecommendedServices />
       <RecommendedProducts />
     </div>
+  </div> -->
+  <div class="bg-image">
+    <!-- <q-img src="../../assets/bg2.png" class="fullscreen" /> -->
+    <q-layout class="vertical-center ">
+      <CategoriesSection :style="!$q.screen.lt.md? 'position: absolute; left:100px; top: 80px; max-width:340px': '' " />
+        
+    </q-layout>
+    <FeaturedStoresSection />
+    <RecommendedServices />
+    <RecommendedProducts />
   </div>
+
 </template>
 <script>
 import FeaturedPhotosSection from "pages/Shopper/Home/FeaturedPhotos.vue";
@@ -22,10 +33,29 @@ export default {
     FeaturedStoresSection,
     RecommendedServices,
     RecommendedProducts
+  },
+  data() {
+    return {
+      data: []
+    };
+  },
+  mounted() {
+    this.$dbCon
+      .service("categories")
+      .find({})
+      .then(results => {
+        this.data = results.data;
+      });
   }
 };
 </script>
-<style lang="sss" scoped>
+
+<style scoped>
+.bg-image {
+	background-image: url(../../assets/anturaz_home.jpg);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
 
 
 </style>

@@ -15,7 +15,7 @@
 
             <div class="text-h5 text-black col-12">Anturaz Store Owner</div>
             <div class="text-subtitle2 text-black col-12">
-              Create your store
+              Create your shop
             </div>
           </q-card-section>
           <q-card-section v-if="error.length != 0">
