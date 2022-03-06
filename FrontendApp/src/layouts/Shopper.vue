@@ -1,8 +1,8 @@
 <template>
   <div>
-    <q-layout view="hHh lpR fFf">
+    <q-layout class="bg-image"  view="hHh lpR fFf">
         
-        <div class="q-gutter-md row items-center justify-center bg-black" v-if="!$q.screen.lt.md">
+        <div class=" q-gutter-md row items-center justify-center bg-black" v-if="!$q.screen.lt.md">
           <q-bar style="width: 100%; max-width: 1200px;" class="bg-black text-white">
             <div class="non-selectable">
               <q-btn
@@ -29,12 +29,12 @@
           <div class="toolbarShopper row full-width justify-center">
             <div class="row items-center" style="max-width: 1200px;">
               <q-avatar>
-                <img :src="$appLink+'/uploads/admin/sample_logo.png'" width="40px" />
+                <img src="/../assets/anturaz_logo.png" width="50px" />
               </q-avatar>
               <q-toolbar-title>
                 <q-btn flat dense size="lg" label="ANTURAZ" @click="$router.push('/')" />
               </q-toolbar-title>
-              <div style="width: 90px;"></div>
+              <div style="width: 40px;"></div>
               <q-btn
                 flat
                 dense
@@ -53,12 +53,12 @@
                     :value="$route.query.query"
                     v-model="searchquery"
                     label="What are you looking for?"
-                    style="min-width:300px"
+                    style="min-width:300px;background-color:white"
                     dense
                   />
                   <!-- LOCATION -->
                   <q-select
-                    style="min-width:150px;border-radius: 15px"
+                    style="min-width:150px; background-color:white"
                     square
                     outlined
                     v-model="location"
@@ -69,9 +69,9 @@
 
                   <q-btn
                     @click="$router.push('/search?query='+searchquery+'&location='+location)"
-                    style="height:40px"
+                    style="height:40px;"
                     square
-                    color="grey"
+                    color="primary"
                     icon="search"
                     unelevated
                   />&nbsp;&nbsp;
@@ -273,7 +273,7 @@
             </div>
           </div>
         </q-toolbar>
-      <q-page-container class="justify-center row">
+      <q-page-container class="justify-center row" >
         <q-page class="col">
           <router-view />
         </q-page>
@@ -421,6 +421,7 @@ export default {
 	background-image: url(../assets/anturaz_home.jpg);
 	background-repeat: no-repeat;
 	background-size: contain;
+  
 }
 
 .social-icons {

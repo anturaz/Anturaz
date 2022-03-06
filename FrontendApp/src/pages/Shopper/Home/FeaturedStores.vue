@@ -1,14 +1,23 @@
 <template>
+
   <div class="q-pa-lg" v-if="data.length">
     
-            <h6><span>Featured Shops</span></h6><q-separator vertical/>
+        <h6><span>Featured Shops</span></h6><q-separator vertical/>
           <!-- <q-btn class="text-primary bg-white"  label="Shop Now" /> -->
-        <div class="q-pl-md text-black">
+        <div class="text-black">
           <!-- <q-scroll-area horizontal style="overflow: overlay; height: 175px; width: 100%;"> -->
             <div class="row no-wrap">
-              <div class="row no-wrap justify-center " v-for="store in data" :key="store._id" >
+            
+              <div class="row no-wrap justify-center " v-for="(store,index) in selectedData" :key="store._id" >
+                <div v-if="index == 0 " style="cursor:pointer; height: 100px">
+                    <q-btn @click="moveCurrentIndex(1)" v-if="currentIndex != 0" flat> <q-icon  name="fas fa-angle-left" style="height:150px;"/> </q-btn>
+                </div>
+                <!-- <div v-else style="cursor:pointer; height: 100px">
+                    <q-btn @click="moveCurrentIndex(1)" v-if="currentIndex != 0" flat> <q-icon  name="fas fa-angle-left" style="height:150px;"/> </q-btn>
+                </div> -->
+                    
                     <q-separator vertical inset />
-                    <q-card flat style="cursor:pointer; height: 150px; width: 225px">
+                    <q-card flat style="cursor:pointer; height: 150px; width: 210px">
                     
                       <q-card-section  class="column items-center">
                         <div class="row inline">
@@ -20,7 +29,7 @@
                       
                         
                       </q-card-section>
-                      <q-card-section class="column items-center" style="height: 100px; width: 200px;">
+                      <q-card-section class="column items-center">
                         
                         <div class="text-h6" v-if="'store_name' in store">
                           {{ store.store_name }}
@@ -28,6 +37,12 @@
                       </q-card-section>
                 
                   </q-card>
+                  <q-separator vertical inset />
+                  <div v-if="index == selectedData.length-1 " style="cursor:pointer; height: 100px">
+                    
+                    <q-btn flat @click="moveCurrentIndex(2)" v-if="data.length - currentIndex > 6"> <q-icon  name="fas fa-angle-right" style="height:150px;"/> </q-btn>
+                  </div>
+                    
           
                 
 
@@ -59,56 +74,99 @@ export default {
   data() {
     return {
       slide: "1",
+      currentIndex: 0,
       data:[
         {
           _id: "1",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 1"
         },
         {
           _id: "2",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 2"
         },
         {
           _id: "3",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 3"
         },
         {
           _id: "4",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 4"
         },
         {
           _id: "5",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 5"
         },
         {
           _id: "6",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 6"
         },
         {
           _id: "7",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 7"
         },
         {
           _id: "8",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 8"
         },
         {
           _id: "9",
           logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name"
+          store_name: "store name 9"
         },
+        {
+          _id: "5",
+          logo: "img:/../assets/facebook_logo.png",
+          store_name: "store name 5"
+        },
+        {
+          _id: "6",
+          logo: "img:/../assets/facebook_logo.png",
+          store_name: "store name 6"
+        },
+        {
+          _id: "7",
+          logo: "img:/../assets/facebook_logo.png",
+          store_name: "store name 7"
+        },
+        {
+          _id: "8",
+          logo: "img:/../assets/facebook_logo.png",
+          store_name: "store name 8"
+        },
+        {
+          _id: "9",
+          logo: "img:/../assets/facebook_logo.png",
+          store_name: "store name 9"
+        },
+
 
 
       ]
     };
+  },
+  computed: {
+    // readonly
+    selectedData() {
+      let selArr = this.data.slice(this.currentIndex,this.currentIndex+6)
+      return selArr
+    }
+  },
+  methods: {
+    moveCurrentIndex(mode) {
+      if (mode == 1){
+        this.currentIndex -= 6
+      }else{
+        this.currentIndex += 6
+      }
+    }
   },
   async mounted() {
 
@@ -159,4 +217,6 @@ h6 span {
   border-left: 1.5px solid #d8a957;
   height: 220px;
 }
+
+
 </style>
