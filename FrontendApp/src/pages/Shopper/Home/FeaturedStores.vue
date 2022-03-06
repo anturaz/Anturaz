@@ -21,10 +21,12 @@
                     
                       <q-card-section  class="column items-center">
                         <div class="row inline">
-                            
-                          <div>
-                          <q-icon :name="store.logo" size="80px"/>
-                          </div>
+                            <q-avatar  size="100px" >
+                              <img class="my-fb-logo"/> 
+                            </q-avatar>
+                          <!-- <div>
+                          <q-icon :name="store.logo" class="my-fb-logo" size="80px"/>
+                          </div> -->
                         </div>
                       
                         
@@ -78,72 +80,72 @@ export default {
       data:[
         {
           _id: "1",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 1"
         },
         {
           _id: "2",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 2"
         },
         {
           _id: "3",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 3"
         },
         {
           _id: "4",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 4"
         },
         {
           _id: "5",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 5"
         },
         {
           _id: "6",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 6"
         },
         {
           _id: "7",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 7"
         },
         {
           _id: "8",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 8"
         },
         {
           _id: "9",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 9"
         },
         {
           _id: "5",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 5"
         },
         {
           _id: "6",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 6"
         },
         {
           _id: "7",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 7"
         },
         {
           _id: "8",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 8"
         },
         {
           _id: "9",
-          logo: "img:/../assets/facebook_logo.png",
+          // logo: "img:/../assets/facebook_logo.png",
           store_name: "store name 9"
         },
 
@@ -216,6 +218,11 @@ h6 span {
 .vl {
   border-left: 1.5px solid #d8a957;
   height: 220px;
+}
+.my-fb-logo {
+  background-image: url(../../../assets/anturaz_logo.png);
+	background-size: 50px;
+  
 }
 
 

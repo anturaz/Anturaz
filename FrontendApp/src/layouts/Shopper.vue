@@ -29,7 +29,7 @@
           <div class="toolbarShopper row full-width justify-center">
             <div class="row items-center" style="max-width: 1200px;">
               <q-avatar>
-                <img src="/../assets/anturaz_logo.png" width="50px" />
+                <img class="my-logo" />
               </q-avatar>
               <q-toolbar-title>
                 <q-btn flat dense size="lg" label="ANTURAZ" @click="$router.push('/')" />
@@ -420,6 +420,11 @@ export default {
 .bg-image {
 	background-image: url(../assets/anturaz_home.jpg);
 	background-repeat: no-repeat;
+	background-size: contain;
+  
+}
+.my-logo {
+  background-image: url(../assets/anturaz_logo.png);
 	background-size: contain;
   
 }
