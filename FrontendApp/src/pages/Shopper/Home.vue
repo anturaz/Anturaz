@@ -10,13 +10,11 @@
   </div> -->
   <div>
     <!-- <q-img src="../../assets/bg2.png" class="fullscreen" /> -->
-    <q-layout class="vertical-center" style="min-height:80vh;">
+    <q-layout class="vertical-center">
       <CategoriesSection :style="!$q.screen.lt.md? 'position: absolute; left:100px; top: 80px; max-width:300px': '' " />
         
     </q-layout>
-    <div class="scroll">
-      <FeaturedStoresSection  />
-    </div>
+    <FeaturedStoresSection  />
     <RecommendedServices />
     <RecommendedProducts />
   </div>
@@ -59,11 +57,6 @@ export default {
 	background-size: contain;
 }
 
-div.scroll {
-  width: auto;
-  overflow-y: auto;
-  text-align: center;
-}
 
 
 </style>

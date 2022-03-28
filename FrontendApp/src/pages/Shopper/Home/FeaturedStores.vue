@@ -4,14 +4,17 @@
     
         <h6><span>Featured Shops</span></h6><q-separator vertical/>
           <!-- <q-btn class="text-primary bg-white"  label="Shop Now" /> -->
-        <div class="text-black">
+        <div class=" row text-black">
           <!-- <q-scroll-area horizontal style="overflow: overlay; height: 175px; width: 100%;"> -->
+            <div class="float-left" style="cursor:pointer; height: 100px">
+                <q-btn @click="moveCurrentIndex(1)"  v-show="currentIndex >= 6"  flat> 
+                  <q-icon  name="fas fa-angle-left" style="height:150px;"/> 
+                </q-btn>
+            </div>
             <div class="row no-wrap">
-            
-              <div class="row no-wrap justify-center " v-for="(store,index) in selectedData" :key="store._id" >
-                <div v-if="index == 0 " style="cursor:pointer; height: 100px">
-                    <q-btn @click="moveCurrentIndex(1)" v-if="currentIndex != 0" flat> <q-icon  name="fas fa-angle-left" style="height:150px;"/> </q-btn>
-                </div>
+              
+              <div class="row no-wrap justify-center " v-for="(store) in selectedData" :key="store._id" >
+                
                 <!-- <div v-else style="cursor:pointer; height: 100px">
                     <q-btn @click="moveCurrentIndex(1)" v-if="currentIndex != 0" flat> <q-icon  name="fas fa-angle-left" style="height:150px;"/> </q-btn>
                 </div> -->
@@ -40,10 +43,7 @@
                 
                   </q-card>
                   <q-separator vertical inset />
-                  <div v-if="index == selectedData.length-1 " style="cursor:pointer; height: 100px">
-                    
-                    <q-btn flat @click="moveCurrentIndex(2)" v-if="data.length - currentIndex > 6"> <q-icon  name="fas fa-angle-right" style="height:150px;"/> </q-btn>
-                  </div>
+                  
                     
           
                 
@@ -65,7 +65,11 @@
                   <q-btn color="primary" label="View >" unelevated @click="$router.push('/store/'+store.unique_link)" />
                 </q-card-section>  
               </div> -->
+              
              </div>
+            <div class="float-right"  style="cursor:pointer; height: 100px"  >
+              <q-btn @click="moveCurrentIndex(2)" flat v-show="currentIndex+6 <= data.length"> <q-icon  name="fas fa-angle-right" style="height:150px;"  /> </q-btn>
+            </div>
             
           <!-- </q-scroll-area> -->
         </div>
@@ -126,27 +130,27 @@ export default {
         {
           _id: "5",
           // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 5"
+          store_name: "store name 10"
         },
         {
           _id: "6",
           // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 6"
+          store_name: "store name 11"
         },
         {
           _id: "7",
           // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 7"
+          store_name: "store name 12"
         },
         {
           _id: "8",
           // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 8"
+          store_name: "store name 13"
         },
         {
           _id: "9",
           // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 9"
+          store_name: "store name 14"
         },
 
 
@@ -159,17 +163,21 @@ export default {
     selectedData() {
       let selArr = this.data.slice(this.currentIndex,this.currentIndex+6)
       return selArr
-    }
+    },
   },
   methods: {
     moveCurrentIndex(mode) {
       if (mode == 1){
-        this.currentIndex -= 6
+        if(this.data.length > this.currentIndex  ){
+          this.currentIndex -= 6
+        }
       }else{
-        this.currentIndex += 6
+        if(this.data.length > this.currentIndex  )
+          this.currentIndex += 6
       }
     }
   },
+  
   async mounted() {
 
     // var stores=await this.$dbCon.service("store-advertisment").find({

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-layout class="bg-image"  view="hHh lpR fFf">
+    <q-layout class="bg-image"  view="lHh Lpr lFf">
         
         <div class=" q-gutter-md row items-center justify-center bg-black" v-if="!$q.screen.lt.md">
           <q-bar style="width: 100%; max-width: 1200px;" class="bg-black text-white">
@@ -25,11 +25,12 @@
           </q-bar>
         </div>
 
-        <q-toolbar >
-          <div class="toolbarShopper row full-width justify-center">
+        <q-toolbar id="toolbar">
+          <div class="row full-width justify-center">
             <div class="row items-center" style="max-width: 1200px;">
               <q-avatar>
-                <img class="my-logo" />
+                	<!-- https://backend-app.ap.ngrok.io/uploads/admin/logo.png -->
+                <img :src="$appLink+'/uploads/admin/logo.png'" />
               </q-avatar>
               <q-toolbar-title>
                 <q-btn flat dense size="lg" label="ANTURAZ" @click="$router.push('/')" />
@@ -53,12 +54,12 @@
                     :value="$route.query.query"
                     v-model="searchquery"
                     label="What are you looking for?"
-                    style="min-width:300px;background-color:white"
+                    style="min-width:300px;background-color:white !important"
                     dense
                   />
                   <!-- LOCATION -->
                   <q-select
-                    style="min-width:150px; background-color:white"
+                    style="min-width:150px; background-color:white !important"
                     square
                     outlined
                     v-model="location"
@@ -274,7 +275,7 @@
           </div>
         </q-toolbar>
       <q-page-container class="justify-center row" >
-        <q-page class="col">
+        <q-page style="width: 100%">
           <router-view />
         </q-page>
       </q-page-container>
@@ -414,9 +415,49 @@ export default {
     },
   },
 };
+// scroll
+// window.onscroll = scrollShowNav;
+// function scrollShowNav() {
+//    if (document.body.scrollTop > 1 || document.documentElement.scrollTop > 100) {
+//       document.getElementById("toolbar").style.top = "-50px";
+//    } else {
+      
+//    }
+// }
+// vanilla
+let lastScrollTop = 0;
+document.addEventListener("scroll", function(){ // or window.addEventListener("scroll"....
+   var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+   if (st > lastScrollTop){
+      // downscroll code
+      document.getElementById("toolbar").style.visibility = "hidden";
+      document.getElementById("toolbar").style.opacity = "0";
+      document.getElementById("toolbar").style.transition = "visibility 0s, opacity 0.5s linear";
+      // visibility: hidden;
+      // opacity: 0;
+      // transition: visibility 0s, opacity 0.5s linear;
+   } else {
+     document.getElementById("toolbar").style.visibility = "visible";
+     document.getElementById("toolbar").style.opacity = "1";
+
+      // upscroll code
+      // document.getElementById("toolbar").style.top = "-50px";
+   }
+   lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+}, false);
 </script>
 
 <style scoped>
+
+#toolbar {
+  position: fixed;
+  width: 100%;
+  overflow: auto;
+  transition: 0.5s;
+  top: 40px;
+  z-index: 1
+  
+}
 .bg-image {
 	background-image: url(../assets/anturaz_home.jpg);
 	background-repeat: no-repeat;
