@@ -15,7 +15,8 @@
         
     </q-layout>
     <FeaturedStoresSection  />
-    <RecommendedServices />
+    <!-- remote recommended services -->
+    <!-- <RecommendedServices /> -->
     <RecommendedProducts />
   </div>
 
@@ -57,6 +58,11 @@ export default {
 	background-size: contain;
 }
 
+div.scroll {
+  width: auto;
+  overflow-y: auto;
+  text-align: center;
+}
 
 
 </style>
