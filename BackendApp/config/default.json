@@ -1,5 +1,5 @@
 {
-    "host": "https://backend-app.ap.ngrok.io",
+    "host": "localhost",
     "port": 8081,
     "public": "../public/",
     "paginate": {
