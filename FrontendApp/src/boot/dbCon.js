@@ -1,10 +1,10 @@
-import wings from 'wings-feathers'
+import wings from './wings-feathers'
 import { LocalStorage, SessionStorage, Cookies } from 'quasar'
 import { colors } from 'quasar'
 export default ({ app, router, Vue }) => {
     // var localLink = "http://45.77.250.64:8081"
     // var localLink = "http://localhost:8081"
-    var localLink = "https://backend-app.ap.ngrok.io"
+    var localLink = "http://139.180.184.79:8081"
     Vue.prototype.$appLink = localLink
     Vue.prototype.$dbCon = wings(localLink, {
         "users": {},
