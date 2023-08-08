@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn label="PAY NOW" color="primary" @click="toPay=true" />
+    <q-btn label="PAY NOW" color="primary" @click="toPay = true" />
     <q-dialog v-model="toPay" persistent>
       <q-card style="width:600px">
         <q-card-section class="bg-primary">
@@ -21,7 +21,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn label="cancel" @click="toPay=false" flat />
+          <q-btn label="cancel" @click="toPay = false" flat />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      currentLink: window.location.href,
+      currentLink: process.env.CLIENT ? window.location.href : "",
       toPay: false,
       payment: {}
     };
@@ -88,13 +88,16 @@ export default {
       if (this.toPay == true) {
         this.payment = await this.preparePayment();
         this.$q.loading.show();
+        if (!process.env.CLIENT) return;
         const script = document.createElement("script");
         this.$axios
           .post(this.$appLink + "/createCheckOutShopper", {
             payment: this.payment
           })
           .then(async res => {
-            script.src = `https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=${res.data.id}`;
+            script.src = `https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=${
+              res.data.id
+            }`;
             script.addEventListener("load", this.setLoaded);
             document.body.appendChild(script);
           });
@@ -104,5 +107,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

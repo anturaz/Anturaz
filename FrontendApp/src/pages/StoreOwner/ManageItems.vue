@@ -142,7 +142,7 @@
             >
               <span>
                 On-hand:
-                <span class="text-primary">25</span>
+                <span class="text-primary"> {{ props.row.stock }} </span>
               </span>
               <div class="text-primary">Manage</div>
             </div>
@@ -192,34 +192,51 @@
               <div
                 class="q-mb-sm"
                 style="cursor: pointer"
-                 @click="current_item_id=props.row._id , $refs.manageproduct.openadjuststock(props.row._id)"
+                @click="
+                  (current_item_id = props.row._id),
+                    $refs.manageproduct.openadjuststock(props.row._id)
+                "
                 v-if="props.row.item_type == 'Product'"
               >
                 <q-icon
                   name="fa fa-edit"
                   class="text-primary q-mr-sm"
-                 
                 />Add/Deduct inventory
               </div>
               <div class="q-mb-sm" v-else style="cursor: pointer">
                 <q-icon name="fa fa-edit" class="text-primary q-mr-sm" />Booking
                 Calendar
               </div>
-              <div class="q-mb-sm" style="cursor: pointer" @click="current_item_id=props.row._id , $refs.manageproduct.openeditproduct(props.row._id)">
+              <div
+                class="q-mb-sm"
+                style="cursor: pointer"
+                @click="
+                  (current_item_id = props.row._id),
+                    $refs.manageproduct.openeditproduct(props.row._id)
+                "
+              >
                 <q-icon name="fa fa-edit" class="text-primary q-mr-sm" />Edit
                 details
               </div>
-              <div class="q-mb-sm" style="cursor: pointer" @click="current_item_id=props.row._id , $refs.manageproduct.deleteProduct(props.row._id)">
+              <div
+                class="q-mb-sm"
+                style="cursor: pointer"
+                @click="
+                  (current_item_id = props.row._id),
+                    $refs.manageproduct.deleteProduct(props.row._id)
+                "
+              >
                 <q-icon name="fa fa-edit" class="text-primary q-mr-sm" />Delete
                 item
               </div>
             </div>
+
             <div class="q-ml-sm">
               <font size="2">
                 <table v-if="props.row.item_type == 'Product'">
                   <tr>
                     <td>On-hand</td>
-                    <td class="text-primary">25</td>
+                    <td class="text-primary">{{ props.row.stock }}</td>
                   </tr>
                   <tr>
                     <td>Sold</td>
@@ -238,6 +255,7 @@
                     <td class="text-primary">1</td>
                   </tr>
                 </table>
+
                 <table v-else>
                   <tr>
                     <td>Available</td>
@@ -348,11 +366,7 @@
         </div>-->
       </template>
     </q-table>
-    <q-dialog
-      v-model="opened"
-      persistent
-      :maximized="$q.screen.lt.md"
-    >
+    <q-dialog v-model="opened" persistent :maximized="$q.screen.lt.md">
       <q-card style="width: 80vh">
         <q-card-section class="row items-center text-grey-10">
           <div class="text-h6" v-if="step == 1">Add an item</div>
@@ -475,7 +489,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-  <ManageProduct ref="manageproduct"   />
+    <ManageProduct ref="manageproduct" />
   </div>
 </template>
 
@@ -514,64 +528,65 @@ export default {
           required: true,
           label: "SKU",
           align: "left",
-          field: "SKU",
+          field: "SKU"
         },
         {
           name: "product_name",
           required: true,
           label: "Product Name",
           align: "left",
-          field: "product_name",
+          field: "product_name"
         },
         {
           name: "category",
           align: "center",
           label: "Category",
-          field: "category",
+          field: "category"
         },
         {
           name: "regular_price",
           label: "Regular Price",
-          field: "regular_price",
+          field: "regular_price"
         },
         { name: "sale_price", label: "Sale Price", field: "sale_price" },
-        { name: "stock", label: "Stock", field: "stock" },
-      ],
+        { name: "stock", label: "Stock", field: "stock" }
+      ]
     };
   },
   methods: {
-    max_items: function () {
+    max_items: function() {
       this.$q.dialog({
         title: "Maximum number of Products reached!",
         message:
-          "To add more product, you may avail it via Bank Deposit or Layaway",
+          "To add more product, you may avail it via Bank Deposit or Layaway"
       });
     },
-    getData: async function () {
+    getData: async function() {
       var products = await this.$dbCon
         .service("products")
         .find({
           query: {
             store_id: this.$local.getItem("store_token"),
-            deleted: false,
-          },
+            deleted: false
+          }
         })
-        .then((results) => {
+        .then(results => {
           results.data.map((service, index) => {
             results.data[index].item_type = "Product";
           });
           return results.data;
         });
+      console.log(products);
 
       var services = await this.$dbCon
         .service("services")
         .find({
           query: {
             store_id: this.$local.getItem("store_token"),
-            deleted: false,
-          },
+            deleted: false
+          }
         })
-        .then((results) => {
+        .then(results => {
           results.data.map((service, index) => {
             results.data[index].item_type = "Service";
           });
@@ -580,22 +595,22 @@ export default {
 
       this.data = products.concat(services);
     },
-    unavailableMessage: function () {
+    unavailableMessage: function() {
       this.$q.dialog({
         title: "Unavailable Item",
         message:
-          "This item is no longer available due to expired item subscription. You may reactivate this item again by purchasing a subscription.",
+          "This item is no longer available due to expired item subscription. You may reactivate this item again by purchasing a subscription."
       });
-    },
+    }
   },
   watch: {
-    step: async function () {
+    step: async function() {
       //VALIDATION PER STEP
       if (this.step == 2 && this.category.value == undefined) {
         this.step = 1;
         this.$q.dialog({
           title: "Choose Item Category",
-          message: "Please choose an Item Category to proceed.",
+          message: "Please choose an Item Category to proceed."
         });
       }
       if (this.step == 3) {
@@ -614,35 +629,35 @@ export default {
         this.step = 1;
       }
     },
-    opened: function () {
+    opened: function() {
       if (this.opened == false) {
         this.step = 1;
         this.item_type = "";
       }
-    },
+    }
   },
   async mounted() {
-    this.$EventBus.$on("update-category", (chosen_category) => {
+    this.$EventBus.$on("update-category", chosen_category => {
       this.$dbCon
         .service("store")
         .get(this.$local.getItem("store_token"))
-        .then((store) => {
+        .then(store => {
           this.$dbCon
             .service("categories")
             .find({
               query: {
                 category_name: {
-                  $in: store.categories,
-                },
-              },
+                  $in: store.categories
+                }
+              }
             })
-            .then((results) => {
+            .then(results => {
               this.category_options = [];
-              results.data.map((category) => {
+              results.data.map(category => {
                 this.category_options.push({
                   label: category.category_name,
                   value: category.category_name,
-                  type: category.classification,
+                  type: category.classification
                 });
                 this.$forceUpdate();
                 for (var x = 0; x < this.category_options.length; x++) {
@@ -654,7 +669,7 @@ export default {
             });
         });
     });
-    this.$EventBus.$on("update-step", (stp) => {
+    this.$EventBus.$on("update-step", stp => {
       this.step = stp;
     });
     this.$dbCon.service("products").onDataChange(() => {
@@ -676,20 +691,20 @@ export default {
           $or: [
             {
               date_end: {
-                $gte: new Date(),
+                $gte: new Date()
               },
-              status: "Paid",
+              status: "Paid"
             },
             {
-              status: "Free",
-            },
-          ],
-        },
+              status: "Free"
+            }
+          ]
+        }
       })
-      .then((results) => {
+      .then(results => {
         console.log(results);
         var maximum_items = 0;
-        results.data.map((sub) => {
+        results.data.map(sub => {
           maximum_items += sub.items;
         });
         this.maximum_items = maximum_items;
@@ -698,31 +713,30 @@ export default {
     this.$dbCon
       .service("store")
       .get(this.$local.getItem("store_token"))
-      .then((store) => {
+      .then(store => {
         this.$dbCon
           .service("categories")
           .find({
             query: {
               category_name: {
-                $in: store.categories,
-              },
-            },
+                $in: store.categories
+              }
+            }
           })
-          .then((results) => {
+          .then(results => {
             this.category_options = [];
-            results.data.map((category) => {
+            results.data.map(category => {
               this.category_options.push({
                 label: category.category_name,
                 value: category.category_name,
-                type: category.classification,
+                type: category.classification
               });
               this.$forceUpdate();
             });
           });
       });
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

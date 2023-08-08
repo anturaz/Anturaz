@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mx-xl q-pt-md row">
+  <div class=" q-pt-md row">
     <q-input
       class="col-sm-12 col-md-2 offset-md-10"
       rounded
@@ -96,86 +96,120 @@
   </div>
 </template>
 <script>
-import SearchQuery from "components/searchQuery.vue";
+import SearchQuery from "../../../components/searchQuery.vue";
 export default {
   components: {
-    SearchQuery,
+    SearchQuery
   },
   data() {
     return {
+      num_followers: 200,
       currentItem: "none",
       search: "",
       payment_terms: {
         cash_on_delivery: false,
         credit_debit_card: false,
         zero_interest: false,
-        layaway: false,
+        layaway: false
       },
       price: {
         min: "",
-        max: "",
+        max: ""
       },
       rating: {
-        five: false,
-        four: false,
-        three: false,
+        five: true,
+        four: true,
+        three: true,
         two: false,
-        one: false,
+        one: false
       },
       data: [],
       err: null,
-      store: {},
+      store: {}
     };
   },
   methods: {
-    getData: async function () {
+    getProductData: async function() {
+      var query = {
+        store_id: this.store._id
+      };
+      const res = await this.$dbCon.service("products").find({
+        query: query
+      });
+      const products = [...res.data];
+      console.log("sawa na ako", products);
+      // return products;
+    },
+
+    getData: async function() {
       var products = [];
       var services = [];
+
+      console.log("store id", this.store._id);
+
       var query = {
-        store_id: this.store._id,
+        store_id: this.store._id
       };
       if (this.search.trim() != "") {
         query["$search"] = this.search;
       }
-      console.log(query);
-      //GET ALL PRODUCTS
-      await this.$dbCon
-        .service("products")
-        .find({
-          query: query,
-        })
-        .then((results) => {
-          console.log(query);
-          products.push(...results.data);
-        })
-        .catch((e) => {
-          this.err = e;
+
+      console.log("search", query);
+
+      try {
+        const resProducts = await this.$dbCon.service("products").find({
+          query: query
         });
-      //GET ALL SERVICES
-      await this.$dbCon
-        .service("services")
-        .find({
-          query: query,
-        })
-        .then((results) => {
-          services.push(...results.data);
-        })
-        .catch((e) => {
-          this.err = e;
+        const resServices = await this.$dbCon.service("services").find({
+          query: query
         });
+        products = [...resProducts.data];
+        // services.push(...resServices.data);
+
+        console.log("data productsss", [...resServices.data]);
+      } catch (e) {
+        this.err = e;
+      }
+      // //GET ALL PRODUCTS
+      // await this.$dbCon
+      //   .service("products")
+      //   .find({
+      //     query: query
+      //   })
+      //   .then(results => {
+      //     // products = [...results.data];
+      //   })
+      //   .catch(e => {
+      //     this.err = e;
+      //   });
+      // //GET ALL SERVICES
+      // await this.$dbCon
+      //   .service("services")
+      //   .find({
+      //     query: query
+      //   })
+      //   .then(results => {
+      //     services.push(...results.data);
+      //   })
+      //   .catch(e => {
+      //     this.err = e;
+      //   });
+      console.log("realshit na to", ...products);
       this.data = [...products, ...services];
-      console.log(this.data);
-    },
+      this.$forceUpdate();
+    }
   },
   async mounted() {
+    this.getProductData();
+
     await this.$dbCon
       .service("store")
       .find({
         query: {
-          unique_link: this.$route.params.store_name,
-        },
+          _id: this.$route.query.store
+        }
       })
-      .then((result) => {
+      .then(result => {
         this.store = result.data[0];
       });
     await this.$dbCon.service("products").onDataChange(() => {
@@ -184,9 +218,26 @@ export default {
     console.log("BUTTON", this.$refs.btn_view0);
   },
   watch: {
-    search: function () {
+    search: function() {
       this.getData();
-    },
+    }
   },
+  computed: {
+    trueCount() {
+      return Object.values(this.rating).filter(value => value === true).length;
+    },
+    falseCount() {
+      return Object.values(this.rating).filter(value => value === false).length;
+    },
+    totalCount() {
+      return this.trueCount + this.falseCount;
+    },
+    truePercentage() {
+      return (this.trueCount / this.totalCount) * 100;
+    },
+    falsePercentage() {
+      return (this.falseCount / this.totalCount) * 100;
+    }
+  }
 };
 </script>

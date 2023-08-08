@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="q-pa-md row">
     <!-- <div class="col-12">
       <q-breadcrumbs class="text-grey">
@@ -202,7 +202,7 @@
       <q-card style="width: 400px">
         <q-card-section class="row items-center text-grey-10">
           <div class="text-h6">Adjust Stock</div>
-           <q-space />
+          <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
 
@@ -229,26 +229,24 @@
           />
         </q-card-section>
 
-  
-
         <q-card-actions align="right">
-            <q-btn
-                class="q-ml-sm"
-                color="primary"
-                label="Submit"
-                @click="saveadjuststore"
-                no-caps
-                ref="btn_adjust_stock"
-                @mouseover="
-                  ($refs.btn_adjust_stock.unelevated = true),
-                    ($refs.btn_adjust_stock.outline = false)
-                "
-                @mouseleave="
-                  ($refs.btn_adjust_stock.outline = true),
-                    ($refs.btn_adjust_stock.unelevated = false)
-                "
-                outline
-              />
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            label="Submit"
+            @click="saveadjuststore"
+            no-caps
+            ref="btn_adjust_stock"
+            @mouseover="
+              ($refs.btn_adjust_stock.unelevated = true),
+                ($refs.btn_adjust_stock.outline = false)
+            "
+            @mouseleave="
+              ($refs.btn_adjust_stock.outline = true),
+                ($refs.btn_adjust_stock.unelevated = false)
+            "
+            outline
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -295,7 +293,7 @@
               label="Product Name"
               ref="inp_product_name"
               v-model="data.product_name"
-              :rules="[(val) => val.trim() != '' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
               counter
             />
@@ -317,7 +315,7 @@
               @focus="toInputRegularPrice"
               @blur="toChangeRegularPrice"
               ref="inp_regular_price"
-              :rules="[(val) => val.trim() != '' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
             />
             <q-input
@@ -331,9 +329,9 @@
               @blur="toChangeSalePrice"
               v-model="temp_sale_price"
               :rules="[
-                (val) =>
+                val =>
                   parseFloat(data.regular_price) >
-                    parseFloat(data.sale_price) || 'Invalid Sale Price',
+                    parseFloat(data.sale_price) || 'Invalid Sale Price'
               ]"
               lazy-rules
             />
@@ -346,59 +344,58 @@
               label="Stock On Hand"
               v-model="data.stock"
               ref="inp_stock"
-              :rules="[(val) => val.trim() != '' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
             />
           </div>
           <div class="col-12 q-gutter-sm row">
-        
-                <p class="text-title text-bold text-grey">Variant</p>
-                <q-select
-                  label="Size"
-                  class="col-12 q-pt-sm"
-                  square
-                  outlined
-                  dense
-                  stack
-                  v-model="data.size"
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
-                  input-debounce="0"
-                  new-value-mode="add-unique"
-                />
-                <q-select
-                  label="Color"
-                  class="col-12 q-pt-sm"
-                  square
-                  outlined
-                  dense
-                  stack
-                  v-model="data.color"
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
-                  input-debounce="0"
-                  new-value-mode="add-unique"
-                />
-                <q-select
-                  label="Material"
-                  class="col-12 q-pt-sm"
-                  square
-                  outlined
-                  dense
-                  stack
-                  v-model="data.material"
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
-                  input-debounce="0"
-                  new-value-mode="add-unique"
-                />
-          
+            <p class="text-title text-bold text-grey">Variant</p>
+            <q-select
+              label="Size"
+              class="col-12 q-pt-sm"
+              square
+              outlined
+              dense
+              stack
+              v-model="data.size"
+              use-input
+              use-chips
+              multiple
+              hide-dropdown-icon
+              input-debounce="0"
+              new-value-mode="add-unique"
+            />
+            <q-select
+              label="Color"
+              class="col-12 q-pt-sm"
+              square
+              outlined
+              dense
+              stack
+              v-model="data.color"
+              use-input
+              use-chips
+              multiple
+              hide-dropdown-icon
+              input-debounce="0"
+              new-value-mode="add-unique"
+            />
+            <q-select
+              label="Material"
+              class="col-12 q-pt-sm"
+              square
+              outlined
+              dense
+              stack
+              v-model="data.material"
+              use-input
+              use-chips
+              multiple
+              hide-dropdown-icon
+              input-debounce="0"
+              new-value-mode="add-unique"
+            />
+
             <div class="row col-12">
               <q-card class="col-md-6 col-sm-12" flat bordered>
                 <q-card-section class="row">
@@ -422,7 +419,7 @@
                     v-model="data.gift_wrapping_services"
                     :options="[
                       { label: 'Yes', value: true },
-                      { label: 'No', value: false },
+                      { label: 'No', value: false }
                     ]"
                   />
                 </q-card-section>
@@ -447,7 +444,7 @@
                     v-model="data.pickup_service"
                     :options="[
                       { label: 'Yes', value: true },
-                      { label: 'No', value: false },
+                      { label: 'No', value: false }
                     ]"
                   />
                 </q-card-section>
@@ -474,7 +471,7 @@
                     v-model="data.cod"
                     :options="[
                       { label: 'Yes', value: true },
-                      { label: 'No', value: false },
+                      { label: 'No', value: false }
                     ]"
                   />
                 </q-card-section>
@@ -499,7 +496,7 @@
                     v-model="data.lay_away"
                     :options="[
                       { label: 'Yes', value: true },
-                      { label: 'No', value: false },
+                      { label: 'No', value: false }
                     ]"
                   />
                 </q-card-section>
@@ -525,7 +522,7 @@
                   v-model="data.delivery_services"
                   :options="[
                     { label: 'Yes', value: true },
-                    { label: 'No', value: false },
+                    { label: 'No', value: false }
                   ]"
                 />
                 <div
@@ -549,23 +546,23 @@
         </q-card-section>
 
         <q-card-actions align="right">
-            <q-btn
-                class="q-ml-sm"
-                color="primary"
-                label="Save"
-                @click="save"
-                no-caps
-                ref="btn_edit"
-                @mouseover="
-                  ($refs.btn_edit.unelevated = true),
-                    ($refs.btn_edit.outline = false)
-                "
-                @mouseleave="
-                  ($refs.btn_edit.outline = true),
-                    ($refs.btn_edit.unelevated = false)
-                "
-                outline
-              />
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            label="Save"
+            @click="save"
+            no-caps
+            ref="btn_edit"
+            @mouseover="
+              ($refs.btn_edit.unelevated = true),
+                ($refs.btn_edit.outline = false)
+            "
+            @mouseleave="
+              ($refs.btn_edit.outline = true),
+                ($refs.btn_edit.unelevated = false)
+            "
+            outline
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -579,7 +576,7 @@ export default {
   props: ["product_id"],
   components: {
     AdjustStock,
-    EditProduct,
+    EditProduct
   },
   data() {
     return {
@@ -591,16 +588,16 @@ export default {
       currentIndexPicture: 0,
       fileSelected: {},
       temp_regular_price: "",
-      temp_sale_price: "",
+      temp_sale_price: ""
     };
   },
   methods: {
-    openadjuststock: async function (productId) {
+    openadjuststock: async function(productId) {
       await this.getData(productId);
       this.number_of_stock = this.data.stock;
       this.adjuststock = true;
     },
-    saveadjuststock: async function () {
+    saveadjuststock: async function() {
       var add = this.number_of_stock >= this.data.stock;
       var amount = add
         ? this.number_of_stock - this.data.stock
@@ -610,7 +607,7 @@ export default {
         event: this.description,
         date: new Date(),
         amount: amount,
-        status: add ? "+" : "-",
+        status: add ? "+" : "-"
       });
       this.$dbCon
         .service("products")
@@ -619,7 +616,7 @@ export default {
           this.$q
             .dialog({
               title: "Success!",
-              message: "You successfully updated the inventory.",
+              message: "You successfully updated the inventory."
             })
             .onOk(() => {
               this.adjuststock = false;
@@ -628,10 +625,10 @@ export default {
             .service("store")
             .find({
               query: {
-                _id: this.$local.getItem("store_token"),
-              },
+                _id: this.$local.getItem("store_token")
+              }
             })
-            .then((result) => {
+            .then(result => {
               //     this.$axios.post(this.$appLink + "/customizableEmail", {
               //       receiver: result.data[0].email,
               //       subject: "Stock Adjustment",
@@ -642,11 +639,11 @@ export default {
             });
         });
     },
-    openeditproduct: async function (productId) {
+    openeditproduct: async function(productId) {
       await this.getData(productId);
       this.editproduct = true;
     },
-    deleteProduct: function (productId) {
+    deleteProduct: function(productId) {
       this.getData(productId);
       this.$q
         .dialog({
@@ -655,8 +652,8 @@ export default {
           cancel: {
             push: true,
             color: "grey",
-            flat: true,
-          },
+            flat: true
+          }
         })
         .onOk(() => {
           this.$q
@@ -665,20 +662,20 @@ export default {
               message: "Enter your password",
               prompt: {
                 model: "",
-                type: "password", // optional
+                type: "password" // optional
               },
               cancel: true,
-              persistent: true,
+              persistent: true
             })
-            .onOk((data) => {
+            .onOk(data => {
               this.$dbCon
                 .service("store")
                 .find({
                   query: {
-                    _id: this.$local.getItem("store_token"),
-                  },
+                    _id: this.$local.getItem("store_token")
+                  }
                 })
-                .then((result) => {
+                .then(result => {
                   if (result.data[0].password == data) {
                     this.data.deleted = true;
                     this.$dbCon
@@ -689,10 +686,10 @@ export default {
                           .service("store")
                           .find({
                             query: {
-                              _id: this.$local.getItem("store_token"),
-                            },
+                              _id: this.$local.getItem("store_token")
+                            }
                           })
-                          .then((result) => {
+                          .then(result => {
                             this.$axios.post(
                               this.$appLink + "/customizableEmail",
                               {
@@ -700,13 +697,13 @@ export default {
                                 subject: "Deleted Product",
                                 message: `<h3>Deleted Product</h3>
                   <p>Your product has been deleted!</p>
-                  `,
+                  `
                               }
                             );
                           });
                         this.$q.dialog({
                           title: "Success!",
-                          message: "You have successfully deleted a product.",
+                          message: "You have successfully deleted a product."
                         });
                         // this.$router.push("/StoreOwner/Inventory/Products");
                       });
@@ -718,15 +715,15 @@ export default {
                       cancel: {
                         push: true,
                         color: "grey",
-                        flat: true,
-                      },
+                        flat: true
+                      }
                     });
                   }
                 });
             });
         });
     },
-    changeCurrentPicture: function () {
+    changeCurrentPicture: function() {
       this.$q
         .dialog({
           title: "Confirmation",
@@ -734,15 +731,15 @@ export default {
           cancel: {
             push: true,
             color: "grey",
-            flat: true,
+            flat: true
           },
-          persistent: true,
+          persistent: true
         })
         .onOk(() => {
           this.$refs["fileInput"].click();
         });
     },
-    onFileSelected: async function () {
+    onFileSelected: async function() {
       this.$q.loading.show();
       this.fileSelected = event.target.files[0];
       var result = await this.uploadImage(this.fileSelected);
@@ -759,11 +756,11 @@ export default {
             position: "top-right",
             color: "primary",
             timeout: 700,
-            icon: "check",
+            icon: "check"
           });
         });
     },
-    uploadImage: async function (fileSelected) {
+    uploadImage: async function(fileSelected) {
       const formData = new FormData();
       formData.append(this.$appLink, fileSelected, fileSelected.name);
       var result = await this.$axios.post(
@@ -772,33 +769,34 @@ export default {
       );
       return result.data;
     },
-    getData: async function (productId) {
+    getData: async function(productId) {
+      console.log("product id: ", productId);
       await this.$dbCon
         .service("products")
         .find({
           query: {
             _id: productId,
-            store_id: this.$local.getItem("store_token"),
-          },
+            store_id: this.$local.getItem("store_token")
+          }
         })
-        .then((result) => {
+        .then(result => {
           if (result.data.length == 0) {
             // this.$router.push("/StoreOwner/Inventory");
           } else {
             this.data = result.data[0];
+
             this.currentPicture = this.data.photos[0];
           }
         });
-    },
+    }
   },
   mounted() {
     //  this.getData();
     // this.$dbCon.service("products").onDataChange(() => {
     //   this.getData();
     // });
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

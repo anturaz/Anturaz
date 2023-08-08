@@ -2,7 +2,7 @@
   <div class="row">
     <q-btn
       class="col-11"
-      @click="opened=true"
+      @click="opened = true"
       outline
       color="primary"
       size="sm"
@@ -33,7 +33,14 @@
               label="Category"
             />
 
-            <q-input class="col-6" square outlined dense stack label="Stock Keeping Unit(SKU)" />
+            <q-input
+              class="col-6"
+              square
+              outlined
+              dense
+              stack
+              label="Stock Keeping Unit(SKU)"
+            />
             <q-input
               class="col-12 q-pt-sm"
               square
@@ -43,7 +50,7 @@
               label="Product Name"
               ref="inp_product_name"
               v-model="data.product_name"
-              :rules="[ val => val.trim()!='' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
               counter
             />
@@ -65,7 +72,7 @@
               @focus="toInputRegularPrice"
               @blur="toChangeRegularPrice"
               ref="inp_regular_price"
-              :rules="[ val => val.trim()!='' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
             />
             <q-input
@@ -79,7 +86,9 @@
               @blur="toChangeSalePrice"
               v-model="temp_sale_price"
               :rules="[
-                val =>  parseFloat(data.regular_price)> parseFloat(data.sale_price) || 'Invalid Sale Price',
+                val =>
+                  parseFloat(data.regular_price) >
+                    parseFloat(data.sale_price) || 'Invalid Sale Price'
               ]"
               lazy-rules
             />
@@ -92,7 +101,7 @@
               label="Stock On Hand"
               v-model="data.stock"
               ref="inp_stock"
-              :rules="[ val => val.trim()!='' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
             />
           </div>
@@ -147,106 +156,117 @@
                 />
               </q-card-section>
             </q-card>
-           <div class="row col-12">
-            <q-card class="col-md-6 col-sm-12" flat bordered>
-              <q-card-section class="row">
+            <div class="row col-12">
+              <q-card class="col-md-6 col-sm-12" flat bordered>
+                <q-card-section class="row">
+                  <p class="col-12 text-title text-bold text-grey">
+                    Enable Gift Wrapping Services?
+                  </p>
 
-                <p class="col-12 text-title text-bold text-grey">Enable Gift Wrapping Services?</p>
+                  <q-btn-toggle
+                    class="col-12"
+                    spread
+                    value="one"
+                    style="border:1px solid grey"
+                    no-caps
+                    rounded
+                    unelevated
+                    :toggle-color="
+                      data.gift_wrapping_services ? 'primary' : 'grey'
+                    "
+                    color="white"
+                    text-color="grey"
+                    v-model="data.gift_wrapping_services"
+                    :options="[
+                      { label: 'Yes', value: true },
+                      { label: 'No', value: false }
+                    ]"
+                  />
+                </q-card-section>
+              </q-card>
+              <q-card class="col-md-6 col-sm-12" flat bordered>
+                <q-card-section class="row">
+                  <p class="col-12 text-title text-bold text-grey">
+                    Enable Pick-up Item In Store?
+                  </p>
 
-                <q-btn-toggle
-                  class="col-12"
-                  spread
-                  value="one"
-                  style="border:1px solid grey"
-                  no-caps
-                  rounded
-                  unelevated
-                  :toggle-color="data.gift_wrapping_services? 'primary': 'grey'"
-                  color="white"
-                  text-color="grey"
-                  v-model="data.gift_wrapping_services"
-                  :options="[
-                                {label: 'Yes', value: true},
-                                {label: 'No', value: false}
-                            ]"
-                />
-              </q-card-section>
-            </q-card>
-            <q-card class="col-md-6 col-sm-12" flat bordered>
-              <q-card-section class="row">
-                <p class="col-12 text-title text-bold text-grey">Enable Pick-up Item In Store?</p>
-
-                <q-btn-toggle
-                  class="col-12"
-                  spread
-                  value="one"
-                  style="border:1px solid grey"
-                  no-caps
-                  rounded
-                  unelevated
-                  :toggle-color="data.pickup_service? 'primary': 'grey'"
-                  color="white"
-                  text-color="grey"
-                  v-model="data.pickup_service"
-                  :options="[
-                                {label: 'Yes', value: true},
-                                {label: 'No', value: false}
-                            ]"
-                />
-              </q-card-section>
-            </q-card>
+                  <q-btn-toggle
+                    class="col-12"
+                    spread
+                    value="one"
+                    style="border:1px solid grey"
+                    no-caps
+                    rounded
+                    unelevated
+                    :toggle-color="data.pickup_service ? 'primary' : 'grey'"
+                    color="white"
+                    text-color="grey"
+                    v-model="data.pickup_service"
+                    :options="[
+                      { label: 'Yes', value: true },
+                      { label: 'No', value: false }
+                    ]"
+                  />
+                </q-card-section>
+              </q-card>
             </div>
             <div class="row">
-              <q-card class="col-md-6 col-sm-12" flat bordered >
-              <q-card-section class="row">
-                <p class="col-12 text-title text-bold text-grey">Enable Cash in Delivery?</p>
+              <q-card class="col-md-6 col-sm-12" flat bordered>
+                <q-card-section class="row">
+                  <p class="col-12 text-title text-bold text-grey">
+                    Enable Cash in Delivery?
+                  </p>
 
-                <q-btn-toggle
-                  class="col-12"
-                  spread
-                  value="one"
-                  style="border:1px solid grey"
-                  no-caps
-                  rounded
-                  unelevated
-                  :toggle-color="data.cod? 'primary': 'grey'"
-                  color="white"
-                  text-color="grey"
-                  v-model="data.cod"
-                  :options="[
-                                {label: 'Yes', value: true},
-                                {label: 'No', value: false}
-                            ]"
-                />
-              </q-card-section>
-            </q-card>
-            <q-card class="col-md-6 col-sm-12" flat bordered >
-              <q-card-section class="row">
-                <p class="col-12 text-title text-bold text-grey">Enable Lay-away?</p>
+                  <q-btn-toggle
+                    class="col-12"
+                    spread
+                    value="one"
+                    style="border:1px solid grey"
+                    no-caps
+                    rounded
+                    unelevated
+                    :toggle-color="data.cod ? 'primary' : 'grey'"
+                    color="white"
+                    text-color="grey"
+                    v-model="data.cod"
+                    :options="[
+                      { label: 'Yes', value: true },
+                      { label: 'No', value: false }
+                    ]"
+                  />
+                </q-card-section>
+              </q-card>
+              <q-card class="col-md-6 col-sm-12" flat bordered>
+                <q-card-section class="row">
+                  <p class="col-12 text-title text-bold text-grey">
+                    Enable Lay-away?
+                  </p>
 
-                <q-btn-toggle
-                  class="col-12"
-                  spread
-                  value="one"
-                  style="border:1px solid grey"
-                  no-caps
-                  rounded
-                  unelevated
-                  :toggle-color="data.lay_away? 'primary': 'grey'"
-                  color="white"
-                  text-color="grey"
-                  v-model="data.lay_away"
-                  :options="[
-                                {label: 'Yes', value: true},
-                                {label: 'No', value: false}
-                            ]"
-                />
-              </q-card-section>
-            </q-card>
+                  <q-btn-toggle
+                    class="col-12"
+                    spread
+                    value="one"
+                    style="border:1px solid grey"
+                    no-caps
+                    rounded
+                    unelevated
+                    :toggle-color="data.lay_away ? 'primary' : 'grey'"
+                    color="white"
+                    text-color="grey"
+                    v-model="data.lay_away"
+                    :options="[
+                      { label: 'Yes', value: true },
+                      { label: 'No', value: false }
+                    ]"
+                  />
+                </q-card-section>
+              </q-card>
             </div>
             <q-card class="col-12" flat bordered>
               <q-card-section class="row">
-                <p class="col-6 text-title text-bold text-grey">Enable Delivery Services?</p>
+                <p class="col-6 text-title text-bold text-grey">
+                  Enable Delivery Services?
+                </p>
 
                 <q-btn-toggle
                   class="col-6"
@@ -256,17 +276,21 @@
                   no-caps
                   rounded
                   unelevated
-                  :toggle-color="data.delivery_services? 'primary': 'grey'"
+                  :toggle-color="data.delivery_services ? 'primary' : 'grey'"
                   color="white"
                   text-color="grey"
                   v-model="data.delivery_services"
                   :options="[
-                                {label: 'Yes', value: true},
-                                {label: 'No', value: false}
-                            ]"
+                    { label: 'Yes', value: true },
+                    { label: 'No', value: false }
+                  ]"
                 />
-                <div v-if="data.delivery_services==true" class="col-12 text-grey">
-                  Delivery Period (From {{data.delivery_period.min}} days to {{data.delivery_period.max}} days):
+                <div
+                  v-if="data.delivery_services == true"
+                  class="col-12 text-grey"
+                >
+                  Delivery Period (From {{ data.delivery_period.min }} days to
+                  {{ data.delivery_period.max }} days):
                   <q-range
                     v-model="data.delivery_period"
                     color="grey"
@@ -301,8 +325,8 @@ export default {
     };
   },
   methods: {
-    openModal: function(){
-      this.opened=true
+    openModal: function() {
+      this.opened = true;
     },
     save: async function() {
       var toSubmit = !(await this.validate());
@@ -373,5 +397,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

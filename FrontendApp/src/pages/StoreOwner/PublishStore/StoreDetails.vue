@@ -97,7 +97,7 @@
                 label="Store Name"
                 v-model="store.store_name"
                 :rules="[
-                  (value) => value.trim() != '' || 'This Field is required',
+                  value => value.trim() != '' || 'This Field is required'
                 ]"
                 class="col-xs-12"
                 lazy-rules
@@ -107,13 +107,16 @@
                 label="Store Unique Link"
                 v-model="store.unique_link"
                 :rules="[
-                  (value) => value.trim() != '' || 'This Field is required',
+                  value => value.trim() != '' || 'This Field is required'
                 ]"
                 class="col-xs-12 q-mb-lg"
                 prefix="www.anturaz.com/store/"
                 :hint="
                   'suggestion: www.anturaz.com/store/' +
-                  store.store_name.toLowerCase().split(' ').join('-')
+                    store.store_name
+                      .toLowerCase()
+                      .split(' ')
+                      .join('-')
                 "
                 lazy-rules
                 dense
@@ -122,8 +125,7 @@
               <q-select
                 v-model="store.categories"
                 :rules="[
-                  () =>
-                    store.categories.length != 0 || 'This Field is required',
+                  () => store.categories.length != 0 || 'This Field is required'
                 ]"
                 class="col-xs-12 q-mb-md"
                 lazy-rules
@@ -180,7 +182,7 @@
                 class="col-xs-12 q-mb-md"
                 :rules="[
                   () =>
-                    store.market_areas.length != 0 || 'This Field is required',
+                    store.market_areas.length != 0 || 'This Field is required'
                 ]"
                 lazy-rules
                 input-debounce="0"
@@ -228,7 +230,7 @@
                 v-model="user.email"
                 class="col-xs-12"
                 :rules="[
-                  (value) => value.trim() != '' || 'This Field is required',
+                  value => value.trim() != '' || 'This Field is required'
                 ]"
                 lazy-rules
                 dense
@@ -238,7 +240,7 @@
                 v-model="user.fname"
                 class="col-xs-12"
                 :rules="[
-                  (value) => value.trim() != '' || 'This Field is required',
+                  value => value.trim() != '' || 'This Field is required'
                 ]"
                 lazy-rules
                 dense
@@ -248,7 +250,7 @@
                 v-model="user.lname"
                 class="col-xs-12"
                 :rules="[
-                  (value) => value.trim() != '' || 'This Field is required',
+                  value => value.trim() != '' || 'This Field is required'
                 ]"
                 lazy-rules
                 dense
@@ -290,7 +292,7 @@
           outline
         />
       </div>
-      <!-- <div else align="right">
+      <div else align="right">
         <q-btn
           label="Save"
           color="primary"
@@ -307,7 +309,7 @@
           "
           outline
         />
-      </div> -->
+      </div>
     </q-form>
   </div>
 </template>
@@ -330,11 +332,11 @@ export default {
       store: {},
       user: {},
       market_areas_done: false,
-      categories_done: false,
+      categories_done: false
     };
   },
   methods: {
-    fileSelected: async function (event) {
+    fileSelected: async function(event) {
       this.file = {};
       this.file = event.target.files[0];
       this.$q.loading.show();
@@ -346,25 +348,27 @@ export default {
         this.photoError = false;
       }
     },
-    filterMarketPlace: function (val, update, abort) {
+    filterMarketPlace: function(val, update, abort) {
       update(() => {
         const needle = val.toLowerCase();
         this.market_areas_option = provinceList.filter(
-          (v) => v.toLowerCase().indexOf(needle) > -1
+          v => v.toLowerCase().indexOf(needle) > -1
         );
       });
     },
-    filterCategories: function (val, update, abort) {
+    filterCategories: function(val, update, abort) {
       update(() => {
         const needle = val.toLowerCase();
         this.categories_option = this.categories_list.filter(
-          (v) => v.toLowerCase().indexOf(needle) > -1
+          v => v.toLowerCase().indexOf(needle) > -1
         );
       });
     },
-    save: async function () {
+    save: async function() {
       if (this.$route.fullPath != "/StoreOwner") {
         this.store.current_step = 3;
+      } else {
+        this.$dbCon.service("store").patch(this.store._id, this.store);
       }
       if (this.store.logo == "") {
         this.photoError = true;
@@ -376,21 +380,21 @@ export default {
       }
       this.$dbCon.service("store").patch(this.store._id, this.store);
     },
-    back: async function () {
+    back: async function() {
       this.store.current_step = 1;
       await this.$dbCon.service("store").patch(this.store._id, this.store);
       await this.$dbCon.service("users").patch(this.user._id, this.user);
       await this.$forceUpdate();
     },
-    getData: async function () {
+    getData: async function() {
       await this.$dbCon
         .service("store")
         .find({
           query: {
-            _id: this.$local.getItem("store_token"),
-          },
+            _id: this.$local.getItem("store_token")
+          }
         })
-        .then((results) => {
+        .then(results => {
           this.store = results.data[0];
           if (
             this.store.unique_link == undefined ||
@@ -406,7 +410,7 @@ export default {
 
       this.user = await this.$getUser();
     },
-    validateStoreDetails: function () {
+    validateStoreDetails: function() {
       if (this.$sanitize(this.store.store_details).trim() == "") {
         this.store_details_error = true;
         this.store_details_error_message = "This field is required.";
@@ -423,7 +427,7 @@ export default {
       } else {
         this.store_details_error = false;
       }
-    },
+    }
   },
   async mounted() {
     this.market_areas_option = provinceList;
@@ -431,11 +435,11 @@ export default {
       .service("categories")
       .find({
         query: {
-          $select: ["category_name"],
-        },
+          $select: ["category_name"]
+        }
       })
-      .then((results) => {
-        results.data.map((category) => {
+      .then(results => {
+        results.data.map(category => {
           this.categories_option.push(category.category_name);
           this.categories_list.push(category.category_name);
         });
@@ -448,7 +452,7 @@ export default {
     });
   },
   watch: {
-    "store.unique_link": function () {
+    "store.unique_link": function() {
       this.store.unique_link = this.store.unique_link
         .toLowerCase()
         .split("-")
@@ -458,10 +462,8 @@ export default {
         .toLowerCase()
         .split(" ")
         .join("-");
-    },
-  },
+    }
+  }
 };
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

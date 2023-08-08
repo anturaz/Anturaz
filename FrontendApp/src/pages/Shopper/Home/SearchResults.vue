@@ -15,6 +15,7 @@
         :payment_terms="payment_terms"
         :price="price"
         :rating="rating"
+        :queryItems="queryItems"
       />
     </div>
     <div class="col-md-10 q-pt-md q-pl-md">
@@ -75,34 +76,35 @@
   </div>
 </template>
 <script>
-import SearchQuery from "components/searchQuery.vue";
+import SearchQuery from "../../../components/searchQuery.vue";
+
 export default {
   components: {
-    SearchQuery,
+    SearchQuery
   },
   data() {
     return {
       payment_terms: {
         cash_on_delivery: true,
         cash_on_fulfillment: true,
-        layaway: true,
+        layaway: true
       },
       price: {
         min: 1,
-        max: 99999,
+        max: 99999
       },
       rating: {
         five: false,
         four: false,
         three: true,
         two: false,
-        one: false,
+        one: false
       },
-      data: [],
+      data: []
     };
   },
   methods: {
-    queryItems: async function () {
+    queryItems: async function() {
       this.$q.loading.show();
       this.data = [];
       var query = {};
@@ -117,38 +119,38 @@ export default {
       await this.$dbCon
         .service("services")
         .find({
-          query: query,
+          query: query
         })
-        .then((results) => {
+        .then(results => {
           this.data.push(...results.data);
         });
       await this.$dbCon
         .service("products")
         .find({
-          query: query,
+          query: query
         })
-        .then((results) => {
+        .then(results => {
           this.data.push(...results.data);
         });
       this.$q.loading.hide();
-    },
+    }
   },
   mounted() {
     this.queryItems();
   },
   watch: {
-    "payment_terms.cash_on_delivery": function () {
+    "payment_terms.cash_on_delivery": function() {
       this.queryItems();
     },
-    "payment_terms.cash_on_fulfillment": function () {
+    "payment_terms.cash_on_fulfillment": function() {
       this.queryItems();
     },
-    "payment_terms.layaway": function () {
+    "payment_terms.layaway": function() {
       this.queryItems();
     },
-    "$route.query": function () {
+    "$route.query": function() {
       this.queryItems();
-    },
-  },
+    }
+  }
 };
 </script>

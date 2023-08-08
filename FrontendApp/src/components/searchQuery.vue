@@ -2,9 +2,15 @@
   <div>
     <p class="text-subtitle1">Payment Terms</p>
     <div class="q-pb-md">
-      <q-checkbox  v-model="payment_terms.cash_on_delivery" label="Cash on Delivery" />
+      <q-checkbox
+        v-model="payment_terms.cash_on_delivery"
+        label="Cash on Delivery"
+      />
       <br />
-       <q-checkbox v-model="payment_terms.cash_on_fulfillment" label="Cash on Fulfillment" />
+      <q-checkbox
+        v-model="payment_terms.cash_on_fulfillment"
+        label="Cash on Fulfillment"
+      />
       <br />
       <q-checkbox v-model="payment_terms.layaway" label="Layaway" />
     </div>
@@ -12,9 +18,31 @@
     <br />
     <p class="text-subtitle1">Price</p>
     <div class="row">
-      <q-input class="col-5" type="number"  square outlined v-model="price.min" label="Min" dense />
-      <q-input class="col-5" type="number"  square outlined v-model="price.max" label="Max" dense />
-      <q-btn color="primary" @click="$parent.queryItems" class="col-2" label=">" unelevated />
+      <q-input
+        class="col-5"
+        type="number"
+        square
+        outlined
+        v-model="price.min"
+        label="Min"
+        dense
+      />
+      <q-input
+        class="col-5"
+        type="number"
+        square
+        outlined
+        v-model="price.max"
+        label="Max"
+        dense
+      />
+      <q-btn
+        color="primary"
+        @click="$parent.getData ? $parent.getData : $parent.queryItems"
+        class="col-2"
+        label=">"
+        unelevated
+      />
     </div>
     <br />
     <q-separator />
@@ -38,6 +66,14 @@
 </template>
 <script>
 export default {
-    props:["payment_terms","price","rating"]
-}
+  props: ["payment_terms", "price", "rating", "queryItems"],
+
+  data() {
+    return {};
+  },
+
+  mounted() {
+    // this.$parent.getData ? this.$parent.getData() : $parent.queryItems();
+  }
+};
 </script>

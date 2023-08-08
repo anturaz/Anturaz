@@ -1,29 +1,186 @@
 <template>
-  <div class="q-pa-lg row">
-    <div class="col-6">
-      <q-list class="q-mt-sm full-width">
+  <div>
+    <div class="row justify-center q-mt-xl q-pa-lg">
+      <div style="width: 100%; max-width: 1200px;" class="row items-center">
+        <div
+          class="storeImage col-6 q-mt-xl row col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
+        >
+          <div class="col-2 col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
+            <q-img
+              :src="data.logo"
+              style="height: 60px; max-width: 130px"
+              class="rounded-borders"
+            />
+          </div>
+          <div
+            class="storeName col-2 q-mt-md q-ml-xm text-black text-h4 col-sm-12 col-lg-2 col-xl-2 col-md-2"
+          >
+            {{ data.store_name }}
+          </div>
+
+          <div
+            class="row  text-center  "
+            style="width: 100%;"
+            v-if="$q.screen.lt.sm"
+          >
+            <div class="col-6">
+              <div
+                class="followers q-mt-md q-ml-xm text-black q-mr-md q-px-none"
+              >
+                <div class=" q-gutter-sm">
+                  <q-btn
+                    size="12px"
+                    flat
+                    icon="person_add"
+                    label="20,000 Followers"
+                    style=" padding: 0;"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="reviews q-mt-md q-ml-xm text-black ">
+                <div class=" q-gutter-sm">
+                  <q-btn
+                    flat
+                    size="12px"
+                    icon="star"
+                    label="49 Reviews"
+                    style=" padding: 0;"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="!$q.screen.lt.sm"
+            class="followers q-mt-md q-ml-xm text-black q-mr-md q-px-none"
+          >
+            <div class=" q-gutter-sm">
+              <q-btn
+                flat
+                icon="person_add"
+                label="200 Followers"
+                style=" padding: 0;"
+              />
+            </div>
+          </div>
+
+          <div
+            v-if="!$q.screen.lt.sm"
+            class="reviews q-mt-md q-ml-xm text-black "
+          >
+            <div class=" q-gutter-sm">
+              <q-btn flat icon="star" label="49 Reviews" style=" padding: 0;" />
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="storeDetails col-6  col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
+        >
+          <div class="col-6  col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 ">
+            <q-tabs
+              v-model="tab"
+              dense
+              inline-label
+              align="right"
+              class="tabsDetails text-black q-mt-lg"
+            >
+              <q-tab class="q-mt-md" name="store" label="store" />
+              <q-tab class="q-mt-md" name="reviews" label="reviews" />
+              <q-tab class="q-mt-md" name="portfolio" label="portfolio" />
+              <q-tab class="q-mt-md" name="contact" label="contact" />
+            </q-tabs>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <q-separator />
+          <StoreTab v-if="tab == 'store'" />
+          <ReviewsTab v-if="tab == 'reviews'" />
+          <PortfolioTab v-if="tab == 'portfolio'" />
+          <ContactTab v-if="tab == 'contact'" />
+        </div>
+      </div>
+    </div>
+
+    <div class="q-pa-lg row q-mt-xl q-pb-md">
+      <!-- <div
+        class="col-6 row col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
+      >
+        <div
+          class="col-2 col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12 q-ml-xl"
+        >
+          <q-img
+            :src="data.logo"
+            style="height: 80px; max-width: 130px"
+            class="rounded-borders"
+          />
+        </div>
+        <div
+          class="col-2 q-mt-md q-ml-xm text-black text-h4 col-sm-12 col-lg-2 col-xl-2 col-md-2"
+        >
+          {{ data.store_name }}
+        </div>
+      </div> -->
+
+      <!-- <div class="col-6  col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 ">
+        <q-tabs
+          v-model="tab"
+          dense
+          inline-label
+          align="right"
+          class=" text-black q-mt-lg"
+        >
+          <q-tab class="q-mt-md" name="store" label="store" />
+          <q-tab class="q-mt-md" name="reviews" label="reviews" />
+          <q-tab class="q-mt-md" name="portfolio" label="portfolio" />
+          <q-tab class="q-mt-md" name="contact" label="contact" />
+        </q-tabs>
+      </div> -->
+
+      <!-- <q-list class="q-mt-sm full-width">
         <q-item>
-          <q-item-section avatar>
-            <!-- <q-img :src="data.photos[3]" /> -->
+          <q-item-section thumbnail top>
+            <img :src="data.logo" style="height: 100px; max-width: 150px" />
           </q-item-section>
-          <q-item-section class="text-black text-h5">{{data.store_name}}</q-item-section>
+
+          <q-item-section class="col-2  text-black text-h5 gt-sm">{{
+            data.store_name
+          }}</q-item-section>
         </q-item>
-      </q-list>
-    </div>
-    <div class="col-6">
-      <q-tabs v-model="tab" dense align="right" class="text-primary">
-        <q-tab name="store" icon="store" label="store" />
-        <q-tab name="reviews" icon="star" label="reviews" />
-        <q-tab name="portfolio" icon="dashboard" label="portfolio" />
-        <q-tab name="contact" icon="message" label="contact" />
-      </q-tabs>
-    </div>
-    <div class="col-12">
-      <q-separator />
-      <StoreTab v-if="tab == 'store'" />
-      <ReviewsTab v-if="tab == 'reviews'" />
-      <PortfolioTab v-if="tab == 'portfolio'" />
-      <ContactTab v-if="tab == 'contact'" />
+      </q-list> -->
+      <!-- 
+      <div class="col-6 q-ml-xl q-pb-xs">
+        <q-tab-panel class="q-pb-none ">
+          <div class="row  block-wrapper text-center q-col-gutter-md">
+            <q-img
+              :src="data.logo"
+              style="height: 80px; max-width: 130px"
+              class="rounded-borders"
+            />
+            <label class="q-ml-xm text-black text-h3">{{
+              data.store_name
+            }}</label>
+          </div>
+        </q-tab-panel>
+      </div> -->
+      <!-- <div class="col-5">
+        <q-tabs
+          v-model="tab"
+          dense
+          inline-label
+          align="right"
+          class=" text-black q-mt-lg"
+        >
+          <q-tab class="q-mt-md" name="store" label="store" />
+          <q-tab class="q-mt-md" name="reviews" label="reviews" />
+          <q-tab class="q-mt-md" name="portfolio" label="portfolio" />
+          <q-tab class="q-mt-md" name="contact" label="contact" />
+        </q-tabs>
+      </div> -->
     </div>
   </div>
 </template>
@@ -39,19 +196,21 @@ export default {
     PortfolioTab,
     ContactTab
   },
+
   data() {
     return {
       tab: "store",
       data: []
     };
   },
+  watch: {},
   methods: {
     getData: function() {
       this.$dbCon
         .service("store")
         .find({
           query: {
-            unique_link: this.$route.params.store_name.toLowerCase()
+            _id: this.$route.query.store
           }
         })
         .then(results => {
@@ -66,3 +225,72 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@media only screen and (max-width: 600px) {
+  .storeImage {
+    text-align: center;
+  }
+  .storeName {
+    width: 100%;
+  }
+  .storeDetails {
+    margin-top: none;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .storeImage {
+    text-align: center;
+  }
+  .storeName {
+  }
+  .storeDetails {
+    /* width: 100%; */
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .storeImage {
+  }
+  .storeDetails {
+    /* width: 100%; */
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .storeImage {
+  }
+  .storeName {
+    margin-top: 5.1%;
+  }
+  .storeDetails {
+    margin-top: 3.6%;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .storeImage {
+  }
+  .storeName {
+    margin-top: auto;
+  }
+  .followers {
+    margin-top: auto;
+  }
+  .reviews {
+    margin-top: auto;
+  }
+  .storeDetails {
+    margin-top: 3.5%;
+  }
+}
+</style>

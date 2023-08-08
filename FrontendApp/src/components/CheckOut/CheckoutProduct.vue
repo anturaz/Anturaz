@@ -12,36 +12,62 @@
       </q-breadcrumbs>
       <q-separator />
     </div>
-    <q-stepper class="col-8 col-md-8" flat v-model="step" vertical color="primary" animated>
+    <q-stepper
+      class="col-8 col-md-8"
+      flat
+      v-model="step"
+      vertical
+      color="primary"
+      animated
+    >
       <!-- STEP 1: SHIPPING ADDRESS -->
-      <q-step :name="1" title="Set Mode of Delivery" icon="local_shipping" :done="step > 1">
+      <q-step
+        :name="1"
+        title="Set Mode of Delivery"
+        icon="local_shipping"
+        :done="step > 1"
+      >
         <q-stepper-navigation>
           <q-list link>
             <q-item tag="label" v-ripple>
               <q-item-section avatar>
-                <q-radio v-model="mode_of_delivery" val="Pickup" color="primary" />
+                <q-radio
+                  v-model="mode_of_delivery"
+                  val="Pickup"
+                  color="primary"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Pickup</q-item-label>
-                <q-item-label
-                  caption
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, velit aut eius voluptas blanditiis quod nostrum magnam, ipsum quos obcaecati veniam sit iure earum, perferendis saepe cumque. Repellendus, labore molestias</q-item-label>
+                <q-item-label caption
+                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+                  velit aut eius voluptas blanditiis quod nostrum magnam, ipsum
+                  quos obcaecati veniam sit iure earum, perferendis saepe
+                  cumque. Repellendus, labore molestias</q-item-label
+                >
               </q-item-section>
             </q-item>
 
             <q-item tag="label" v-ripple>
               <q-item-section avatar>
-                <q-radio v-model="mode_of_delivery" val="Shipping" color="primary" />
+                <q-radio
+                  v-model="mode_of_delivery"
+                  val="Shipping"
+                  color="primary"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Shipping</q-item-label>
-                <q-item-label
-                  caption
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, velit aut eius voluptas blanditiis quod nostrum magnam, ipsum quos obcaecati veniam sit iure earum, perferendis saepe cumque. Repellendus, labore molestias</q-item-label>
+                <q-item-label caption
+                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+                  velit aut eius voluptas blanditiis quod nostrum magnam, ipsum
+                  quos obcaecati veniam sit iure earum, perferendis saepe
+                  cumque. Repellendus, labore molestias</q-item-label
+                >
               </q-item-section>
             </q-item>
           </q-list>
-          <div v-if="mode_of_delivery=='Pickup'" class="q-pa-sm">
+          <div v-if="mode_of_delivery == 'Pickup'" class="q-pa-sm">
             <q-card flat bordered>
               <q-card-section>
                 <div class="text-title text-bold">Store Address</div>
@@ -49,10 +75,14 @@
 
               <q-separator inset />
 
-              <q-card-section>{{store.house_building_st}} {{store.barangay_district}}, {{store.city_municipality}}, {{store.state_province}}, {{store.country}}</q-card-section>
+              <q-card-section
+                >{{ store.house_building_st }} {{ store.barangay_district }},
+                {{ store.city_municipality }}, {{ store.state_province }},
+                {{ store.country }}</q-card-section
+              >
             </q-card>
           </div>
-          <div v-if="mode_of_delivery=='Shipping'">
+          <div v-if="mode_of_delivery == 'Shipping'">
             <q-card flat bordered>
               <q-card-section>
                 <div class="text-title text-bold">Shipping Address</div>
@@ -130,20 +160,41 @@
         <ProductDetails :order="cart" :buttonVisible="false" />
         <q-stepper-navigation align="right">
           <q-btn @click="step = 3" color="primary" label="Continue" />
-          <q-btn flat @click="step = 1" color="primary" label="Back" class="q-ml-sm" />
+          <q-btn
+            flat
+            @click="step = 1"
+            color="primary"
+            label="Back"
+            class="q-ml-sm"
+          />
         </q-stepper-navigation>
       </q-step>
-      <q-step :name="3" title="Payment" icon="account_balance_wallet" :done="step > 3">
+      <q-step
+        :name="3"
+        title="Payment"
+        icon="account_balance_wallet"
+        :done="step > 3"
+      >
         <!-- PAYMENT -->
-        <q-tabs v-model="payment_option" dense align="left" no-caps inline-label>
+        <q-tabs
+          v-model="payment_option"
+          dense
+          align="left"
+          no-caps
+          inline-label
+        >
           <q-tab
-            :class="payment_option=='Bank Deposit'?'text-primary':'text-grey'"
+            :class="
+              payment_option == 'Bank Deposit' ? 'text-primary' : 'text-grey'
+            "
             name="Bank Deposit"
             icon="account_balance"
             label="Bank Deposit"
           />
           <q-tab
-            :class="payment_option=='Online Payment'?'text-primary':'text-grey'"
+            :class="
+              payment_option == 'Online Payment' ? 'text-primary' : 'text-grey'
+            "
             name="Online Payment"
             icon="credit_card"
             label="Online Payment"
@@ -153,15 +204,20 @@
           <!-- BANK DEPOSIT -->
           <q-tab-panel name="Bank Deposit">
             <q-list bordered>
-              <q-item clickable v-ripple @click="payment_type='Full Payment'">
+              <q-item clickable v-ripple @click="payment_type = 'Full Payment'">
                 <q-item-section avatar>
-                  <q-radio v-model="payment_type" val="Full Payment" color="primary" />
+                  <q-radio
+                    v-model="payment_type"
+                    val="Full Payment"
+                    color="primary"
+                  />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Full Payment</q-item-label>
                   <q-item-label caption>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -170,7 +226,7 @@
                 :clickable="enable_layaway_dp"
                 :disable="!enable_layaway_dp"
                 :v-ripple="enable_layaway_dp"
-                @click="payment_type='20% Downpayment'"
+                @click="payment_type = '20% Downpayment'"
               >
                 <q-item-section avatar>
                   <q-radio
@@ -183,8 +239,9 @@
                 <q-item-section>
                   <q-item-label>20% Downpayment</q-item-label>
                   <q-item-label caption>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -193,7 +250,7 @@
                 :clickable="enable_layaway_dp"
                 :disable="!enable_layaway_dp"
                 :v-ripple="enable_layaway_dp"
-                @click=" payment_type='Layaway'"
+                @click="payment_type = 'Layaway'"
               >
                 <q-item-section avatar>
                   <q-radio
@@ -206,28 +263,40 @@
                 <q-item-section>
                   <q-item-label>Layaway</q-item-label>
                   <q-item-label caption>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
                   </q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
             <br />
             <q-btn color="primary" label="Proceed" @click="bankDeposit" />
-            <q-btn flat @click="step   = 2" color="primary" label="Back" class="q-ml-sm" />
+            <q-btn
+              flat
+              @click="step = 2"
+              color="primary"
+              label="Back"
+              class="q-ml-sm"
+            />
           </q-tab-panel>
           <!-- ONLINE PAYMENT -->
           <q-tab-panel name="Online Payment">
             <q-list bordered>
-              <q-item clickable v-ripple @click="payment_type='Full Payment'">
+              <q-item clickable v-ripple @click="payment_type = 'Full Payment'">
                 <q-item-section avatar>
-                  <q-radio v-model="payment_type" val="Full Payment" color="primary" />
+                  <q-radio
+                    v-model="payment_type"
+                    val="Full Payment"
+                    color="primary"
+                  />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Full Payment</q-item-label>
                   <q-item-label caption>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -236,7 +305,7 @@
                 :clickable="enable_layaway_dp"
                 :disable="!enable_layaway_dp"
                 :v-ripple="enable_layaway_dp"
-                @click="payment_type='20% Downpayment'"
+                @click="payment_type = '20% Downpayment'"
               >
                 <q-item-section avatar>
                   <q-radio
@@ -249,8 +318,9 @@
                 <q-item-section>
                   <q-item-label>20% Downpayment</q-item-label>
                   <q-item-label caption>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -259,7 +329,7 @@
                 :clickable="enable_layaway_dp"
                 :disable="!enable_layaway_dp"
                 :v-ripple="enable_layaway_dp"
-                @click="payment_type='Layaway'"
+                @click="payment_type = 'Layaway'"
               >
                 <q-item-section avatar>
                   <q-radio
@@ -272,8 +342,9 @@
                 <q-item-section>
                   <q-item-label>Layaway</q-item-label>
                   <q-item-label caption>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -284,7 +355,13 @@
                 :onlinePaymentResult="onlinePaymentResult"
                 :preparePayment="preparePayment"
               />
-              <q-btn class="q-ml-sm" flat @click="step   = 2" color="primary" label="Back" />
+              <q-btn
+                class="q-ml-sm"
+                flat
+                @click="step = 2"
+                color="primary"
+                label="Back"
+              />
             </div>
           </q-tab-panel>
         </q-tab-panels>
@@ -293,7 +370,9 @@
       <q-step :name="4" title="Transaction Receipt" icon="receipt">
         <q-stepper-navigation>
           <ProductDetails :order="cart" :buttonVisible="false" />
-          <div align="right" class="text-grey q-pr-sm">Payment Method: {{payment_option}}</div>
+          <div align="right" class="text-grey q-pr-sm">
+            Payment Method: {{ payment_option }}
+          </div>
           <q-markup-table flat>
             <thead>
               <tr>
@@ -303,17 +382,23 @@
             </thead>
             <tbody>
               <tr v-for="BD in payment.breakdown" :key="BD.description">
-                <td class="text-left">{{BD.description}}</td>
-                <td class="text-right">{{$prettyMoney(BD.amount)}}</td>
+                <td class="text-left">{{ BD.description }}</td>
+                <td class="text-right">{{ $prettyMoney(BD.amount) }}</td>
               </tr>
               <tr>
                 <td class="text-left text-bold">TOTAL</td>
-                <td class="text-right text-bold">{{$prettyMoney(payment.total)}}</td>
+                <td class="text-right text-bold">
+                  {{ $prettyMoney(payment.total) }}
+                </td>
               </tr>
             </tbody>
           </q-markup-table>
           <div align="right" class="q-pt-md">
-            <q-btn color="primary" label="Finish" @click="$router.push('/Orders')" />
+            <q-btn
+              color="primary"
+              label="Finish"
+              @click="$router.push('/Orders')"
+            />
           </div>
         </q-stepper-navigation>
       </q-step>
@@ -378,7 +463,7 @@ export default {
 
       // // Delivery fee
       if (this.mode_of_delivery == "Shipping") {
-       breakdown.push({
+        breakdown.push({
           description: "Delivery",
           amount: this.delivery_fee
         });
@@ -722,16 +807,15 @@ export default {
       ) >= 3;
   },
   watch: {
-    city_municipality: async function(){
-     this.delivery_fee= await this.$getDeliveryTranspoFee(
-            this.store._id,
-            this.city_municipality,
-            "delivery"
-          )
+    city_municipality: async function() {
+      this.delivery_fee = await this.$getDeliveryTranspoFee(
+        this.store._id,
+        this.city_municipality,
+        "delivery"
+      );
     }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

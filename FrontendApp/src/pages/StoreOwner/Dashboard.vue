@@ -9,8 +9,11 @@
         no-caps
         :style="$q.screen.lt.md ? 'width:50vw' : 'width: 150px'"
       />
-      <a :href="'/#/StoreDetails?store=' + store.unique_link" target="_blank">
-      <!-- @click="$router.push(' + store._id) -->
+      <a
+        :href="'/#/StoreDetails?store_name=' + store.unique_link"
+        target="_blank"
+      >
+        <!-- @click="$router.push(' + store._id) -->
         <q-btn
           class="bg-white"
           color="primary"
@@ -326,7 +329,7 @@ export default {
     Reservations,
     MainMenu,
     WidgetAnnouncement,
-    Ratings,
+    Ratings
   },
   data() {
     return {
@@ -340,15 +343,15 @@ export default {
         "For Packaging",
         "For Shipping",
         "For Pickup",
-        "Completed",
+        "Completed"
       ],
       reservations: [
         "Pending Payment",
         "To Acknowledge",
         "Status",
-        "Completed",
+        "Completed"
       ],
-      tab: "sales",
+      tab: "sales"
     };
   },
 
@@ -358,16 +361,15 @@ export default {
         .service("store")
         .find({
           query: {
-            _id: this.$local.getItem("store_token"),
-          },
+            _id: this.$local.getItem("store_token")
+          }
         })
-        .then((result) => {
+        .then(result => {
           this.store = result.data[0];
         });
     });
-  },
+  }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -15,6 +15,28 @@ export default {
     //   size: "3px"
     // });
   },
+  data() {
+    return {
+      url: this.$route.path
+    };
+  },
+  watch: {
+    "$route.path": {
+      handler: function(path) {
+        path != "/"
+          ? document
+              .querySelector(".q-layout.q-layout--standard")
+              .classList.remove("bg-image")
+          : document
+              .querySelector(".q-layout.q-layout--standard")
+              .classList.add("bg-image");
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  mounted() {
+    console.log("route: ", url);
+  }
 };
 </script>
-

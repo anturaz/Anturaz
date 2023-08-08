@@ -8,40 +8,47 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label
-          class="text-title"
-          lines="1"
-        >{{(item.type=="products"?data.product_name:data.service_name)}}</q-item-label>
+        <q-item-label class="text-title" lines="1">{{
+          item.type == "products" ? data.product_name : data.service_name
+        }}</q-item-label>
         <q-item-label caption lines="2">
           <span class="text-weight-bold">Category:</span>
-          {{data.category}}
+          {{ data.category }}
         </q-item-label>
         <q-item-label caption lines="2">
           <span class="text-weight-bold">Type:</span>
-          {{item.type=='products'? "Product": "Service"}}
+          {{ item.type == "products" ? "Product" : "Service" }}
         </q-item-label>
-        <div v-if="item.type=='products'">
+        <div v-if="item.type == 'products'">
           <q-item-label caption lines="2">
-            <span class="text-weight-bold" v-if="item.size!=undefined">Size:</span>
-            {{item.size}}
+            <span class="text-weight-bold" v-if="item.size != undefined"
+              >Size:</span
+            >
+            {{ item.size }}
           </q-item-label>
           <q-item-label caption lines="2">
-            <span class="text-weight-bold" v-if="item.color!=undefined">Color:</span>
-            {{item.color}}
+            <span class="text-weight-bold" v-if="item.color != undefined"
+              >Color:</span
+            >
+            {{ item.color }}
           </q-item-label>
           <q-item-label caption lines="2">
-            <span class="text-weight-bold" v-if="item.material!=undefined">Material:</span>
-            {{item.material}}
+            <span class="text-weight-bold" v-if="item.material != undefined"
+              >Material:</span
+            >
+            {{ item.material }}
           </q-item-label>
         </div>
       </q-item-section>
 
       <q-item-section side top>
         <div>
-          <span class="text-primary text-title text-bold">{{$prettyMoney(data.sale_price)}}&nbsp;</span>
-          <strike>{{$prettyMoney(data.regular_price)}}</strike>
+          <span class="text-primary text-title text-bold"
+            >{{ $prettyMoney(data.sale_price) }}&nbsp;</span
+          >
+          <strike>{{ $prettyMoney(data.regular_price) }}</strike>
         </div>
-        <div>Qty {{item.quantity}}</div>
+        <div>Qty {{ item.quantity }}</div>
         <q-space />
         <div>
           <q-btn label="Remove" color="red-2" flat @click="removeItem()" />
@@ -75,7 +82,7 @@
 <script>
 import ShopperLoginForm from "components/shopperLoginForm.vue";
 export default {
-  props: ["item","index"],
+  props: ["item", "index"],
   components: {
     ShopperLoginForm
   },
@@ -101,8 +108,8 @@ export default {
           if (this.item._id == undefined) {
             //IF TRUE MEANING NAKALOGOUT ANG USER
             var cart = this.$session.get("cart");
-            cart.splice(this.index,1)
-            this.$session.set("cart",cart)
+            cart.splice(this.index, 1);
+            this.$session.set("cart", cart);
             this.$EventBus.$emit("modify-cart", null);
           } else {
             //NAKALOGIN ANG USER
@@ -131,7 +138,7 @@ export default {
   },
   mounted() {
     this.$dbCon
-      .service((this.item.type=="products"?'products':'services'))
+      .service(this.item.type == "products" ? "products" : "services")
       .find({
         query: {
           _id: this.item.item_id
@@ -144,5 +151,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

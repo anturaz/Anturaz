@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg row justify-center">
-    <div class="col-md-8 col-sm-12 row">
+    <div class="col-md-9 col-sm-12 row">
       <!-- HEADER -->
       <div class="col-12">
         <q-breadcrumbs class="q-pb-md text-grey">
@@ -16,18 +16,37 @@
       </div>
 
       <!-- IMAGES -->
-      <div class="col-md-6 col-sm-12 q-pt-md">
+      <div class="col-md-5 col-sm-12 q-pt-md">
         <div style="overflow: hidden; height: 400px">
           <q-img :src="currentPicture" :ratio="1" />
         </div>
-        <div class="q-pt-sm row">
+        <div class="q-pt-sm row" v-if="data.photos && data.photos.length">
           <q-card
+            v-for="(photo, index) in data.photos"
             flat
             bordered
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 0 ? $primaryColor : 'white')
+                (currentIndexPicture == 0 ? $primaryColor : 'white')
+            "
+            class="col-3"
+            outline
+            color="grey"
+            style="overflow: hidden; height: 100px; cursor: pointer"
+            @click="(currentPicture = photo), (currentIndexPicture = index)"
+            :key="index"
+          >
+            <q-img :src="photo" :ratio="1" />
+          </q-card>
+
+          <!-- <q-card
+            flat
+            bordered
+            square
+            :style="
+              'border-width:medium;border-color:' +
+                (currentIndexPicture == 0 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -45,7 +64,7 @@
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 1 ? $primaryColor : 'white')
+                (currentIndexPicture == 1 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -63,7 +82,7 @@
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 2 ? $primaryColor : 'white')
+                (currentIndexPicture == 2 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -81,7 +100,7 @@
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 3 ? $primaryColor : 'white')
+                (currentIndexPicture == 3 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -92,218 +111,236 @@
             "
           >
             <q-img :src="data.photos[3]" :ratio="1" />
-          </q-card>
+          </q-card> -->
         </div>
       </div>
-
+      <div class="col-1 "></div>
       <!-- DESCRIPTION 1 -->
       <div class="col-6 q-pt-md q-pl-md">
-        <div class="text-h5 text-primary">{{ data.product_name }}</div>
-        <q-rating :value="2" size="1em" :max="5" color="primary" />100 Rating
+        <div class="bg-white">
+          <div class="text-h5 text-primary">{{ data.product_name }}</div>
+          <q-rating :value="2" size="1em" :max="5" color="primary" />100 Rating
 
-        <!-- PRICE -->
-        <div class="row">
-          <div class="q-pr-sm text-title self-center">
-            <strike class="text-grey">&#8369;{{ data.regular_price }}</strike
-            >&nbsp;
+          <!-- PRICE -->
+          <div class="row">
+            <div class="q-pr-sm text-title self-center">
+              <strike class="text-grey">&#8369;{{ data.regular_price }}</strike
+              >&nbsp;
+            </div>
+            <div class="q-pr-sm text-primary text-bold text-h4 self-center">
+              &#8369;{{ data.sale_price }}
+            </div>
+            <q-chip
+              color="primary"
+              dense
+              text-color="white"
+              class="self-center"
+            >
+              {{
+                Math.round(100 - (data.sale_price / data.regular_price) * 100)
+              }}% OFF
+            </q-chip>
           </div>
-          <div class="q-pr-sm text-primary text-bold text-h4 self-center">
-            &#8369;{{ data.sale_price }}
-          </div>
-          <q-chip color="primary" dense text-color="white" class="self-center">
-            {{
-              Math.round(100 - (data.sale_price / data.regular_price) * 100)
-            }}% OFF
-          </q-chip>
-        </div>
-        <!-- STORE BUTTON -->
-        <q-list bordered class="q-mt-sm q-mb-sm full-width">
-          <q-item
-            clickable
-            v-ripple
-            @click="$router.push('/StoreDetails?store=' + store._id)"
-          >
-            <q-item-section avatar>
-              <q-icon v-if="store.logo == ''" name="store" color="grey" />
-              <q-img v-if="store.logo != ''" :src="data.photos[3]" :ratio="1" />
-            </q-item-section>
-            <q-item-section class="text-grey">{{
-              store.store_name
-            }}</q-item-section>
-          </q-item>
-        </q-list>
-        <!-- ORDERING FORM -->
-        <q-card flat bordered square>
-          <q-card-section class="row justify-center">
-            <!-- SIZE -->
-            <div class="col-8" v-if="data.size.length != 0">
-              <span class="text-bold">Size:</span>
-              <q-space />
-              <q-chip
-                :disable="data.stock == 0"
-                :class="size == s ? 'bg-primary text-white' : 'grey'"
-                clickable
-                square
-                @click="size = s"
-                v-for="s in data.size"
-                :key="s"
-                >{{ s }}</q-chip
-              >
-            </div>
-            <!-- COLOR -->
-            <div class="col-8" v-if="data.color.length != 0">
-              <span class="text-bold">Color:</span>
-              <q-space />
-              <q-chip
-                :disable="data.stock == 0"
-                :class="color == c ? 'bg-primary text-white' : 'grey'"
-                clickable
-                square
-                @click="color = c"
-                v-for="c in data.color"
-                :key="c"
-                >{{ c }}</q-chip
-              >
-            </div>
-            <!-- MATERIAL -->
-            <div class="col-8" v-if="data.material.length != 0">
-              <span class="text-bold">Material:</span>
-              <q-space />
-              <q-chip
-                :disable="data.stock == 0"
-                :class="material == m ? 'bg-primary text-white' : 'grey'"
-                clickable
-                square
-                @click="material = m"
-                v-for="m in data.material"
-                :key="m"
-                >{{ m }}</q-chip
-              >
-            </div>
-            <!-- QUANTITY -->
-            <div class="col-8">
-              <span class="text-title text-bold">Quantity:</span>
-              <q-input
-                type="number"
-                class="col-1"
-                :disable="data.stock == 0"
-                v-model="quantity"
-                debounce="200"
-                outlined
-                squared
-                dense
-              />
-              <div align="right">
-                <span class="text-grey">Only {{ data.stock }} items left!</span>
+          <!-- STORE BUTTON -->
+          <q-list class="q-mt-sm q-mb-sm full-width">
+            <q-item
+              clickable
+              v-ripple
+              @click="$router.push('/StoreDetails?store=' + store._id)"
+            >
+              <q-item-section avatar>
+                <q-icon v-if="store.logo == ''" name="store" color="grey" />
+                <q-img
+                  v-if="store.logo != ''"
+                  :src="data.photos[3]"
+                  :ratio="1"
+                />
+              </q-item-section>
+              <q-item-section class="text-grey">{{
+                store.store_name
+              }}</q-item-section>
+            </q-item>
+          </q-list>
+          <!-- ORDERING FORM -->
+          <q-card flat bordered square>
+            <q-card-section class="row justify-center">
+              <!-- SIZE -->
+              <div class="col-8" v-if="data.size.length != 0">
+                <span class="text-bold">Size:</span>
+                <q-space />
+                <q-chip
+                  :disable="data.stock == 0"
+                  :class="size == s ? 'bg-primary text-white' : 'grey'"
+                  clickable
+                  square
+                  @click="size = s"
+                  v-for="s in data.size"
+                  :key="s"
+                  >{{ s }}</q-chip
+                >
               </div>
-            </div>
-            <!-- GIFTWRAPPING -->
-            <div class="col-8">
-              <span class="text-bold">Gift wrapping:</span>
-              <div>
-                <q-checkbox v-model="giftwrapping" label="Gift wrap the item" />
+              <!-- COLOR -->
+              <div class="col-8" v-if="data.color.length != 0">
+                <span class="text-bold">Color:</span>
+                <q-space />
+                <q-chip
+                  :disable="data.stock == 0"
+                  :class="color == c ? 'bg-primary text-white' : 'grey'"
+                  clickable
+                  square
+                  @click="color = c"
+                  v-for="c in data.color"
+                  :key="c"
+                  >{{ c }}</q-chip
+                >
               </div>
-              <div class="q-pl-md" v-if="giftwrapping">
-                <div class="text-grey">Gift wrap color:</div>
-                <div>
-                  <q-btn
-                    v-for="color in store.giftwrapping.colors"
-                    :key="color"
-                    rounded
-                    unelevated
-                    @click="giftwrapping_color = color"
-                    class="q-mr-sm"
-                    :color="giftwrapping_color == color ? 'primary' : 'grey-4'"
+              <!-- MATERIAL -->
+              <div class="col-8" v-if="data.material.length != 0">
+                <span class="text-bold">Material:</span>
+                <q-space />
+                <q-chip
+                  :disable="data.stock == 0"
+                  :class="material == m ? 'bg-primary text-white' : 'grey'"
+                  clickable
+                  square
+                  @click="material = m"
+                  v-for="m in data.material"
+                  :key="m"
+                  >{{ m }}</q-chip
+                >
+              </div>
+              <!-- QUANTITY -->
+              <div class="col-8">
+                <span class="text-title text-bold">Quantity:</span>
+                <q-input
+                  type="number"
+                  class="col-1"
+                  :disable="data.stock == 0"
+                  v-model="quantity"
+                  debounce="200"
+                  outlined
+                  squared
+                  dense
+                />
+                <div align="right">
+                  <span class="text-grey"
+                    >Only {{ data.stock }} items left!</span
                   >
-                    <span
-                      v-bind:style="{ 'background-color': color }"
-                      style="
+                </div>
+              </div>
+              <!-- GIFTWRAPPING -->
+              <div class="col-8">
+                <span class="text-bold">Gift wrapping:</span>
+                <div>
+                  <q-checkbox
+                    v-model="giftwrapping"
+                    label="Gift wrap the item"
+                  />
+                </div>
+                <div class="q-pl-md" v-if="giftwrapping">
+                  <div class="text-grey">Gift wrap color:</div>
+                  <div>
+                    <q-btn
+                      v-for="color in store.giftwrapping.colors"
+                      :key="color"
+                      rounded
+                      unelevated
+                      @click="giftwrapping_color = color"
+                      class="q-mr-sm"
+                      :color="
+                        giftwrapping_color == color ? 'primary' : 'grey-4'
+                      "
+                    >
+                      <span
+                        v-bind:style="{ 'background-color': color }"
+                        style="
                         height: 25px;
                         width: 25px;
                         border-radius: 50%;
                         display: inline-block;
                       "
-                    />
-                  </q-btn>
+                      />
+                    </q-btn>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- DATE NEEDED -->
-            <div class="col-8">
-              <span class="text-title text-bold">Date Needed:</span>
-              <br />
-              <div class="q-pl-sm">
-                <span class="text-grey text-subtitle2"
-                  >*Should be at least 5 days prior to the date of
-                  purchase</span
-                >
-                <span
-                  class="text-red text-subtitle2 q-pt-xs"
-                  v-if="
-                    $getDateDiff(
-                      date_needed,
-                      this.$addToDate(new Date(), 5, 0),
-                      'months'
-                    ) < 3
-                  "
-                >
-                  <br />*Only <b>Full Payment</b> is applicable with the
-                  selected date needed
-                </span>
-              </div>
-              <br />
-              <div align="center">
-                <!-- DATE NEEDED -->
-                <q-input
-                  outlined
-                  class="col-12 q-pt-sm"
-                  :disable="data.stock == 0"
-                  :value="$formatDate_DateOnly(date_needed)"
-                >
-                  <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer" />
-                  </template>
-                  <q-popup-proxy
-                    transition-show="scale"
-                    transition-hide="scale"
+              <!-- DATE NEEDED -->
+              <div class="col-8">
+                <span class="text-title text-bold">Date Needed:</span>
+                <br />
+                <div class="q-pl-sm">
+                  <span class="text-grey text-subtitle2"
+                    >*Should be at least 5 days prior to the date of
+                    purchase</span
                   >
-                    <q-date
-                      :disable="data.stock == 0"
-                      v-model="date_needed"
-                      :options="
-                        (date) =>
-                          date >=
-                          this.$formatDateForPicker(
-                            this.$addToDate(new Date(), 5, 0)
-                          )
-                      "
-                    />
-                  </q-popup-proxy>
-                </q-input>
+                  <span
+                    class="text-red text-subtitle2 q-pt-xs"
+                    v-if="
+                      $getDateDiff(
+                        date_needed,
+                        this.$addToDate(new Date(), 5, 0),
+                        'months'
+                      ) < 3
+                    "
+                  >
+                    <br />*Only <b>Full Payment</b> is applicable with the
+                    selected date needed
+                  </span>
+                </div>
+                <br />
+                <div align="center">
+                  <!-- DATE NEEDED -->
+                  <q-input
+                    outlined
+                    class="col-12 q-pt-sm"
+                    :disable="data.stock == 0"
+                    :value="$formatDate_DateOnly(date_needed)"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer" />
+                    </template>
+                    <q-popup-proxy
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date
+                        :disable="data.stock == 0"
+                        v-model="date_needed"
+                        :options="
+                          date =>
+                            date >=
+                            this.$formatDateForPicker(
+                              this.$addToDate(new Date(), 5, 0)
+                            )
+                        "
+                      />
+                    </q-popup-proxy>
+                  </q-input>
+                </div>
               </div>
-            </div>
-            <!-- CHECKOUT / ADD TO CART -->
-            <div class="q-pt-sm row justify-center">
-              <q-btn
-                unelevated
-                color="primary"
-                class="col-10"
-                size="md"
-                label="Proceed to checkout"
-                @click="checkLogin"
-              />
-              <q-btn
-                flat
-                color="grey"
-                class="col-10"
-                size="md"
-                label="Add to cart"
-                icon="add_shopping_cart"
-                @click="addToCart"
-              />
-            </div>
-          </q-card-section>
-        </q-card>
+              <!-- CHECKOUT / ADD TO CART -->
+              <div class="q-pt-sm row justify-center">
+                <q-btn
+                  unelevated
+                  color="primary"
+                  class="col-10"
+                  size="md"
+                  label="Proceed to checkout"
+                  @click="checkLogin"
+                />
+                <q-btn
+                  flat
+                  color="grey"
+                  class="col-10"
+                  size="md"
+                  label="Add to cart"
+                  icon="add_shopping_cart"
+                  @click="addToCart"
+                />
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
       <div class="col-12 q-pt-md">
         <!-- DESCRIPTION AND REVIEW -->
@@ -383,7 +420,7 @@ export default {
   components: {
     ShopperLoginForm,
     RecommendedProducts,
-    CheckoutProduct,
+    CheckoutProduct
   },
   data() {
     return {
@@ -404,23 +441,38 @@ export default {
       quantity: "1",
       loginForm: false,
       checkout: false,
+      service_transactions: []
     };
   },
   methods: {
-    afterLogin: function () {
+    // get all service transaction
+    getAllServiceTrans: async function() {
+      try {
+        const response = await this.$dbCon
+          .service("service-transactions")
+          .find({
+            query: {
+              _id: this.data.store_id
+            }
+          });
+        console.log("service transaction", response);
+      } catch (e) {}
+    },
+
+    afterLogin: function() {
       this.loginForm = false;
       this.checkLogin();
     },
-    checkIfLoggedIn: async function () {
+    checkIfLoggedIn: async function() {
       var checker = true;
       await this.$dbCon
         .authenticate()
-        .then((response) => {
+        .then(response => {
           if (this.$local.has("user_token")) {
             this.$dbCon
               .service("users")
               .find({ query: { _id: this.$local.getItem("user_token") } })
-              .then((results) => {
+              .then(results => {
                 if (results.data[0].system_user_type == "Shopper") {
                   checker = true;
                 } else {
@@ -431,12 +483,12 @@ export default {
             checker = false;
           }
         })
-        .catch((e) => {
+        .catch(e => {
           checker = false;
         });
       return checker;
     },
-    addToCart: async function () {
+    addToCart: async function() {
       //VALIDATE FIRST
       if (await this.checkIfLoggedIn()) {
         this.addToCartSignedIn();
@@ -444,7 +496,7 @@ export default {
         this.addToCartNotSignedIn();
       }
     },
-    addToCartSignedIn: async function () {
+    addToCartSignedIn: async function() {
       this.$dbCon
         .service("cart")
         .create({
@@ -461,8 +513,8 @@ export default {
           giftwrapping_details: {
             color: this.giftwrapping_color,
             size: this.giftwrapping_size,
-            price: this.store.giftwrapping.charges[this.giftwrapping_size],
-          },
+            price: this.store.giftwrapping.charges[this.giftwrapping_size]
+          }
         })
         .then(() => {
           this.$q.notify({
@@ -470,11 +522,11 @@ export default {
             position: "top-right",
             color: "green",
             timeout: 700,
-            icon: "shopping_cart",
+            icon: "shopping_cart"
           });
         });
     },
-    addToCartNotSignedIn: function () {
+    addToCartNotSignedIn: function() {
       var cart = [];
       if (this.$session.has("cart")) {
         cart = this.$session.get("cart");
@@ -494,8 +546,8 @@ export default {
         giftwrapping_details: {
           color: this.giftwrapping_color,
           size: this.giftwrapping_size,
-          price: this.store.giftwrapping.charges[this.giftwrapping_size],
-        },
+          price: this.store.giftwrapping.charges[this.giftwrapping_size]
+        }
       });
       this.$session.set("cart", cart);
       this.$q.notify({
@@ -503,11 +555,11 @@ export default {
         position: "top-right",
         color: "green",
         timeout: 700,
-        icon: "shopping_cart",
+        icon: "shopping_cart"
       });
       this.$EventBus.$emit("modify-cart", null);
     },
-    checkoutSignedIn: async function () {
+    checkoutSignedIn: async function() {
       this.$dbCon
         .service("cart")
         .create({
@@ -524,14 +576,14 @@ export default {
           giftwrapping_details: {
             color: this.giftwrapping_color,
             size: this.giftwrapping_size,
-            price: this.store.giftwrapping.charges[this.giftwrapping_size],
-          },
+            price: this.store.giftwrapping.charges[this.giftwrapping_size]
+          }
         })
-        .then((response) => {
+        .then(response => {
           this.$router.push("/CheckoutProduct/" + response._id);
         });
     },
-    checkLogin: async function () {
+    checkLogin: async function() {
       this.$dbCon
         .authenticate()
         .then(() => {
@@ -540,10 +592,10 @@ export default {
         .catch(() => {
           this.loginForm = true;
         });
-    },
+    }
   },
   watch: {
-    quantity: function () {
+    quantity: function() {
       if (this.quantity < 1) {
         this.quantity = 1;
       }
@@ -553,7 +605,7 @@ export default {
       if (this.quantity > this.data.stock) {
         this.quantity = this.data.stock;
       }
-    },
+    }
   },
   async mounted() {
     //GET ALL PRODUCT TRANSACTIONS
@@ -562,20 +614,20 @@ export default {
       .find({
         query: {
           item_id: this.$route.params.product,
-          status: "Done",
-        },
+          status: "Done"
+        }
       })
-      .then((results) => {
+      .then(results => {
         this.product_transactions = results.data;
       });
     await this.$dbCon
       .service("products")
       .find({
         query: {
-          _id: this.$route.params.product,
-        },
+          _id: this.$route.params.product
+        }
       })
-      .then((results) => {
+      .then(results => {
         this.data = results.data[0];
         this.currentPicture = this.data.photos[0];
       });
@@ -583,14 +635,15 @@ export default {
       .service("store")
       .find({
         query: {
-          _id: this.data.store_id,
-        },
+          _id: this.data.store_id
+        }
       })
-      .then((results) => {
+      .then(results => {
         this.store = results.data[0];
         this.giftwrapping_color = this.store.giftwrapping.colors[0];
       });
+    this.getAllServiceTrans();
     this.$router.push(this.$route.path);
-  },
+  }
 };
 </script>
