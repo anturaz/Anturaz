@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row justify-center q-mt-xl q-pa-lg">
-      <div style="width: 100%; max-width: 1200px;" class="row items-center">
+      <div style="width: 100%; max-width: 1200px" class="row items-center">
         <div
           class="storeImage col-6 q-mt-xl row col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
         >
@@ -17,70 +17,12 @@
           >
             {{ data.store_name }}
           </div>
-
-          <div
-            class="row  text-center  "
-            style="width: 100%;"
-            v-if="$q.screen.lt.sm"
-          >
-            <div class="col-6">
-              <div
-                class="followers q-mt-md q-ml-xm text-black q-mr-md q-px-none"
-              >
-                <div class=" q-gutter-sm">
-                  <q-btn
-                    size="12px"
-                    flat
-                    icon="person_add"
-                    label="20,000 Followers"
-                    style=" padding: 0;"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="reviews q-mt-md q-ml-xm text-black ">
-                <div class=" q-gutter-sm">
-                  <q-btn
-                    flat
-                    size="12px"
-                    icon="star"
-                    label="49 Reviews"
-                    style=" padding: 0;"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            v-if="!$q.screen.lt.sm"
-            class="followers q-mt-md q-ml-xm text-black q-mr-md q-px-none"
-          >
-            <div class=" q-gutter-sm">
-              <q-btn
-                flat
-                icon="person_add"
-                label="200 Followers"
-                style=" padding: 0;"
-              />
-            </div>
-          </div>
-
-          <div
-            v-if="!$q.screen.lt.sm"
-            class="reviews q-mt-md q-ml-xm text-black "
-          >
-            <div class=" q-gutter-sm">
-              <q-btn flat icon="star" label="49 Reviews" style=" padding: 0;" />
-            </div>
-          </div>
         </div>
 
         <div
-          class="storeDetails col-6  col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
+          class="storeDetails col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
         >
-          <div class="col-6  col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 ">
+          <div class="col-6 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12">
             <q-tabs
               v-model="tab"
               dense
@@ -194,35 +136,35 @@ export default {
     StoreTab,
     ReviewsTab,
     PortfolioTab,
-    ContactTab
+    ContactTab,
   },
 
   data() {
     return {
       tab: "store",
-      data: []
+      data: [],
     };
   },
   watch: {},
   methods: {
-    getData: function() {
+    getData: function () {
       this.$dbCon
         .service("store")
         .find({
           query: {
-            _id: this.$route.query.store
-          }
+            _id: this.$route.query.store,
+          },
         })
-        .then(results => {
+        .then((results) => {
           this.data = results.data[0];
         });
-    }
+    },
   },
   mounted() {
     this.$dbCon.service("store").onDataChange(() => {
       this.getData();
     });
-  }
+  },
 };
 </script>
 

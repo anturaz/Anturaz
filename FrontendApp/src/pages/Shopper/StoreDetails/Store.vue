@@ -1,96 +1,151 @@
 <template>
-  <div class=" q-pt-md row">
-    <q-input
-      class="col-sm-12 col-md-2 offset-md-10"
-      rounded
-      outlined
-      dense
-      placeholder="Search in this store"
-      v-model="search"
-      input-class="text-right"
-      debounce="500"
-    >
-      <template v-slot:append>
-        <q-icon v-if="search === ''" name="search" />
-        <q-icon
-          v-else
-          name="clear"
-          class="cursor-pointer"
-          @click="search = ''"
-        />
-      </template>
-    </q-input>
-    <div class="col-md-2 q-pt-md">
-      <SearchQuery
-        :payment_terms="payment_terms"
-        :price="price"
-        :rating="rating"
-      />
-    </div>
-    <div class="col-md-8 q-pt-md q-pl-md">
-      <div class="row">
-        <q-card
-          flat
-          bordered
-          class="q-ma-sm"
-          v-for="(item, index) in data"
-          :key="item._id"
-          @mouseover="currentItem = index"
-          @mouseleave="currentItem = 'none'"
+  <div>
+    <div class="row justify-between q-mt-sm">
+      <div class="col-6 row col-md-6 col-sm-12 col-xs-12">
+        <div class="col-4 col-xs-6 row-btn-class text-center">
+          <q-btn
+            size="12px"
+            flat
+            icon="person_add"
+            label="20,000 Followers"
+            style="padding: 0"
+          />
+        </div>
+        <div class="col-4 col-xs-6 row-btn-class text-center">
+          <q-btn
+            flat
+            size="12px"
+            icon="star"
+            label="49 Reviews"
+            style="padding: 0"
+          />
+        </div>
+      </div>
+      <div class="row col-6 col-md-6 col-sm-12 col-xs-12" align="right">
+        <q-input
+          class="col-sm-12 col-xs-12 col-md-4 offset-md-8"
+          rounded
+          outlined
+          dense
+          placeholder="Search in this store"
+          v-model="search"
+          input-class="text-right"
+          debounce="500"
         >
-          <q-card-section style="height: 180px; width: 200px">
-            <q-img :ratio="1" :src="item.photos[0]" />
-          </q-card-section>
-          <q-card-section style="height: 75px; width: 200px">
-            <div class="text-title text-bold" v-if="'product_name' in item">
-              {{ item.product_name }}
-            </div>
-            <div class="text-title text-bold" v-if="'service_name' in item">
-              {{ item.service_name }}
-            </div>
-            <div>
-              <font class="text-bold text-primary">{{
-                item.sale_price != ""
-                  ? $prettyMoney(item.sale_price)
-                  : $prettyMoney(item.regular_price)
-              }}</font>
-              <font class="text-grey q-pl-sm" v-if="item.sale_price != ''">
-                <strike>{{ $prettyMoney(item.regular_price) }}</strike>
-              </font>
-            </div>
-            <div class="row">
-              <div>Store: &nbsp;</div>
-              <div class="text-primary" style="cursor: pointer">
-                {{ $parent.data.store_name }}
+          <template v-slot:append>
+            <q-icon v-if="search === ''" name="search" />
+            <q-icon
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="search = ''"
+            />
+          </template>
+        </q-input>
+      </div>
+    </div>
+
+    <div class="q-pt-md row">
+      <!-- <q-input
+        class="col-sm-12 col-md-2 offset-md-10"
+        rounded
+        outlined
+        dense
+        placeholder="Search in this store"
+        v-model="search"
+        input-class="text-right"
+        debounce="500"
+      >
+        <template v-slot:append>
+          <q-icon v-if="search === ''" name="search" />
+          <q-icon
+            v-else
+            name="clear"
+            class="cursor-pointer"
+            @click="search = ''"
+          />
+        </template>
+      </q-input> -->
+      <div class="col-md-2 q-pt-md">
+        <SearchQuery
+          :payment_terms="payment_terms"
+          :price="price"
+          :rating="rating"
+        />
+      </div>
+      <div class="col-md-8 q-pt-md q-pl-md">
+        <div class="row">
+          <q-card
+            flat
+            bordered
+            class="q-ma-sm"
+            v-for="(item, index) in data"
+            :key="item._id"
+            @mouseover="currentItem = index"
+            @mouseleave="currentItem = 'none'"
+          >
+            <q-card-section style="height: 180px; width: 200px">
+              <q-img :ratio="1" :src="item.photos[0]" />
+            </q-card-section>
+            <q-card-section style="height: 75px; width: 200px">
+              <div
+                class="text-title text-bold q-mt-md"
+                v-if="'product_name' in item"
+              >
+                {{ item.product_name }}
               </div>
-            </div>
-          </q-card-section>
-          <q-card-section style="height: 55px; width: 200px" align="right">
-            <transition
-              appear
-              enter-active-class="animated slideInUp"
-              leave-active-class="animated fadeOut"
-            >
-              <q-btn
+              <div class="text-title text-bold" v-if="'service_name' in item">
+                {{ item.service_name }}
+              </div>
+              <div>
+                <font class="text-bold text-primary">{{
+                  item.sale_price != ""
+                    ? $prettyMoney(item.sale_price)
+                    : $prettyMoney(item.regular_price)
+                }}</font>
+                <font class="text-grey q-pl-sm" v-if="item.sale_price != ''">
+                  <strike>{{ $prettyMoney(item.regular_price) }}</strike>
+                </font>
+              </div>
+              <div class="row">
+                <div>Store: &nbsp;</div>
+                <div class="text-primary" style="cursor: pointer">
+                  {{ $parent.data.store_name }}
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-section style="height: 55px; width: 200px" align="right">
+              <!-- <q-btn
                 class="full-width"
                 v-if="'product_name' in item && currentItem == index"
                 color="primary"
-                label="Views >"
+                label="Views"
+                @click="
+                  $router.replace({ path: `/ProductDetails/${item._id}` })
+                "
+                unelevated
+              /> -->
+              <q-btn
+                class="full-width"
+                color="primary"
+                label="Views"
                 @click="
                   $router.replace({ path: `/ProductDetails/${item._id}` })
                 "
                 unelevated
               />
-            </transition>
-            <q-btn
-              v-if="'service_name' in item"
-              color="primary"
-              label="Views >"
-              @click="$router.replace({ path: `/ServiceDetails/${item._id}` })"
-              unelevated
-            />
-          </q-card-section>
-        </q-card>
+              <q-btn
+                v-if="'service_name' in item"
+                color="primary"
+                label="Views"
+                @click="
+                  $router.replace({ path: `/ServiceDetails/${item._id}` })
+                "
+                unelevated
+              />
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
     </div>
   </div>
@@ -99,7 +154,7 @@
 import SearchQuery from "../../../components/searchQuery.vue";
 export default {
   components: {
-    SearchQuery
+    SearchQuery,
   },
   data() {
     return {
@@ -109,46 +164,47 @@ export default {
       payment_terms: {
         cash_on_delivery: false,
         credit_debit_card: false,
+        cash_on_fulfillment: false,
         zero_interest: false,
-        layaway: false
+        layaway: false,
       },
       price: {
         min: "",
-        max: ""
+        max: "",
       },
       rating: {
         five: true,
         four: true,
         three: true,
         two: false,
-        one: false
+        one: false,
       },
       data: [],
       err: null,
-      store: {}
+      store: {},
     };
   },
   methods: {
-    getProductData: async function() {
+    getProductData: async function () {
       var query = {
-        store_id: this.store._id
+        store_id: this.store._id,
       };
       const res = await this.$dbCon.service("products").find({
-        query: query
+        query: query,
       });
       const products = [...res.data];
       console.log("sawa na ako", products);
       // return products;
     },
 
-    getData: async function() {
+    getData: async function () {
       var products = [];
       var services = [];
 
       console.log("store id", this.store._id);
 
       var query = {
-        store_id: this.store._id
+        store_id: this.store._id,
       };
       if (this.search.trim() != "") {
         query["$search"] = this.search;
@@ -158,10 +214,10 @@ export default {
 
       try {
         const resProducts = await this.$dbCon.service("products").find({
-          query: query
+          query: query,
         });
         const resServices = await this.$dbCon.service("services").find({
-          query: query
+          query: query,
         });
         products = [...resProducts.data];
         // services.push(...resServices.data);
@@ -197,7 +253,7 @@ export default {
       console.log("realshit na to", ...products);
       this.data = [...products, ...services];
       this.$forceUpdate();
-    }
+    },
   },
   async mounted() {
     this.getProductData();
@@ -206,10 +262,10 @@ export default {
       .service("store")
       .find({
         query: {
-          _id: this.$route.query.store
-        }
+          _id: this.$route.query.store,
+        },
       })
-      .then(result => {
+      .then((result) => {
         this.store = result.data[0];
       });
     await this.$dbCon.service("products").onDataChange(() => {
@@ -218,16 +274,18 @@ export default {
     console.log("BUTTON", this.$refs.btn_view0);
   },
   watch: {
-    search: function() {
+    search: function () {
       this.getData();
-    }
+    },
   },
   computed: {
     trueCount() {
-      return Object.values(this.rating).filter(value => value === true).length;
+      return Object.values(this.rating).filter((value) => value === true)
+        .length;
     },
     falseCount() {
-      return Object.values(this.rating).filter(value => value === false).length;
+      return Object.values(this.rating).filter((value) => value === false)
+        .length;
     },
     totalCount() {
       return this.trueCount + this.falseCount;
@@ -237,7 +295,36 @@ export default {
     },
     falsePercentage() {
       return (this.falseCount / this.totalCount) * 100;
-    }
-  }
+    },
+  },
 };
 </script>
+
+<style scoped>
+@media (min-width: 576px) {
+  .row-btn-class {
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .row-btn-class {
+    text-align: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .row-btn-class {
+    text-align: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row-btn-class {
+    text-align: left;
+  }
+}
+
+@media (min-width: 1400px) {
+}
+</style>
