@@ -5,12 +5,14 @@
       <q-checkbox
         v-model="payment_terms.cash_on_delivery"
         label="Cash on Delivery"
+        ref="paymen_terms_cash"
       />
       <br />
       <q-checkbox
         v-model="payment_terms.cash_on_fulfillment"
         label="Cash on Fulfillment"
       />
+
       <br />
       <q-checkbox v-model="payment_terms.layaway" label="Layaway" />
     </div>
@@ -38,7 +40,7 @@
       />
       <q-btn
         color="primary"
-        @click="$parent.getData ? $parent.getData : $parent.queryItems"
+        @click="$parent.getData ? $parent.getData() : $parent.queryItems()"
         class="col-2"
         label=">"
         unelevated
@@ -48,9 +50,9 @@
     <q-separator />
     <br />
     <p class="text-subtitle1">Rating</p>
-    <q-checkbox v-model="rating.five" />
-    <q-rating readonly :value="5" size="2em" :max="5" color="primary" />
-    <br />
+    <!-- <q-checkbox v-model="rating.five" /> -->
+    <q-rating v-model="rating" size="2em" :max="5" :min="0" color="primary" />
+    <!-- <br />
     <q-checkbox v-model="rating.four" />
     <q-rating readonly :value="4" size="2em" :max="5" color="primary" />
     <br />
@@ -61,7 +63,7 @@
     <q-rating readonly :value="2" size="2em" :max="5" color="primary" />
     <br />
     <q-checkbox v-model="rating.one" />
-    <q-rating readonly :value="1" size="2em" :max="5" color="primary" />
+    <q-rating readonly :value="1" size="2em" :max="5" color="primary" /> -->
   </div>
 </template>
 <script>

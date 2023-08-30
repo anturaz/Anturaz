@@ -31,6 +31,7 @@
               class="tabsDetails text-black q-mt-lg"
             >
               <q-tab class="q-mt-md" name="store" label="store" />
+              <q-tab class="q-mt-md" name="about" label="about" />
               <q-tab class="q-mt-md" name="reviews" label="reviews" />
               <q-tab class="q-mt-md" name="portfolio" label="portfolio" />
               <q-tab class="q-mt-md" name="contact" label="contact" />
@@ -41,6 +42,7 @@
         <div class="col-12">
           <q-separator />
           <StoreTab v-if="tab == 'store'" />
+          <AboutTab v-if="tab == 'about'" />
           <ReviewsTab v-if="tab == 'reviews'" />
           <PortfolioTab v-if="tab == 'portfolio'" />
           <ContactTab v-if="tab == 'contact'" />
@@ -128,43 +130,47 @@
 </template>
 <script>
 import StoreTab from "pages/Shopper/StoreDetails/Store.vue";
+import AboutTab from "pages/Shopper/StoreDetails/About.vue";
+
 import ReviewsTab from "pages/Shopper/StoreDetails/Reviews.vue";
+
 import PortfolioTab from "pages/Shopper/StoreDetails/Portfolio.vue";
 import ContactTab from "pages/Shopper/StoreDetails/Contact.vue";
 export default {
   components: {
     StoreTab,
+    AboutTab,
     ReviewsTab,
     PortfolioTab,
-    ContactTab,
+    ContactTab
   },
 
   data() {
     return {
       tab: "store",
-      data: [],
+      data: []
     };
   },
   watch: {},
   methods: {
-    getData: function () {
+    getData: function() {
       this.$dbCon
         .service("store")
         .find({
           query: {
-            _id: this.$route.query.store,
-          },
+            _id: this.$route.query.store
+          }
         })
-        .then((results) => {
+        .then(results => {
           this.data = results.data[0];
         });
-    },
+    }
   },
   mounted() {
     this.$dbCon.service("store").onDataChange(() => {
       this.getData();
     });
-  },
+  }
 };
 </script>
 
