@@ -2,7 +2,7 @@
   <div class="q-mx-xl q-pt-md" style="min-height: 100vh;">
     <div class="flex flex-center column">
       <div class="text-h4">Contact us</div>
-      <div class="row" style="min-height: 400px; width: 80%; padding: 24px;">
+      <div class="row" style="min-height: 400px; width: 90%;">
         <div
           id="parent"
           class="fit row wrap justify-center items-start content-start"
@@ -63,70 +63,91 @@
           >
             <q-card class="no-border-radius">
               <q-card-section>
-                <p>
-                  Address:
+                <p style=" letter-spacing: 1px;">
+                  <span class="text-weight-bold">Address :</span>
                   {{ data.house_bldg_st + ", " + data.city_municipality }}
                 </p>
-                <p>Landline:{{ data.landline_number }}</p>
-                <p>Mobile:0{{ data.mobile_number }}</p>
-                <p>Email: {{ store_data.email }}</p>
-                Links
+                <p style=" letter-spacing: 1px;">
+                  <span class="text-weight-bold">Landline :</span>
+                  {{ data.landline_number }}
+                </p>
+                <p style=" letter-spacing: 1px;">
+                  <span class="text-weight-bold">Mobile :</span> 0{{
+                    data.mobile_number
+                  }}
+                </p>
+                <p style=" letter-spacing: 1px;">
+                  <span class="text-weight-bold">Email : </span
+                  >{{ store_data.email }}
+                </p>
 
-                <div class="q-pa-md example-row-equal-width">
+                <p style=" letter-spacing: 1px; margin-bottom: 0px;">
+                  <span class="text-weight-bold">Links :</span>
+                </p>
+
+                <div class=" example-row-equal-width">
                   <div class="row">
                     <div
-                      class="col col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2"
+                      class="col col-xs-2 col-sm-12 col-md-2 col-lg-1 col-xl-1 q-mr-sm"
                       v-if="data.links.facebook"
                     >
                       <a
                         :href="'https://' + data.links.facebook"
                         target="_blank"
+                        style="color:black;"
                       >
                         <i class="fab fa-facebook fa-3x"></i>
                       </a>
                     </div>
 
                     <div
-                      class="col col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2"
+                      class="col col-xs-2 col-sm-12 col-md-2 col-lg-1 col-xl-1  q-mr-sm"
                       v-if="data.links.instagram"
                     >
                       <a
                         :href="'https://' + data.links.instagram"
                         target="_blank"
+                        style="color:black;"
                       >
                         <i class="fab fa-instagram fa-3x"></i>
                       </a>
                     </div>
 
                     <div
-                      class="col col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2"
+                      class="col col-xs-2 col-sm-12 col-md-2 col-lg-2 col-xl-1 q-mr-1"
                       v-if="data.links.pinterest"
                     >
                       <a
                         :href="'https://' + data.links.pinterest"
                         target="_blank"
+                        style="color:black;"
                       >
                         <i class="fab fa-pinterest fa-3x"></i>
                       </a>
                     </div>
 
                     <div
-                      class="col col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2"
+                      class="col col-xs-2 col-sm-12 col-md-2 col-lg-1 col-xl-1 q-mr-1"
                       v-if="data.links.youtube"
                     >
                       <a
                         :href="'https://' + data.links.youtube"
                         target="_blank"
+                        style="color:black;"
                       >
                         <i class="fab fa-youtube fa-3x"></i>
                       </a>
                     </div>
 
                     <div
-                      class="col col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2"
+                      class="col col-xs-2 col-sm-12 col-md-2 col-lg-1 col-xl-1 q-mr-1"
                       v-if="data.links.vimeo"
                     >
-                      <a :href="'https://' + data.links.vimeo" target="_blank">
+                      <a
+                        :href="'https://' + data.links.vimeo"
+                        target="_blank"
+                        style="color:black;"
+                      >
                         <i class="fab fa-vimeo fa-3x"></i>
                       </a>
                     </div>

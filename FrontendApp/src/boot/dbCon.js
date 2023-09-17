@@ -38,6 +38,7 @@ export default ({ app, router, Vue }) => {
     "product-subscriptions": {},
     "service-subscriptions": {},
     "gallery-subscription": {},
+    "store-followers": {},
     //SHOPPER
     shopper: {},
     "gift-registry": {},

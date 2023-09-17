@@ -40,6 +40,7 @@
       />
       <q-btn
         color="primary"
+        style="border-radius: 0px"
         @click="$parent.getData ? $parent.getData() : $parent.queryItems()"
         class="col-2"
         label=">"

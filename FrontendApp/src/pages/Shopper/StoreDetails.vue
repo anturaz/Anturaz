@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="row justify-center q-mt-xl q-pa-lg">
+    <div class="row justify-center q-pa-lg">
       <div style="width: 100%; max-width: 1200px" class="row items-center">
         <div
-          class="storeImage col-6 q-mt-xl row col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
+          class="storeImage col-6  row col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xs-12 q-pb-sm"
         >
           <div class="col-2 col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
             <q-img
@@ -13,7 +13,7 @@
             />
           </div>
           <div
-            class="storeName col-2 q-mt-md q-ml-xm text-black text-h4 col-sm-12 col-lg-2 col-xl-2 col-md-2"
+            class="storeName col-2  q-ml-xm text-black text-h4 col-sm-12 col-lg-2 col-xl-2 col-md-2"
           >
             {{ data.store_name }}
           </div>
@@ -30,11 +30,11 @@
               align="right"
               class="tabsDetails text-black q-mt-lg"
             >
-              <q-tab class="q-mt-md" name="store" label="store" />
-              <q-tab class="q-mt-md" name="about" label="about" />
-              <q-tab class="q-mt-md" name="reviews" label="reviews" />
-              <q-tab class="q-mt-md" name="portfolio" label="portfolio" />
-              <q-tab class="q-mt-md" name="contact" label="contact" />
+              <q-tab class="" name="store" label="store" />
+              <q-tab class="" name="about" label="about" />
+              <q-tab class="" name="reviews" label="reviews" />
+              <q-tab class="" name="portfolio" label="portfolio" />
+              <q-tab class="" name="contact" label="contact" />
             </q-tabs>
           </div>
         </div>
@@ -220,7 +220,6 @@ export default {
     margin-top: 5.1%;
   }
   .storeDetails {
-    margin-top: 3.6%;
   }
 }
 
@@ -238,7 +237,6 @@ export default {
     margin-top: auto;
   }
   .storeDetails {
-    margin-top: 3.5%;
   }
 }
 </style>

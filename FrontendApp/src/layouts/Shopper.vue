@@ -505,42 +505,41 @@ export default {
 // vanilla
 let lastScrollTop = 0;
 if (process.env.CLIENT) {
-  document.addEventListener(
-    "scroll",
-    function() {
-      // or window.addEventListener("scroll"....
-      var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-      if (st > lastScrollTop) {
-        // downscroll code
-        document.getElementById("toolbar").style.visibility = "hidden";
-        document.getElementById("toolbar").style.opacity = "0";
-        document.getElementById("toolbar").style.transition =
-          "visibility 0s, opacity 0.5s linear";
-        // visibility: hidden;
-        // opacity: 0;
-        // transition: visibility 0s, opacity 0.5s linear;
-      } else {
-        document.getElementById("toolbar").style.visibility = "visible";
-        document.getElementById("toolbar").style.opacity = "1";
-
-        // upscroll code
-        // document.getElementById("toolbar").style.top = "-50px";
-      }
-      lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-    },
-    false
-  );
+  // document.addEventListener(
+  //   "scroll",
+  //   function() {
+  //     // or window.addEventListener("scroll"....
+  //     var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+  //     if (st > lastScrollTop) {
+  //       // downscroll code
+  //       document.getElementById("toolbar").style.visibility = "hidden";
+  //       document.getElementById("toolbar").style.opacity = "0";
+  //       document.getElementById("toolbar").style.transition =
+  //         "visibility 0s, opacity 0.5s linear";
+  //       // visibility: hidden;
+  //       // opacity: 0;
+  //       // transition: visibility 0s, opacity 0.5s linear;
+  //     } else {
+  //       document.getElementById("toolbar").style.visibility = "visible";
+  //       document.getElementById("toolbar").style.opacity = "1";
+  //       // upscroll code
+  //       // document.getElementById("toolbar").style.top = "-50px";
+  //     }
+  //     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+  //   },
+  //   false
+  // );
 }
 </script>
 
 <style scoped>
 #toolbar {
-  position: fixed;
+  /* position: fixed;
   width: 100%;
   overflow: auto;
   transition: 0.5s;
   top: 40px;
-  z-index: 1;
+  z-index: 1; */
 }
 .bg-image {
   background-image: url(../assets/anturaz_home.jpg);
