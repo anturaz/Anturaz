@@ -8,27 +8,39 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label class="text-title" lines="1">{{ product.service_name}}</q-item-label>
+        <q-item-label class="text-title" lines="1">{{
+          product.service_name
+        }}</q-item-label>
         <q-item-label caption lines="2">
           <span class="text-weight-bold">Category:</span>
-          {{product.category}}
+          {{ product.category }}
         </q-item-label>
         <q-item-label caption lines="2">
           <span class="text-weight-bold">Date Needed:</span>
-          {{$formatDate_DateOnly(order.date_needed)}}
+          {{ $formatDate_DateOnly(order.date_needed) }}
         </q-item-label>
-        <q-item-label caption lines="2" v-if="order.mode_of_delivery!=undefined">
-          <span class="text-weight-bold" >Mode of Delivery:</span>
-          {{order.mode_of_delivery}}
+        <q-item-label
+          caption
+          lines="2"
+          v-if="order.mode_of_delivery != undefined"
+        >
+          <span class="text-weight-bold">Mode of Delivery:</span>
+          {{ order.mode_of_delivery }}
         </q-item-label>
       </q-item-section>
 
       <q-item-section side top>
-        <span class="text-primary text-title text-bold" v-if="order.order_number != undefined">RESERVATION# {{order.order_number}}&nbsp;</span>
+        <span
+          class="text-primary text-title text-bold"
+          v-if="order.order_number != undefined"
+          >RESERVATION# {{ order.order_number }}&nbsp;</span
+        >
         <div>
-          <span class="text-primary text-title text-bold">{{$prettyMoney(payment.total)}}&nbsp;</span>
+          <span class="text-primary text-title text-bold"
+            >{{ $prettyMoney(payment.total) }}&nbsp;</span
+          >
         </div>
-        <div>Qty {{order.quantity}}</div>
+        <div>Qty {{ order.quantity }}</div>
         <q-space />
         <div>
           <q-btn
@@ -89,5 +101,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

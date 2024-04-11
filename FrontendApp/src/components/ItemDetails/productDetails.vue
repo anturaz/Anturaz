@@ -40,7 +40,23 @@
         <div>
           <span class="text-primary text-title text-bold">{{$prettyMoney(payment.total)}}&nbsp;</span>
         </div>
+<<<<<<< Updated upstream
         <div>Qty {{order.quantity}}</div>
+=======
+        <div>Qty {{ order.quantity }}</div>
+        <span
+          class="text-primary text-title text-bold"
+          v-if="order.shipping_details != undefined"
+          >Tracking Number#
+          {{ order.shipping_details.tracking_number }}&nbsp;</span
+        >
+        <span class="text-primary text-title text-bold"
+          >{{ $prettyMoney(payment.total) }}&nbsp;</span
+        >
+        <div>
+          Delivery Date : {{ $formatDate_DateOnly(order.shipping_details.eta) }}
+        </div>
+>>>>>>> Stashed changes
         <q-space />
         <div>
           <q-btn

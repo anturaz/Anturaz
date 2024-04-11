@@ -19,7 +19,6 @@
         </q-card-section>
 
         <q-separator />
-
         <q-card-actions align="right">
           <q-btn label="cancel" @click="toPay = false" flat />
         </q-card-actions>
@@ -41,6 +40,9 @@ export default {
       payment: {}
     };
   },
+  mounted() {
+    console.log("Online payment", this.$route.query);
+  },
   methods: {
     setLoaded: function() {
       this.$q.loading.hide();
@@ -48,6 +50,7 @@ export default {
   },
   watch: {
     "$route.query": async function() {
+      console.log("Online payment route", this.$route.query);
       if ("id" in this.$route.query && "resourcePath" in this.$route.query) {
         this.$q.loading.show();
         const id = this.$route.query.id;

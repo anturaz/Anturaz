@@ -26,7 +26,7 @@
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 0 ? $primaryColor : 'white')
+                (currentIndexPicture == 0 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -44,7 +44,7 @@
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 1 ? $primaryColor : 'white')
+                (currentIndexPicture == 1 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -62,7 +62,7 @@
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 2 ? $primaryColor : 'white')
+                (currentIndexPicture == 2 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -80,7 +80,7 @@
             square
             :style="
               'border-width:medium;border-color:' +
-              (currentIndexPicture == 3 ? $primaryColor : 'white')
+                (currentIndexPicture == 3 ? $primaryColor : 'white')
             "
             class="col-3"
             outline
@@ -138,7 +138,6 @@
                 >Date and Time of Fulfillment:</span
               >
               <div class="q-pt-sm col-8">
-           
                 <span class="text-grey text-subtitle2"
                   >*Should be at least 5 days prior to the date of
                   reservation</span
@@ -172,7 +171,7 @@
                   <q-date
                     v-model="date_needed"
                     :options="
-                      (date) =>
+                      date =>
                         date >=
                           this.$formatDateForPicker(
                             this.$addToDate(new Date(), 5, 0)
@@ -299,7 +298,7 @@ export default {
   components: {
     ShopperLoginForm,
     RecommendedServices,
-    CheckoutProduct,
+    CheckoutProduct
   },
   data() {
     return {
@@ -316,24 +315,24 @@ export default {
       quantity: "1",
       loginForm: false,
       checkout: false,
-      datePicker: false,
+      datePicker: false
     };
   },
   methods: {
-    afterLogin: function () {
+    afterLogin: function() {
       this.loginForm = false;
       this.checkLogin();
     },
-    checkIfLoggedIn: async function () {
+    checkIfLoggedIn: async function() {
       var checker = true;
       await this.$dbCon
         .authenticate()
-        .then((response) => {
+        .then(response => {
           if (this.$local.has("user_token")) {
             this.$dbCon
               .service("users")
               .find({ query: { _id: this.$local.getItem("user_token") } })
-              .then((results) => {
+              .then(results => {
                 if (results.data[0].system_user_type == "Shopper") {
                   checker = true;
                 } else {
@@ -344,12 +343,12 @@ export default {
             checker = false;
           }
         })
-        .catch((e) => {
+        .catch(e => {
           checker = false;
         });
       return checker;
     },
-    addToCart: async function () {
+    addToCart: async function() {
       //VALIDATE FIRST
       if (await this.checkIfLoggedIn()) {
         this.addToCartSignedIn();
@@ -357,7 +356,7 @@ export default {
         this.addToCartNotSignedIn();
       }
     },
-    addToCartSignedIn: function () {
+    addToCartSignedIn: function() {
       this.$dbCon
         .service("cart")
         .create({
@@ -367,7 +366,7 @@ export default {
           type: "services",
           quantity: this.quantity,
           date_needed: this.date_needed,
-          time_needed: this.time_needed,
+          time_needed: this.time_needed
         })
         .then(() => {
           this.$q.notify({
@@ -375,11 +374,11 @@ export default {
             position: "top-right",
             color: "green",
             timeout: 700,
-            icon: "shopping_cart",
+            icon: "shopping_cart"
           });
         });
     },
-    addToCartNotSignedIn: function () {
+    addToCartNotSignedIn: function() {
       var cart = [];
       if (this.$session.has("cart")) {
         cart = this.$session.get("cart");
@@ -392,7 +391,7 @@ export default {
         type: "services",
         quantity: this.quantity,
         date_needed: this.date_needed,
-        time_needed: this.time_needed,
+        time_needed: this.time_needed
       });
       this.$session.set("cart", cart);
       this.$q.notify({
@@ -400,11 +399,11 @@ export default {
         position: "top-right",
         color: "green",
         timeout: 700,
-        icon: "shopping_cart",
+        icon: "shopping_cart"
       });
       this.$EventBus.$emit("modify-cart", null);
     },
-    checkoutSignedIn: async function () {
+    checkoutSignedIn: async function() {
       this.$dbCon
         .service("cart")
         .create({
@@ -414,13 +413,13 @@ export default {
           type: "service",
           quantity: this.quantity,
           date_needed: this.date_needed,
-          time_needed: this.time_needed,
+          time_needed: this.time_needed
         })
-        .then((response) => {
+        .then(response => {
           this.$router.push("/CheckoutService/" + response._id);
         });
     },
-    checkLogin: async function () {
+    checkLogin: async function() {
       this.$dbCon
         .authenticate()
         .then(() => {
@@ -429,7 +428,7 @@ export default {
         .catch(() => {
           this.loginForm = true;
         });
-    },
+    }
   },
 
   async mounted() {
@@ -439,10 +438,10 @@ export default {
       .find({
         query: {
           item_id: this.$route.params.service,
-          status: "Done",
-        },
+          status: "Done"
+        }
       })
-      .then((results) => {
+      .then(results => {
         this.service_transactions = results.data;
       });
     //GET SERVICE DETAILS
@@ -450,10 +449,10 @@ export default {
       .service("services")
       .find({
         query: {
-          _id: this.$route.params.service,
-        },
+          _id: this.$route.params.service
+        }
       })
-      .then((results) => {
+      .then(results => {
         this.data = results.data[0];
         this.currentPicture = this.data.photos[0];
       });
@@ -462,10 +461,10 @@ export default {
       .service("store")
       .find({
         query: {
-          _id: this.data.store_id,
-        },
+          _id: this.data.store_id
+        }
       })
-      .then((results) => {
+      .then(results => {
         this.store = results.data[0];
       });
     //GET STORE SCHEDULES
@@ -473,15 +472,15 @@ export default {
       .service("store-schedule")
       .find({
         query: {
-          store_id: this.data.store_id,
-        },
+          store_id: this.data.store_id
+        }
       })
-      .then((results) => {
-        results.data[0].schedules.map((x) => {
+      .then(results => {
+        results.data[0].schedules.map(x => {
           this.schedules.push(this.$formatDateForPicker(x.date));
         });
       });
     this.$router.push(this.$route.path);
-  },
+  }
 };
 </script>

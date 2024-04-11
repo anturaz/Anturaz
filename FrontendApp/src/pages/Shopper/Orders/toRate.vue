@@ -18,17 +18,28 @@
           <div class="q-pt-sm q-pl-xl q-pr-xl">
             <ProductDetails :order="order" :buttonVisible="false" />
             <div align="center" class="q-pt-md">
-              <q-rating v-model="rate" size="3.5em" color="primary" icon-selected="star" />
-              ({{rate}})
+              <q-rating
+                v-model="rate"
+                size="3.5em"
+                color="primary"
+                icon-selected="star"
+              />
+              ({{ rate }})
             </div>
-            <q-input outlined v-model="remarks" type="textarea" dense placeholder="Tell us more!" />
+            <q-input
+              outlined
+              v-model="remarks"
+              type="textarea"
+              dense
+              placeholder="Tell us more!"
+            />
           </div>
         </q-card-section>
 
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="grey" @click="opened=false" />
+          <q-btn flat label="Cancel" color="grey" @click="opened = false" />
           <q-btn flat label="Rate" color="primary" @click="update" />
         </q-card-actions>
       </q-card>
@@ -86,5 +97,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

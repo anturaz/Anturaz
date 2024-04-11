@@ -3,8 +3,8 @@
     <q-btn
       unelevated
       v-if="addMoreItems"
-      @click="opened=true"
-      :label="$q.screen.lt.sm? '': 'Add More '+itemType"
+      @click="opened = true"
+      :label="$q.screen.lt.sm ? '' : 'Add More ' + itemType"
       color="primary"
       icon="info"
       size="md"
@@ -12,21 +12,32 @@
     <q-btn
       unelevated
       v-else
-      @click="pendingSubscription=true"
-      :label="$q.screen.lt.sm? '': 'Pending '+(itemType=='Products'?'product':'service')+' Subscription'"
+      @click="pendingSubscription = true"
+      :label="
+        $q.screen.lt.sm
+          ? ''
+          : 'Pending ' +
+            (itemType == 'Products' ? 'product' : 'service') +
+            ' Subscription'
+      "
       color="primary"
       icon="info"
       size="md"
     />
     <q-dialog
-      v-if="subscriptions.length!=0"
+      v-if="subscriptions.length != 0"
       class="full-width"
       v-model="pendingSubscription"
       persistent
     >
       <q-card style="width: 800px; max-width: 80vw;">
         <q-card-section class="row items-center">
-          <div class="text-h6">{{(itemType=='Products'?'Product': 'Service')+' Subscriptions'}}</div>
+          <div class="text-h6">
+            {{
+              (itemType == "Products" ? "Product" : "Service") +
+                " Subscriptions"
+            }}
+          </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
@@ -35,10 +46,16 @@
         <q-card-section>
           <div align="right">
             <DepositSlipUpload
-              v-if="subscriptions[0].status=='Pending'"
+              v-if="subscriptions[0].status == 'Pending'"
               :submitFunction="uploadDepositSlipResult"
             />
-            <q-btn color="grey" disable icon="info" v-else label="Pending Payment" />
+            <q-btn
+              color="grey"
+              disable
+              icon="info"
+              v-else
+              label="Pending Payment"
+            />
           </div>
           <q-markup-table flat>
             <thead>
@@ -55,44 +72,95 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(subscription,index) in subscriptions" v-bind:key="index">
-                <td class="text-left">{{subscriptions.length-index}}</td>
-                <td
-                  class="text-center"
-                >{{subscription.months}} Month{{subscription.months==1?'':'s'}}</td>
-                <td
-                  class="text-center"
-                >{{$prettyMoney(subscription.total_amount*subscription.months)}}</td>
-                <td class="text-center">{{subscription.items+" items"}}</td>
-                <td class="text-center">{{$formatDate(subscription.date_ordered)}}</td>
-                <td
-                  class="text-center"
-                >{{subscription.date_started==""? "-": $formatDate(subscription.date_started)}}</td>
-                <td
-                  class="text-center"
-                >{{subscription.date_started==""? "-": $formatDate(subscription.date_end)}}</td>
-                <td class="text-center text-primary" v-if="subscription.status=='Pending'">PENDING</td>
+              <tr
+                v-for="(subscription, index) in subscriptions"
+                v-bind:key="index"
+              >
+                <td class="text-left">{{ subscriptions.length - index }}</td>
+                <td class="text-center">
+                  {{ subscription.months }} Month{{
+                    subscription.months == 1 ? "" : "s"
+                  }}
+                </td>
+                <td class="text-center">
+                  {{
+                    $prettyMoney(
+                      subscription.total_amount * subscription.months
+                    )
+                  }}
+                </td>
+                <td class="text-center">{{ subscription.items + " items" }}</td>
+                <td class="text-center">
+                  {{ $formatDate(subscription.date_ordered) }}
+                </td>
+                <td class="text-center">
+                  {{
+                    subscription.date_started == ""
+                      ? "-"
+                      : $formatDate(subscription.date_started)
+                  }}
+                </td>
+                <td class="text-center">
+                  {{
+                    subscription.date_started == ""
+                      ? "-"
+                      : $formatDate(subscription.date_end)
+                  }}
+                </td>
                 <td
                   class="text-center text-primary"
-                  v-if="subscription.status=='For Approval'"
-                >FOR APPROVAL</td>
+                  v-if="subscription.status == 'Pending'"
+                >
+                  PENDING
+                </td>
+                <td
+                  class="text-center text-primary"
+                  v-if="subscription.status == 'For Approval'"
+                >
+                  FOR APPROVAL
+                </td>
                 <td
                   class="text-center text-green"
-                  v-if="subscription.status=='Paid' &&  $compareToCurrentDate(subscription.date_end) == 'upcoming'"
-                >ACTIVE</td>
+                  v-if="
+                    subscription.status == 'Paid' &&
+                      $compareToCurrentDate(subscription.date_end) == 'upcoming'
+                  "
+                >
+                  ACTIVE
+                </td>
                 <td
                   class="text-center text-grey"
-                  v-if="subscription.status=='Paid' &&  $compareToCurrentDate(subscription.date_end) == 'past'"
-                >EXPIRED</td>
-                <td class="text-center text-red" v-if="subscription.status=='Rejected' ">REJECTED</td>
-                <td class="text-center text-red" v-if="subscription.status=='Cancelled'">CANCELLED</td>
-                <td class="text-center text-grey" v-if="subscription.status=='Free'">FREE</td>
+                  v-if="
+                    subscription.status == 'Paid' &&
+                      $compareToCurrentDate(subscription.date_end) == 'past'
+                  "
+                >
+                  EXPIRED
+                </td>
+                <td
+                  class="text-center text-red"
+                  v-if="subscription.status == 'Rejected'"
+                >
+                  REJECTED
+                </td>
+                <td
+                  class="text-center text-red"
+                  v-if="subscription.status == 'Cancelled'"
+                >
+                  CANCELLED
+                </td>
+                <td
+                  class="text-center text-grey"
+                  v-if="subscription.status == 'Free'"
+                >
+                  FREE
+                </td>
                 <td class="text-center text-primary">
                   <q-btn
-                    v-if="subscription.status=='Pending'"
+                    v-if="subscription.status == 'Pending'"
                     label="edit"
                     color="primary"
-                    @click="edit_advertise_store=true"
+                    @click="edit_advertise_store = true"
                     size="sm"
                     outline
                   />
@@ -107,7 +175,7 @@
     <q-dialog class="full-width" v-model="opened" persistent>
       <q-card style="width: 800px; max-width: 80vw;">
         <q-card-section class="row items-center">
-          <div class="text-h6">ADD MORE {{itemType.toUpperCase()}} NOW!</div>
+          <div class="text-h6">ADD MORE {{ itemType.toUpperCase() }} NOW!</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
@@ -115,88 +183,131 @@
         <q-separator />
 
         <q-card-section class="scroll" align="center">
-          <q-stepper v-model="step" flat bordered header-nav ref="stepper" color="primary" animated>
-            <q-step :name="1" title="Choose your Plan" icon="remove_red_eye" :done="step> 1">
+          <q-stepper
+            v-model="step"
+            flat
+            bordered
+            header-nav
+            ref="stepper"
+            color="primary"
+            animated
+          >
+            <q-step
+              :name="1"
+              title="Choose your Plan"
+              icon="remove_red_eye"
+              :done="step > 1"
+            >
               <q-stepper-navigation>
                 <q-card flat bordered>
                   <q-card-section
                     clickable
-                    @click="items=10,price=99"
+                    @click="(items = 10), (price = 99)"
                     class="row"
-                    :class="items==10?'text-primary':'text-grey'"
+                    :class="items == 10 ? 'text-primary' : 'text-grey'"
                   >
                     <div class="col-6">
-                      <div class="text-h6">10 {{itemType}}</div>
-                      <div>{{$prettyMoney(99)}}/month</div>
+                      <div class="text-h6">10 {{ itemType }}</div>
+                      <div>{{ $prettyMoney(99) }}/month</div>
                     </div>
                     <div class="col-6">
-                      <q-icon class="q-pt-md" name="check" size="30px" v-if="items==10" />
+                      <q-icon
+                        class="q-pt-md"
+                        name="check"
+                        size="30px"
+                        v-if="items == 10"
+                      />
                     </div>
                   </q-card-section>
                   <q-separator />
                   <q-card-section
                     clickable
-                    @click="items=20,price=159"
+                    @click="(items = 20), (price = 159)"
                     class="row"
-                    :class="items==20?'text-primary':'text-grey'"
+                    :class="items == 20 ? 'text-primary' : 'text-grey'"
                   >
                     <div class="col-6">
-                      <div class="text-h6">20 {{itemType}}</div>
-                      <div>{{$prettyMoney(159)}}/month</div>
+                      <div class="text-h6">20 {{ itemType }}</div>
+                      <div>{{ $prettyMoney(159) }}/month</div>
                     </div>
                     <div class="col-6">
-                      <q-icon class="q-pt-md" name="check" size="30px" v-if="items==20" />
+                      <q-icon
+                        class="q-pt-md"
+                        name="check"
+                        size="30px"
+                        v-if="items == 20"
+                      />
                     </div>
                   </q-card-section>
                   <q-separator />
                   <q-card-section
                     clickable
-                    @click="items=30,price=209"
+                    @click="(items = 30), (price = 209)"
                     class="row"
-                    :class="items==30?'text-primary':'text-grey'"
+                    :class="items == 30 ? 'text-primary' : 'text-grey'"
                   >
                     <div class="col-6">
-                      <div class="text-h6">30 {{itemType}}</div>
-                      <div>{{$prettyMoney(209)}}/month</div>
+                      <div class="text-h6">30 {{ itemType }}</div>
+                      <div>{{ $prettyMoney(209) }}/month</div>
                     </div>
                     <div class="col-6">
-                      <q-icon class="q-pt-md" name="check" size="30px" v-if="items==30" />
+                      <q-icon
+                        class="q-pt-md"
+                        name="check"
+                        size="30px"
+                        v-if="items == 30"
+                      />
                     </div>
                   </q-card-section>
                   <q-separator />
                   <q-card-section
                     clickable
-                    @click="items=40,price=239"
+                    @click="(items = 40), (price = 239)"
                     class="row"
-                    :class="items==40?'text-primary':'text-grey'"
+                    :class="items == 40 ? 'text-primary' : 'text-grey'"
                   >
                     <div class="col-6">
-                      <div class="text-h6">40 {{itemType}}</div>
-                      <div>{{$prettyMoney(239)}}/month</div>
+                      <div class="text-h6">40 {{ itemType }}</div>
+                      <div>{{ $prettyMoney(239) }}/month</div>
                     </div>
                     <div class="col-6">
-                      <q-icon class="q-pt-md" name="check" size="30px" v-if="items==40" />
+                      <q-icon
+                        class="q-pt-md"
+                        name="check"
+                        size="30px"
+                        v-if="items == 40"
+                      />
                     </div>
                   </q-card-section>
                   <q-separator />
                   <q-card-section
                     clickable
-                    @click="items=50,price=249"
+                    @click="(items = 50), (price = 249)"
                     class="row"
-                    :class="items==50?'text-primary':'text-grey'"
+                    :class="items == 50 ? 'text-primary' : 'text-grey'"
                   >
                     <div class="col-6">
-                      <div class="text-h6">50 {{itemType}}</div>
-                      <div>{{$prettyMoney(249)}}/month</div>
+                      <div class="text-h6">50 {{ itemType }}</div>
+                      <div>{{ $prettyMoney(249) }}/month</div>
                     </div>
                     <div class="col-6">
-                      <q-icon class="q-pt-md" name="check" size="30px" v-if="items==50" />
+                      <q-icon
+                        class="q-pt-md"
+                        name="check"
+                        size="30px"
+                        v-if="items == 50"
+                      />
                     </div>
                   </q-card-section>
                 </q-card>
                 <div align="right" class="q-pa-sm">
                   <q-btn
-                    @click="() => { done1 = true; step = 2 }"
+                    @click="
+                      () => {
+                        done1 = true;
+                        step = 2;
+                      }
+                    "
                     color="primary"
                     label="Continue"
                   />
@@ -204,15 +315,22 @@
               </q-stepper-navigation>
             </q-step>
 
-            <q-step :name="2" title="Number of Months" icon="calendar_today" :done="step> 2">
+            <q-step
+              :name="2"
+              title="Number of Months"
+              icon="calendar_today"
+              :done="step > 2"
+            >
               <table width="100%">
                 <tr>
                   <td>Monthly Fee</td>
-                  <td class="q-pr-md" align="right">{{$prettyMoney(price)}}</td>
+                  <td class="q-pr-md" align="right">
+                    {{ $prettyMoney(price) }}
+                  </td>
                 </tr>
                 <tr>
-                  <td>No. of {{itemType}}</td>
-                  <td class="q-pr-md" align="right">{{items}}</td>
+                  <td>No. of {{ itemType }}</td>
+                  <td class="q-pr-md" align="right">{{ items }}</td>
                 </tr>
                 <tr>
                   <td>No. of Months</td>
@@ -234,40 +352,62 @@
                 </tr>
                 <tr>
                   <td class="text-bold">TOTAL</td>
-                  <td class="q-pr-md" align="right">{{$prettyMoney(price*months)}}</td>
+                  <td class="q-pr-md" align="right">
+                    {{ $prettyMoney(price * months) }}
+                  </td>
                 </tr>
               </table>
 
               <q-stepper-navigation align="right">
-                <q-btn @click="() => { done2 = true; step = 3 }" color="primary" label="Continue" />
-                <q-btn flat @click="step = 1" color="primary" label="Back" class="q-ml-sm" />
+                <q-btn
+                  @click="
+                    () => {
+                      done2 = true;
+                      step = 3;
+                    }
+                  "
+                  color="primary"
+                  label="Continue"
+                />
+                <q-btn
+                  flat
+                  @click="step = 1"
+                  color="primary"
+                  label="Back"
+                  class="q-ml-sm"
+                />
               </q-stepper-navigation>
             </q-step>
 
-            <q-step :name="3" title="Payment Option" icon="payment" :done="step> 3">
+            <q-step
+              :name="3"
+              title="Payment Option"
+              icon="payment"
+              :done="step > 3"
+            >
               <div align="left">
                 <q-btn
-                  :color="tab=='BankDeposit'?'primary':'grey'"
-                  @click="tab='BankDeposit'"
+                  :color="tab == 'BankDeposit' ? 'primary' : 'grey'"
+                  @click="tab = 'BankDeposit'"
                   unelevated
-                  :outline="tab!='BankDeposit'"
+                  :outline="tab != 'BankDeposit'"
                   size="20px"
                   label="bank deposit"
                   icon="account_balance"
                 />
                 <q-btn
                   class="q-ml-sm"
-                  :color="tab=='OnlinePayment'?'primary':'grey'"
-                  @click="tab='OnlinePayment'"
+                  :color="tab == 'OnlinePayment' ? 'primary' : 'grey'"
+                  @click="tab = 'OnlinePayment'"
                   unelevated
-                  :outline="tab!='OnlinePayment'"
+                  :outline="tab != 'OnlinePayment'"
                   size="20px"
                   label="Online Payment"
                   icon="payment"
                 />
               </div>
               <q-separator class="q-mt-sm q-mb-sm" />
-              <div v-show="tab=='BankDeposit'">
+              <div v-show="tab == 'BankDeposit'">
                 <div class="q-pa-sm" align="left">
                   <b>1. Deposit amount to the following BDO bank account:</b>
                   <br />
@@ -279,21 +419,26 @@
                     <b>Bank Name:</b> Banco De Oro
                     <br />
                     <b>Amount:</b>
-                    {{$prettyMoney( months * price)}}
+                    {{ $prettyMoney(months * price) }}
                   </div>
                 </div>
                 <div class="q-pa-sm" align="left">
                   <b>2. Upload deposit slip/screenshot of your payment</b>
                   <br />
                   <div class="q-pl-md q-pt-xs">
-                    <b>A. Over-the-counter payments:</b> Write you full name onto the deposit slip. Scan or take a photograph of the deposit slip
+                    <b>A. Over-the-counter payments:</b> Write you full name
+                    onto the deposit slip. Scan or take a photograph of the
+                    deposit slip
                     <br />
                     <b>B. Online Banking:</b>
                     Take a screenshot of the successful transaction made
                   </div>
                 </div>
                 <div class="q-pa-sm" align="left">
-                  <b>3. Wait until your payment is verified by the Anturaz Admin.</b>
+                  <b
+                    >3. Wait until your payment is verified by the Anturaz
+                    Admin.</b
+                  >
                 </div>
                 <div class="q-pa-sm items-right" align="right">
                   <q-btn
@@ -305,9 +450,12 @@
                 </div>
               </div>
 
-              <div v-show="tab=='OnlinePayment'">
+              <div v-show="tab == 'OnlinePayment'">
                 <div class="q-pa-sm" align="left">
-                  <b>1. Select Account Type from dropdown list. These are the following</b>
+                  <b
+                    >1. Select Account Type from dropdown list. These are the
+                    following</b
+                  >
                   <div>
                     <ul>
                       <li>Visa</li>
@@ -330,7 +478,14 @@
                 <div class="q-pa-sm items-right" align="right">
                   <AltPayNet
                     :onlinePaymentResult="onlinePaymentResult"
-                    :item="{ price: price * months, description: months+' Month/s of Subscription ('+price+'/month)'}"
+                    :item="{
+                      price: price * months,
+                      description:
+                        months +
+                        ' Month/s of Subscription (' +
+                        price +
+                        '/month)'
+                    }"
                   />
                 </div>
               </div>
@@ -517,5 +672,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

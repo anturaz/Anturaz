@@ -480,6 +480,7 @@ export default {
       } else if (this.payment_type == "Layaway") {
         this.prepareLayaway(breakdown, total);
       }
+      console.log(this.payment)
       return this.payment;
     },
     prepareFullPayment: function(breakdown, total) {

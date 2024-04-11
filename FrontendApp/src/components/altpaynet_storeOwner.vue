@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn label="PAY NOW" color="primary" @click="toPay = true" />
+    <q-btn label="PAY NOW" color="primary" @click="openAltPayNet()" />
     <q-dialog v-model="toPay" persistent>
       <q-card style="width:600px">
         <q-card-section class="bg-primary">
@@ -19,7 +19,6 @@
         </q-card-section>
 
         <q-separator />
-
         <q-card-actions align="right">
           <q-btn label="cancel" @click="toPay = false" flat />
         </q-card-actions>
@@ -32,7 +31,8 @@
 export default {
   props: {
     item: { type: Object },
-    onlinePaymentResult: { type: Function }
+    onlinePaymentResult: { type: Function },
+    mainMenu: { type: Object }
   },
   data() {
     return {
@@ -40,16 +40,38 @@ export default {
       toPay: false
     };
   },
+
+  mounted() {},
   methods: {
     setLoaded: function() {
       this.$q.loading.hide();
     },
     openAltPayNet: function() {
       this.toPay = true;
+      this.$q.loading.show();
+
+      if (!process.env.CLIENT) return;
+      const script = document.createElement("script");
+      this.$axios
+        .get(this.$appLink + "/createCheckOut?amount=" + this.item.price)
+        .then(async res => {
+          script.src = `https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=${
+            res.data.id
+          }`;
+          script.addEventListener("load", this.setLoaded);
+          document.body.appendChild(script);
+          this.$refs.paymentWidget.addEventListener("submit", e => {
+            this.mainMenu.opened = true;
+            console.log("Online payment", this.mainMenu);
+            e.preventDefault();
+          });
+        });
     }
   },
   watch: {
     "$route.query": async function() {
+      console.log("Online payment route", this.$route.query);
+
       if ("id" in this.$route.query && "resourcePath" in this.$route.query) {
         this.$q.loading.show();
         const id = this.$route.query.id;
@@ -57,7 +79,6 @@ export default {
 
         this.toPay = false;
         this.$router.push(this.$route.path);
-
         await this.$axios
           .get(
             this.$appLink +
@@ -85,23 +106,23 @@ export default {
             }
           });
       }
-    },
-    toPay: function() {
-      if (this.toPay == true) {
-        this.$q.loading.show();
-        if (!process.env.CLIENT) return;
-        const script = document.createElement("script");
-        this.$axios
-          .get(this.$appLink + "/createCheckOut?amount=" + this.item.price)
-          .then(async res => {
-            script.src = `https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=${
-              res.data.id
-            }`;
-            script.addEventListener("load", this.setLoaded);
-            document.body.appendChild(script);
-          });
-      }
     }
+    // toPay: function() {
+    //   if (this.toPay == true) {
+    //     this.$q.loading.show();
+    //     if (!process.env.CLIENT) return;
+    //     const script = document.createElement("script");
+    //     this.$axios
+    //       .get(this.$appLink + "/createCheckOut?amount=" + this.item.price)
+    //       .then(async res => {
+    //         script.src = `https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=${
+    //           res.data.id
+    //         }`;
+    //         script.addEventListener("load", this.setLoaded);
+    //         document.body.appendChild(script);
+    //       });
+    //   }
+    // }
   }
 };
 </script>
