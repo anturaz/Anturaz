@@ -1,21 +1,38 @@
 <template>
   <div>
-    <ProductDetails :order="order" buttonLabel="Acknowledge" :buttonVisible="true" :updateFunction="update" />
+    <ProductDetails
+      v-if="!$q.screen.lt.md"
+      :order="order"
+      buttonLabel="Acknowledge"
+      :buttonVisible="true"
+      :updateFunction="update"
+    />
+
+    <productDetailsMobile
+      v-else
+      :updateFunction="update"
+      buttonLabel="Acknowledge"
+      :order="order"
+      :buttonVisible="true"
+    />
   </div>
 </template>
 
 <script>
 import ProductDetails from "components/ItemDetails/productDetails.vue";
+import productDetailsMobile from "../../../components/ItemDetails/productDetailsMobile.vue";
+
 export default {
   props: ["order"],
   components: {
-    ProductDetails
+    ProductDetails,
+    productDetailsMobile
   },
   methods: {
     update: function() {
       this.$q
         .dialog({
-          title: "Mark as Acknowledged",  
+          title: "Mark as Acknowledged",
           message: "Are you sure you want to proceed?",
           cancel: {
             push: true,
@@ -42,5 +59,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,20 +1,31 @@
 <template>
   <div>
     <ProductDetails
+      v-if="!$q.screen.lt.md"
       :order="order"
       buttonLabel="Pickup"
       :buttonVisible="true"
       :updateFunction="update"
+    />
+    <productDetailsMobile
+      v-else
+      buttonLabel="Pickup"
+      :buttonVisible="true"
+      :updateFunction="update"
+      :order="order"
     />
   </div>
 </template>
 
 <script>
 import ProductDetails from "components/ItemDetails/productDetails.vue";
+import productDetailsMobile from "../../../components/ItemDetails/productDetailsMobile.vue";
+
 export default {
   props: ["order"],
   components: {
-    ProductDetails
+    ProductDetails,
+    productDetailsMobile
   },
   methods: {
     update: function() {
@@ -38,10 +49,12 @@ export default {
             event: "Received",
             date: new Date()
           });
+          this.order.recieved_date = new Date().toISOString();
           this.$dbCon
             .service("product-transactions")
             .patch(this.order._id, this.order)
             .then(() => {
+              this.$createSalesRecord(this.order, "Product");
               this.opened = false;
             });
           //EMAIL
@@ -51,5 +64,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

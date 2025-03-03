@@ -70,7 +70,7 @@
       :onlinePaymentResult="onlinePaymentResult"
       :item="{
         price: price * items,
-        description: months + ' Month/s of Subscription (' + price + '/month)',
+        description: months + ' Month/s of Subscription (' + price + '/month)'
       }"
     />
   </div>
@@ -80,7 +80,7 @@
 import AltPayNet from "components/altpaynet_storeOwner.vue";
 export default {
   components: {
-    AltPayNet,
+    AltPayNet
   },
   data() {
     return {
@@ -88,11 +88,11 @@ export default {
       step: 1,
       items: 10,
       price: 99.75,
-      subscriptions: [],
+      subscriptions: []
     };
   },
   methods: {
-    onlinePaymentResult: async function (result, info) {
+    onlinePaymentResult: async function(result, info) {
       var relatedId = null; //For Store Payments
       this.$dbCon
         .service("item-subscriptions")
@@ -106,9 +106,9 @@ export default {
           date_paid: new Date(),
           date_end: this.$addToDate(new Date(), 0, 12),
           status: "Paid",
-          deposit_details: info,
+          deposit_details: info
         })
-        .then(async (result) => {
+        .then(async result => {
           await this.$dbCon
             .service("store-payments")
             .create({
@@ -118,17 +118,17 @@ export default {
               date_paid: new Date(),
               payment_for: "Item Subscription",
               payment_type: "Online Payment",
-              payment_details: info,
+              payment_details: info
             })
             .then(() => {
-              this.$router.go();
+              // window.location.reload();
+              this.$router.go(0);
             });
           this.opened = false;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

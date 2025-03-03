@@ -8,19 +8,23 @@
       </q-breadcrumbs>
     </div>
     <div class="q-pa-md row">
-      <q-card class="col-xs-12 col-md-3 q-ma-sm" v-for="BD in data" :key="BD._id">
+      <q-card
+        class="col-xs-12 col-md-3 q-ma-sm"
+        v-for="BD in data"
+        :key="BD._id"
+      >
         <q-card-section>
           <div>
             <b>Date Ordered:</b>
-            {{$formatDate_DateOnly(BD.date_ordered)}}
+            {{ $formatDate_DateOnly(BD.date_ordered) }}
           </div>
           <div>
             <b>Month/s:</b>
-            {{BD.months}}
+            {{ BD.months }}
           </div>
           <div>
             <b>Total Amount:</b>
-            {{BD.months * BD.total_amount}}
+            {{ BD.months * BD.total_amount }}
           </div>
         </q-card-section>
         <q-card-actions align="right">
@@ -54,11 +58,11 @@ export default {
         .service("product-advertisment")
         .find({
           query: {
-            "status": "For Approval"
+            status: "For Approval"
           }
         })
         .then(results => {
-            console.log(results)
+          // console.log(results)
           this.data = results.data;
         });
     });
@@ -66,5 +70,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

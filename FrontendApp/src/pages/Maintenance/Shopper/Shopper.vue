@@ -9,23 +9,45 @@
     </div>
     <q-table :data="data" :columns="columns" :filter="filter" row-key="name">
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
         </q-input>
       </template>
       <q-tr slot="body" slot-scope="props" :props="props">
-        <q-td key="name" :props="props">{{props.row.fname+" "+props.row.lname}}</q-td>
-        <q-td key="email" :props="props">{{props.row.email }}</q-td>
-        <q-td key="mobile_number" :props="props">{{props.row.mobile_number }}</q-td>
-        <q-td key="gender" :props="props">{{props.row.gender }}</q-td>
+        <q-td key="name" :props="props">{{
+          props.row.fname + " " + props.row.lname
+        }}</q-td>
+        <q-td key="email" :props="props">{{ props.row.email }}</q-td>
+        <q-td key="mobile_number" :props="props">{{
+          props.row.mobile_number
+        }}</q-td>
+        <q-td key="gender" :props="props">{{ props.row.gender }}</q-td>
         <q-td key="status" :props="props">
           <q-toggle
             :value="props.row.access"
             color="primary"
-            @input="changeStatus(props.row.access,props.row._id,props.row)"
+            @input="changeStatus(props.row.access, props.row._id, props.row)"
           />
+        </q-td>
+        <q-td key="action" :props="props">
+          <div class="row item-center">
+            <Transactions :shopper_id="props.row._id" />
+            <q-btn
+              color="red"
+              icon="delete"
+              @click="deleteShopper(props.row._id)"
+              flat
+              dense
+            />
+          </div>
         </q-td>
       </q-tr>
     </q-table>
@@ -33,7 +55,11 @@
 </template>
 
 <script>
+import Transactions from "./Transactions.vue";
 export default {
+  components: {
+    Transactions
+  },
   data() {
     return {
       data: [],
@@ -63,8 +89,15 @@ export default {
           label: "Status",
           field: "status",
           align: "center"
+        },
+        {
+          name: "action",
+          label: "Action",
+          field: "action",
+          align: "center"
         }
-      ]
+      ],
+      selectedShopper: null
     };
   },
   mounted() {
@@ -73,6 +106,29 @@ export default {
     });
   },
   methods: {
+    deleteShopper: function(id) {
+      this.$q
+        .dialog({
+          title: "Confirmation",
+          message: "Are you sure you want to delete this shopper?",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(() => {
+          this.$dbCon
+            .service("users")
+            .remove(id)
+            .then(() => {
+              this.$q.dialog({
+                title: "Success",
+                message: "Shopper is deleted!",
+                cancel: false,
+                persistent: true
+              });
+            });
+        });
+    },
+
     changeStatus: function(currentStatus, id, user) {
       this.$q
         .dialog({
@@ -111,6 +167,11 @@ export default {
           this.data = results.data;
         });
     }
+  },
+  mounted() {
+    this.$dbCon.service("users").onDataChange(() => {
+      this.getData();
+    });
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn color="primary" label="Upload Bank Receipt" @click="opened=true" />
+    <q-btn color="primary" label="Upload Bank Receipt" @click="opened = true" />
     <q-dialog v-model="opened">
       <q-card style="width:600px">
         <q-card-section class="bg-primary">
@@ -10,16 +10,26 @@
         <q-separator />
 
         <q-card-section>
-          <input class="hidden" type="file" @change="onImageSelected" ref="fileupload" />
+          <input
+            class="hidden"
+            type="file"
+            @change="onImageSelected"
+            ref="fileupload"
+          />
           <div style="pointer:cursor">
             <q-img
               @click="$refs.fileupload.click()"
               :src="photoUrl"
               style="width:100%; border: 1px solid grey"
-              :ratio="16/9"
+              :ratio="16 / 9"
             />
           </div>
-          <q-input outlined class="q-pt-sm" v-model="reference_number" label="Reference Number" />
+          <q-input
+            outlined
+            class="q-pt-sm"
+            v-model="reference_number"
+            label="Reference Number"
+          />
           <q-input
             outlined
             class="q-pt-sm"
@@ -38,8 +48,15 @@
           >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy ref="startDate" transition-show="scale" transition-hide="scale">
-                  <q-date v-model="date_deposited" @input="() => $refs.startDate.hide()" />
+                <q-popup-proxy
+                  ref="startDate"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="date_deposited"
+                    @input="() => $refs.startDate.hide()"
+                  />
                 </q-popup-proxy>
               </q-icon>
             </template>
@@ -115,5 +132,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

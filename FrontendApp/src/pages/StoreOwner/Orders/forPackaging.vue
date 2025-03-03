@@ -1,20 +1,30 @@
 <template>
   <div>
     <ProductDetails
+      v-if="!$q.screen.lt.md"
       :order="order"
       buttonLabel="Package"
       :buttonVisible="true"
       :updateFunction="update"
+    />
+    <productDetailsMobile
+      v-else
+      buttonLabel="Package"
+      :buttonVisible="true"
+      :updateFunction="update"
+      :order="order"
     />
   </div>
 </template>
 
 <script>
 import ProductDetails from "components/ItemDetails/productDetails.vue";
+import productDetailsMobile from "../../../components/ItemDetails/productDetailsMobile.vue";
 export default {
   props: ["order"],
   components: {
-    ProductDetails
+    ProductDetails,
+    productDetailsMobile
   },
 
   methods: {
@@ -52,5 +62,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn label="PAY NOW" color="primary" @click="toPay=true" />
+    <q-btn label="PAY NOW" color="primary" @click="toPay = true" />
     <q-dialog v-model="toPay" persistent>
       <q-card style="width:600px">
         <q-card-section class="bg-primary">
@@ -19,9 +19,8 @@
         </q-card-section>
 
         <q-separator />
-
         <q-card-actions align="right">
-          <q-btn label="cancel" @click="toPay=false" flat />
+          <q-btn label="cancel" @click="toPay = false" flat />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -36,9 +35,13 @@ export default {
   },
   data() {
     return {
-      currentLink: window.location.href,
+      currentLink: process.env.CLIENT ? window.location.href : "",
       toPay: false
     };
+  },
+  mounted() {
+    // console.log(this.item.price);
+    // console.log("Online payment", this.$route.query);
   },
   methods: {
     setLoaded: function() {
@@ -50,6 +53,8 @@ export default {
   },
   watch: {
     "$route.query": async function() {
+      console.log("Online payment route", this.$route.query);
+
       if ("id" in this.$route.query && "resourcePath" in this.$route.query) {
         this.$q.loading.show();
         const id = this.$route.query.id;
@@ -57,7 +62,6 @@ export default {
 
         this.toPay = false;
         this.$router.push(this.$route.path);
-
         await this.$axios
           .get(
             this.$appLink +
@@ -89,11 +93,15 @@ export default {
     toPay: function() {
       if (this.toPay == true) {
         this.$q.loading.show();
+        if (!process.env.CLIENT) return;
         const script = document.createElement("script");
         this.$axios
           .get(this.$appLink + "/createCheckOut?amount=" + this.item.price)
           .then(async res => {
-            script.src = `https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=${res.data.id}`;
+            script.src = `https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=${
+              res.data.id
+            }`;
+
             script.addEventListener("load", this.setLoaded);
             document.body.appendChild(script);
           });
@@ -103,5 +111,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

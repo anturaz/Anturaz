@@ -1,13 +1,22 @@
 <template>
   <div>
-    <q-btn label="Add new category" no-caps @click="opened=true" size="md" flat color="primary" />
+    <q-btn
+      label="Add new category"
+      no-caps
+      @click="opened = true"
+      size="md"
+      flat
+      color="primary"
+    />
     <q-dialog v-model="opened">
       <q-card>
         <q-card-section>
           <q-select
             label="Categories"
             v-model="store.categories"
-            :rules="[ () =>  store.categories.length!=0 || 'This Field is required' ]"
+            :rules="[
+              () => store.categories.length != 0 || 'This Field is required'
+            ]"
             class="col-xs-12"
             lazy-rules
             use-chips
@@ -20,11 +29,23 @@
             outlined
             square
             dense
-            @add="()=>{$refs.categories.blur()}"
-            @focus="()=>{categories_done=true}"
-            @blur="()=>{categories_done=false}"
+            @add="
+              () => {
+                $refs.categories.blur();
+              }
+            "
+            @focus="
+              () => {
+                categories_done = true;
+              }
+            "
+            @blur="
+              () => {
+                categories_done = false;
+              }
+            "
             ref="categories"
-            :placeholder="!categories_done?'': 'search..'"
+            :placeholder="!categories_done ? '' : 'search..'"
           >
             <template v-slot:no-option>
               <q-item>
@@ -37,7 +58,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" @click="opened=false" color="grey" />
+          <q-btn flat label="Cancel" @click="opened = false" color="grey" />
           <q-btn flat label="Save" @click="save" color="primary" />
         </q-card-actions>
       </q-card>
@@ -53,19 +74,19 @@ export default {
       categories_list: [],
       store: {},
       opened: false,
-      categories_done: false,
+      categories_done: false
     };
   },
   methods: {
-    filterCategories: function (val, update, abort) {
+    filterCategories: function(val, update, abort) {
       update(() => {
         const needle = val.toLowerCase();
         this.categories_option = this.categories_list.filter(
-          (v) => v.toLowerCase().indexOf(needle) > -1
+          v => v.toLowerCase().indexOf(needle) > -1
         );
       });
     },
-    save: async function () {
+    save: async function() {
       await this.$dbCon.service("store").patch(this.store._id, this.store);
 
       this.$EventBus.$emit(
@@ -73,35 +94,34 @@ export default {
         this.store.categories[this.store.categories.length - 1]
       );
       this.opened = false;
-    },
+    }
   },
   async mounted() {
     await this.$dbCon
       .service("store")
       .find({
         query: {
-          _id: this.$local.getItem("store_token"),
-        },
+          _id: this.$local.getItem("store_token")
+        }
       })
-      .then((results) => {
+      .then(results => {
         this.store = results.data[0];
       });
     this.$dbCon
       .service("categories")
       .find({
         query: {
-          $select: ["category_name"],
-        },
+          $select: ["category_name"]
+        }
       })
-      .then((results) => {
-        results.data.map((category) => {
+      .then(results => {
+        results.data.map(category => {
           this.categories_option.push(category.category_name);
           this.categories_list.push(category.category_name);
         });
       });
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

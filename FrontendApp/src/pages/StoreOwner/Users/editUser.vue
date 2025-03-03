@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn icon="edit" color="primary" @click="opened=true" flat />
+    <q-btn icon="edit" color="primary" @click="opened = true" flat />
     <q-dialog v-model="opened" persistent>
       <q-card style="width:600px">
         <q-card-section class="row items-center bg-primary text-white">
@@ -11,26 +11,33 @@
 
         <q-separator />
 
-        <q-card-section class="q-gutter-sm scroll"  style="max-height: 70vh" >
+        <q-card-section class="q-gutter-sm scroll" style="max-height: 70vh">
           <q-banner v-if="error.length != 0" rounded class="bg-red text-white">
             <template v-slot:avatar>
               <q-icon name="error" color="white" />
             </template>
             <ul>
-              <li v-for="(err,index) in error" v-bind:key="index">{{err}}</li>
+              <li v-for="(err, index) in error" v-bind:key="index">
+                {{ err }}
+              </li>
             </ul>
           </q-banner>
-          <br v-if="error.length !=0" />
+          <br v-if="error.length != 0" />
           <q-input outlined v-model="user.fname" label="First Name" />
           <q-input outlined v-model="user.lname" label="Last Name" />
           <q-input outlined v-model="user.position" label="Position" />
-          <q-input outlined v-model="user.email" readonly label="Email Address" />
+          <q-input
+            outlined
+            v-model="user.email"
+            readonly
+            label="Email Address"
+          />
 
           <q-select
             v-model="user.user_type"
             outlined
             readonly
-            :options="['Admin','Employee']"
+            :options="['Admin', 'Employee']"
             label="User Type"
           />
           <q-select
@@ -46,7 +53,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn label="close" @click="opened=false" flat />
+          <q-btn label="close" @click="opened = false" flat />
           <q-btn label="submit" @click="validate" flat color="primary" />
         </q-card-actions>
       </q-card>
@@ -112,9 +119,12 @@ export default {
           }
         })
         .onOk(() => {
-            this.$dbCon.service("users").patch(this.data._id,this.user).then(()=>{
-                this.opened=false
-            })
+          this.$dbCon
+            .service("users")
+            .patch(this.data._id, this.user)
+            .then(() => {
+              this.opened = false;
+            });
         });
     }
   },
@@ -159,5 +169,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

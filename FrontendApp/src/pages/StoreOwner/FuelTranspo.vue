@@ -3,6 +3,13 @@
     <q-breadcrumbs class="col-12 text-grey">
       <q-breadcrumbs-el label="Maintenance" icon="widgets" />
       <q-breadcrumbs-el label="Fuel and Transportation" icon="drive_eta" />
+      <q-btn
+        label="Add"
+        icon="add"
+        class="bg-primary text-white btn-sm btn-fixed-width"
+        dense
+        @click="addModal = true"
+      />
     </q-breadcrumbs>
     <br />
     <q-table
@@ -15,38 +22,60 @@
       bordered
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
         </q-input>
       </template>
-      <q-tr
-        slot="body"
-        v-if="store.market_areas.includes(props.row.location)"
-        slot-scope="props"
-        :props="props"
-      >
-        <q-td key="province" :props="props">{{props.row.location}}</q-td>
-        <q-td
-          key="fuel_transporation_fee"
-          :props="props"
-        >{{ props.row.fuel_transpo!="" && props.row.fuel_transpo!=0 ? $prettyMoney(props.row.fuel_transpo): 'FREE'}}</q-td>
+      <q-tr slot="body" slot-scope="props" :props="props">
+        <q-td key="province" :props="props">{{ props.row.location }}</q-td>
+        <q-td key="fuel_transporation_fee" :props="props">{{
+          props.row.fuel_transpo != "" && props.row.fuel_transpo != 0
+            ? $prettyMoney(props.row.fuel_transpo)
+            : "FREE"
+        }}</q-td>
         <q-td key="edit" :props="props">
-          <q-btn icon="edit" flat dense @click="editFee(props.row.__index,props.row.fuel_transpo)" />
+          <q-btn
+            icon="edit"
+            flat
+            dense
+            @click="editFee(props.row.__index, props.row.fuel_transpo)"
+          />
+          <q-btn
+            icon="delete"
+            flat
+            dense
+            @click="deleteFee(props.row.__index, props.row.fuel_transpo)"
+          />
         </q-td>
       </q-tr>
     </q-table>
+    <!-- add modal -->
+    <!-- My AddForm component is now a child component of FuelTranspo.vue -->
+    <AddForm :isVisible.sync="addModal" :data="data" :type="type" />
   </div>
 </template>
 
 <script>
+import AddForm from "../../components/Form/AddForm.vue";
 export default {
+  components: {
+    AddForm
+  },
   data() {
     return {
+      addModal: false,
       myPagination: { rowsPerPage: 10 },
       data: {},
       filter: "",
+      type: "Fuel/Transportation",
       columns: [
         {
           name: "province",
@@ -104,6 +133,29 @@ export default {
                 });
             });
         });
+    },
+    deleteFee: function(x, y) {
+      this.$q
+        .dialog({
+          title: "Delete Fuel/Transporation Charge",
+          message: "Are you sure you want to delete this charge?",
+          cancel: true
+        })
+        .onOk(() => {
+          this.data.fuel_delivery.splice(x, 1);
+          this.$dbCon
+            .service("store-fuel-delivery")
+            .update(this.data._id, this.data)
+            .then(() => {
+              this.$q.notify({
+                message: "Successfully Deleted!",
+                position: "top-right",
+                color: "primary",
+                timeout: 700,
+                icon: "check"
+              });
+            });
+        });
     }
   },
   async mounted() {
@@ -131,5 +183,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

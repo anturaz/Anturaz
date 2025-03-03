@@ -23,25 +23,18 @@ export default {
         url: this.$appLink + "/SystemUserVerification?id=" + this.userId
       }).then(result => {
         this.$q.loading.hide();
-        console.log(result.data)
+        // console.log(result.data)
         if (result.data == "SUCCESSFUL") {
-          this.$q
-            .dialog({
-              title: "Success!",
-              message: "Verification Email has been sent.",
-            
-            })
-        }else{
-          this.$q
-            .dialog({
-              title: "Error!",
-              message: "Verification Email hasn't been sent.",
-            
-            })
-           
-  
+          this.$q.dialog({
+            title: "Success!",
+            message: "Verification Email has been sent."
+          });
+        } else {
+          this.$q.dialog({
+            title: "Error!",
+            message: "Verification Email hasn't been sent."
+          });
         }
-        
       });
     }
   }

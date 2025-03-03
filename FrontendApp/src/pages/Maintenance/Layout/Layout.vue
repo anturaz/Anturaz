@@ -2,23 +2,23 @@
   <div>
     <div class="q-pa-md">
       <q-breadcrumbs>
-        <q-breadcrumbs-el icon="home" to="/Admin"/>
-        <q-breadcrumbs-el label="Maintenance" icon="widgets"/>
-        <q-breadcrumbs-el label="Layout" icon="edit"/>
+        <q-breadcrumbs-el icon="home" to="/Admin" />
+        <q-breadcrumbs-el label="Maintenance" icon="widgets" />
+        <q-breadcrumbs-el label="Layout" icon="edit" />
       </q-breadcrumbs>
     </div>
     <div class="flex">
       <q-list
         class="bg-white"
-        :class="$q.screen.lt.sm? 'layout-md-lg-xl' :'layout-sm-xs'"
+        :class="$q.screen.lt.sm ? 'layout-md-lg-xl' : 'layout-sm-xs'"
         bordered
         separator
       >
         <q-item
           clickable
-          @click="current=1, $router.push('/Admin/Maintenance/Layout/Logo')"
+          @click="(current = 1), $router.push('/Admin/Maintenance/Layout/Logo')"
           v-ripple
-          v-bind:class="current==1? 'bg-primary-1': ''"
+          v-bind:class="current == 1 ? 'bg-primary-1' : ''"
         >
           <q-item-section>Logo</q-item-section>
           <q-item-section avatar>
@@ -27,9 +27,11 @@
         </q-item>
         <q-item
           clickable
-          @click="current=2, $router.push('/Admin/Maintenance/Layout/Favicon')"
+          @click="
+            (current = 2), $router.push('/Admin/Maintenance/Layout/Favicon')
+          "
           v-ripple
-          v-bind:class="current==2? 'bg-primary-1': ''"
+          v-bind:class="current == 2 ? 'bg-primary-1' : ''"
         >
           <q-item-section>Favicon</q-item-section>
           <q-item-section avatar>
@@ -38,9 +40,12 @@
         </q-item>
         <q-item
           clickable
-          @click="current=3, $router.push('/Admin/Maintenance/Layout/FeaturedPhotos')"
+          @click="
+            (current = 3),
+              $router.push('/Admin/Maintenance/Layout/FeaturedPhotos')
+          "
           v-ripple
-          v-bind:class="current==3? 'bg-primary-1': ''"
+          v-bind:class="current == 3 ? 'bg-primary-1' : ''"
         >
           <q-item-section>Featured Photos</q-item-section>
           <q-item-section avatar>
@@ -49,9 +54,12 @@
         </q-item>
         <q-item
           clickable
-          @click="current=4, $router.push('/Admin/Maintenance/Layout/Announcement')"
+          @click="
+            (current = 4),
+              $router.push('/Admin/Maintenance/Layout/Announcement')
+          "
           v-ripple
-          v-bind:class="current==4? 'bg-primary-1': ''"
+          v-bind:class="current == 4 ? 'bg-primary-1' : ''"
         >
           <q-item-section>Announcement</q-item-section>
           <q-item-section avatar>
@@ -59,7 +67,7 @@
           </q-item-section>
         </q-item>
       </q-list>
-      <router-view :class="$q.screen.lt.sm? '' : 'col q-px-md'"/>
+      <router-view :class="$q.screen.lt.sm ? '' : 'col q-px-md'" />
     </div>
   </div>
 </template>
@@ -76,7 +84,7 @@ export default {
   }
 };
 </script>
- <style>
+<style>
 .layout-sm-xs {
   min-width: 270p;
   max-width: 270px;

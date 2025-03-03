@@ -1,14 +1,14 @@
 <template>
   <div class="row">
-    <q-breadcrumbs v-if="current==0" class="text-grey col-12">
+    <q-breadcrumbs v-if="current == 0" class="text-grey col-12">
       <q-breadcrumbs-el label="Maintenance" icon="widgets" />
       <q-breadcrumbs-el label="Store Profile" icon="store" />
     </q-breadcrumbs>
-    <q-breadcrumbs v-if="current==3" class="text-grey col-12">
+    <q-breadcrumbs v-if="current == 3" class="text-grey col-12">
       <q-breadcrumbs-el label="Maintenance" icon="widgets" />
       <q-breadcrumbs-el label="Subscriptions" icon="fa fa-retweet" />
     </q-breadcrumbs>
-     <q-breadcrumbs v-if="current==1"  class="text-grey col-12">
+    <q-breadcrumbs v-if="current == 1" class="text-grey col-12">
       <q-breadcrumbs-el label="Maintenance" icon="widgets" />
       <q-breadcrumbs-el label="Account and Security" icon="security" />
     </q-breadcrumbs>
@@ -53,12 +53,11 @@
     </div> -->
     <div class="col-12">
       <div class="q-pa-md">
-        <EditStore v-if="current==0" />
-        
-        <PrivacySetting v-if="current==1" />
-        <AdvertiseStore v-if="current==3" />
-        <ManageAccount v-if="current==1" />
-        <SecuritySetting class="q-pt-sm" v-if="current==1" />
+        <EditStore v-if="current == 0" />
+        <PrivacySetting v-if="current == 1" />
+        <AdvertiseStore v-if="current == 3" />
+        <ManageAccount v-if="current == 1" />
+        <SecuritySetting class="q-pt-sm" v-if="current == 1" />
       </div>
     </div>
   </div>
@@ -71,7 +70,7 @@ import PrivacySetting from "./StoreManagement/privacySettings.vue";
 import AdvertiseStore from "./StoreManagement/advertiseStore.vue";
 import ManageAccount from "./StoreManagement/manageAccount.vue";
 export default {
-  props: ['current'],
+  props: ["current"],
   components: {
     EditStore,
     SecuritySetting,

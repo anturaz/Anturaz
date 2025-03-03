@@ -7,22 +7,22 @@
       label="Type of Report"
     />
     <!-- ,'Inventory','Sales' -->
-    <TransactionsReport v-if="type_of_report=='Transactions'" />
-    <InventoryReport v-if="type_of_report=='Inventory'" />
-    <SalesReport v-if="type_of_report=='Sales'" />
+    <TransactionsReport v-if="type_of_report == 'Transactions'" />
+    <InventoryReport v-if="type_of_report == 'Inventory'" />
+    <SalesReport v-if="type_of_report == 'Sales'" />
   </div>
 </template>
 
 <script>
-import TransactionsReport from './transactions.vue'
-import InventoryReport from './inventory.vue'
-import SalesReport from './sales.vue'
+import TransactionsReport from "./transactions.vue";
+import InventoryReport from "./inventory.vue";
+import SalesReport from "./sales.vue";
 export default {
-    components: {
-        TransactionsReport,
-        InventoryReport,
-        SalesReport
-    },
+  components: {
+    TransactionsReport,
+    InventoryReport,
+    SalesReport
+  },
   data() {
     return {
       type_of_report: "Transactions"
@@ -31,5 +31,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

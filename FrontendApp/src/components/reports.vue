@@ -2,43 +2,57 @@
   <div class="q-pa-xl">
     <div class="row justify-between">
       <div class="col-md-8 col-sm-12 row">
-      <q-input
-        outlined
-        dense
-        class="q-ma-sm"
-        label="Start Date"
-        @click="() => $refs.qDateProxy.show()"
-        v-model="$parent.start_date"
-        mask="date"
-        :rules="['date']"
-      >
-        <template v-slot:append>
-          <q-icon name="event" class="cursor-pointer">
-            <q-popup-proxy ref="startDate" transition-show="scale" transition-hide="scale">
-              <q-date v-model="$parent.start_date" @input="() => $refs.startDate.hide()" />
-            </q-popup-proxy>
-          </q-icon>
-        </template>
-      </q-input>
+        <q-input
+          outlined
+          dense
+          class="q-ma-sm"
+          label="Start Date"
+          @click="() => $refs.qDateProxy.show()"
+          v-model="$parent.start_date"
+          mask="date"
+          :rules="['date']"
+        >
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy
+                ref="startDate"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date
+                  v-model="$parent.start_date"
+                  @input="() => $refs.startDate.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
 
-      <q-input
-        outlined
-        dense
-        class="q-ma-sm"
-        label="End Date"
-        @click="() => $refs.qDateProxy.show()"
-        v-model="$parent.end_date"
-        mask="date"
-        :rules="['date']"
-      >
-        <template v-slot:append>
-          <q-icon name="event" class="cursor-pointer">
-            <q-popup-proxy ref="endDate" transition-show="scale" transition-hide="scale">
-              <q-date v-model="$parent.end_date" @input="() => $refs.endDate.hide()" />
-            </q-popup-proxy>
-          </q-icon>
-        </template>
-      </q-input>
+        <q-input
+          outlined
+          dense
+          class="q-ma-sm"
+          label="End Date"
+          @click="() => $refs.qDateProxy.show()"
+          v-model="$parent.end_date"
+          mask="date"
+          :rules="['date']"
+        >
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy
+                ref="endDate"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                <q-date
+                  v-model="$parent.end_date"
+                  @input="() => $refs.endDate.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
       </div>
       <div class="col-md-4 col-sm-12" align="right ">
         <q-btn
@@ -63,15 +77,20 @@
         />
       </div>
     </div>
+    {{ total }}
     <q-markup-table flat bordered>
       <thead>
         <tr>
-          <th class="text-center" v-for="header in header" :key="header">{{header.label}}</th>
+          <th class="text-center" v-for="header in header" :key="header">
+            {{ header.label }}
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="data in data" :key="data">
-          <td class="text-center" v-for="header in header" :key="header">{{data[header.field]}}</td>
+          <td class="text-center" v-for="header in header" :key="header">
+            {{ data[header.field] }}
+          </td>
         </tr>
       </tbody>
     </q-markup-table>
@@ -88,7 +107,8 @@ export default {
     header: Array,
     data: Array,
     start_date: String,
-    end_date: String
+    end_date: String,
+    total: Array
   },
   data() {
     return {
@@ -116,7 +136,7 @@ export default {
         new Blob([s2ab(csv)], {
           type: "application/octet-stream"
         }),
-       this.start_date+"-"+this.end_date + ".csv"
+        this.start_date + "-" + this.end_date + ".csv"
       );
     },
     exportPDF: function() {
@@ -136,12 +156,12 @@ export default {
         }
         body.push(row);
       });
-      console.log("BODY", body);
+      // console.log("BODY", body);
       pdfMake.vfs = pdfFonts.pdfMake.vfs;
       var table = [header, ...body];
       this.body = body;
       var docDefinition = {
-        pageOrientation: 'landscape',
+        pageOrientation: "landscape",
         content: [
           {
             style: {
@@ -161,5 +181,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

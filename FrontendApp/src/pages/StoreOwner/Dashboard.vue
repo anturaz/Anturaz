@@ -3,14 +3,16 @@
     <div class="fixed-bottom-left" style="z-index: 2">
       <q-btn
         unelevated
-        label="Advertise"
+        label="Advertise Store"
         @click="(currentMenu = 'Store Profile'), (opened = true)"
         color="primary"
         no-caps
         :style="$q.screen.lt.md ? 'width:50vw' : 'width: 150px'"
       />
-      <a :href="'/#/StoreDetails?store=' + store.unique_link" target="_blank">
-      <!-- @click="$router.push(' + store._id) -->
+
+      <!-- {{ store.unique_link }} -->
+      <a :href="'/#/StoreDetails?store=' + store._id" target="_blank">
+        <!-- @click="$router.push(' + store._id) -->
         <q-btn
           class="bg-white"
           color="primary"
@@ -25,11 +27,7 @@
       </a>
     </div>
     <!-- STORE DASHBOARD HEADER -->
-    <q-card
-      class="col-12 col-auto"
-      flat
-      :class="$q.screen.lt.md ? 'q-pl-xl' : ''"
-    >
+    <q-card class="col-12 col-auto" flat :class="$q.screen.lt.md ? '' : ''">
       <q-card-section class="row justify-right">
         <div class="col-md-8 col-xs-12 row">
           <q-img
@@ -39,12 +37,16 @@
             ratio="1"
           />
           <div class="col self-center row">
-            <span v-if="store.store_name" class="text-h4 text-grey-7 col-12">{{
-              store.store_name.toUpperCase()
-            }}</span>
+            <span v-if="store.store_name" class="text-h6 col-12"
+              >{{
+                store.store_name
+                  .split(" ")
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")
+              }}
+            </span>
             <span class="text-subtitle2 text-grey-7">
-              <span class="text-primary">12.5k</span> Followers |
-              <span class="text-primary">5.0</span> Store Rating
+              <span class="text-primary">{{ storeFollowing }}</span> Followers
             </span>
           </div>
         </div>
@@ -159,7 +161,13 @@
         >
           <q-scroll-area class="col-12 row q-pa-md" style="height: 63vh">
             <div class="q-ma-xs" align="right">
-              <q-btn label="Sales Report" color="primary" no-caps unelevated />
+              <q-btn
+                label="Sales Report"
+                @click="(currentMenu = 'Reports'), (opened = true)"
+                color="primary"
+                no-caps
+                unelevated
+              />
             </div>
             <div class="col-12 row">
               <q-card
@@ -170,7 +178,9 @@
                 <div class="text-primary text-h6 q-pb-sm">Products</div>
                 <q-separator />
                 <div class="row" v-for="(order, index) in orders" :key="index">
-                  <div class="col-6 self-center">{{ order }}</div>
+                  <div class="col-6 self-center">
+                    {{ order === "For Receiving" ? "Shipped Out" : order }}
+                  </div>
 
                   <div class="col-6 self-center">
                     <Orders :tab="order" />
@@ -249,7 +259,7 @@
           "
         >
           <q-scroll-area class="col-12 row" style="height: 63vh">
-            <div class="col-12 row">
+            <div class="col-12 ">
               <Ratings :class="!$q.screen.lt.md ? 'q-pl-md' : ''" />
             </div>
           </q-scroll-area>
@@ -300,6 +310,7 @@
               <ManageProducts v-show="currentInventoryMenu=='products'" />
               <ManageServices v-show="currentInventoryMenu=='services'" />
             </div>-->
+
             <Reports v-if="currentMenu == 'Reports'" />
           </div>
         </q-card-section>
@@ -326,10 +337,11 @@ export default {
     Reservations,
     MainMenu,
     WidgetAnnouncement,
-    Ratings,
+    Ratings
   },
   data() {
     return {
+      storeFollowing: 0,
       opened: false,
       currentMenu: "",
       currentInventoryMenu: "products",
@@ -340,34 +352,58 @@ export default {
         "For Packaging",
         "For Shipping",
         "For Pickup",
-        "Completed",
+        "For Receiving",
+        "Completed"
       ],
       reservations: [
         "Pending Payment",
         "To Acknowledge",
-        "Status",
-        "Completed",
+        "OnGoing",
+        "Completed"
       ],
-      tab: "sales",
+      tab: "sales"
     };
   },
 
-  async mounted() {
-    await this.$dbCon.service("store").onDataChange(() => {
-      this.$dbCon
+  methods: {
+    async getStore() {
+      await this.$dbCon
         .service("store")
         .find({
           query: {
-            _id: this.$local.getItem("store_token"),
-          },
+            _id: this.$local.getItem("store_token")
+          }
         })
-        .then((result) => {
+        .then(result => {
           this.store = result.data[0];
         });
-    });
+    },
+
+    async getStoreFollowing() {
+      await this.$dbCon
+        .service("store-following")
+        .find({
+          query: {
+            store_id: this.$local.getItem("store_token")
+          }
+        })
+        .then(result => {
+          this.storeFollowing = result.total;
+        });
+    }
   },
+
+  async mounted() {
+    this.getStore();
+    await this.$dbCon.service("store").onDataChange(() => {
+      this.getStore();
+    });
+    this.getStoreFollowing();
+    await this.$dbCon.service("store-following").onDataChange(() => {
+      this.getStoreFollowing();
+    });
+  }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

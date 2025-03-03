@@ -9,7 +9,6 @@
       :contracted="$q.screen.lt.md"
       flat
       :bordered="!$q.screen.lt.md"
-    
     >
       <q-step
         :name="1"
@@ -26,7 +25,7 @@
         icon="store"
         :done="store.current_step > 2"
       >
-        <StoreDetails  v-if="!$q.screen.lt.md"  />
+        <StoreDetails v-if="!$q.screen.lt.md" />
       </q-step>
       <q-step
         :name="3"
@@ -231,37 +230,36 @@ export default {
     Portfolio,
     Settings,
     AddItems,
-    Summary,
+    Summary
   },
   data() {
     return {
-      store: {},
+      store: {}
     };
   },
   methods: {
-    getData: async function () {
+    getData: async function() {
       await this.$dbCon
         .service("store")
         .find({
           query: {
-            _id: this.$local.getItem("store_token"),
-          },
+            _id: this.$local.getItem("store_token")
+          }
         })
-        .then((results) => {
+        .then(results => {
           this.store = results.data[0];
-          console.log('this.store', this.store)
           if (this.store.current_step == -1) {
             this.$router.push("/StoreOwner");
           }
         });
       this.$forceUpdate();
     },
-    updateStep: async function (x) {
+    updateStep: async function(x) {
       if (x == 4) {
         //MINIMUM OF 2 UPLOADED PIC
         if (this.store.gallery.length < 2) {
           this.$q.dialog({
-            title: "Please upload at least 2 photos to proceed.",
+            title: "Please upload at least 2 photos to proceed."
           });
           return;
         }
@@ -274,11 +272,11 @@ export default {
             query: {
               store_id: this.$local.getItem("store_token"),
               deleted: {
-                $ne: true,
-              },
-            },
+                $ne: true
+              }
+            }
           })
-          .then((results) => {
+          .then(results => {
             return results.total;
           });
         var totServices = await this.$dbCon
@@ -287,24 +285,24 @@ export default {
             query: {
               store_id: this.$local.getItem("store_token"),
               deleted: {
-                $ne: true,
-              },
-            },
+                $ne: true
+              }
+            }
           })
-          .then((results) => {
+          .then(results => {
             return results.total;
           });
         if (totProducts + totServices < 1) {
           this.$q.dialog({
             title: "Must add 1 Item",
-            message: "Minimum of add atleast one(1) item to proceed",
+            message: "Minimum of add atleast one(1) item to proceed"
           });
           return;
         }
       }
       this.store.current_step = x;
       await this.$dbCon.service("store").patch(this.store._id, this.store);
-    },
+    }
   },
   mounted() {
     this.$dbCon.service("store").onDataChange(() => {
@@ -312,6 +310,6 @@ export default {
     });
 
     //kapag napublish na
-  },
+  }
 };
 </script>
