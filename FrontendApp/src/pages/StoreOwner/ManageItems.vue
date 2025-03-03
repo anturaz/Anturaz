@@ -12,37 +12,7 @@
           <div
             class="row items-center"
             :class="$q.screen.lt.md ? 'justify-between col-12' : ''"
-          >
-            <!-- YOU HAVE REMAINING SLOTS  -->
-            <div
-              class="row justify-center"
-              :class="$q.screen.lt.md ? 'col-8' : ''"
-            >
-              <p class="text-bold" v-if="maximum_items < 6">
-                <br />
-                You have {{ maximum_items - data.length }} remaining item slots
-              </p>
-              <p
-                class="text-bold"
-                v-else-if="maximum_items == data.length && maximum_items == 5"
-              >
-                <br />You have consumed your free item slots
-              </p>
-              <p class="text-bold" v-else>
-                <br />
-                You have {{ maximum_items - data.length }} remaining item slots
-              </p>
-
-              <p><br />&nbsp;({{ data.length }}/{{ maximum_items }})</p>
-            </div>
-            <!-- BUY MORE SLOT BUTTON -->
-            <div
-              class="row justify-end"
-              :class="$q.screen.lt.md ? 'col-4 q-pt-md' : ''"
-            >
-              <AddMoreItem ref="buy_slots" itemtype="Products" />
-            </div>
-          </div>
+          ></div>
           <q-input
             v-if="$route.path != '/StoreOwner/PublishStore'"
             :class="$q.screen.lt.md ? 'col-12' : ''"
@@ -105,18 +75,35 @@
               : 'width: 250px ; height: 280px'
           "
         >
-          <q-btn
+          <!-- <q-btn
             unelevated
             style="width: 100%; height: 100%"
-            :label="maximum_items < data.length ? 'Buy slots' : 'Add an item'"
+            :label="maximum_items <= data.length ? 'Buy slots' : 'Add an item'"
             no-caps
             flat
             stack
             color="grey"
             @click="
-              maximum_items < data.length
+              maximum_items <= data.length
                 ? ($refs.buy_slots.opened = true)
                 : (opened = true)
+            "
+            icon="add"
+            size="md"
+          /> -->
+          <q-btn
+            unelevated
+            style="width: 100%; height: 100%"
+            label="Add an item"
+            no-caps
+            flat
+            stack
+            color="grey"
+            @click="
+              // maximum_items <= data.length
+              //   ? ($refs.buy_slots.opened = true)
+              //   : (opened = true)
+              opened = true
             "
             icon="add"
             size="md"
@@ -142,7 +129,7 @@
             >
               <span>
                 On-hand:
-                <span class="text-primary">25</span>
+                <span class="text-primary"> {{ props.row.stock }} </span>
               </span>
               <div class="text-primary">Manage</div>
             </div>
@@ -153,27 +140,62 @@
             >
               <q-img
                 :src="props.row.photos[0]"
-                :ratio="$q.screen.lt.md ? 4 / 3 : 16 / 9"
+                :ratio="$q.screen.lt.md ? 4 / 3.5 : 16 / 11"
               />
               <div class="q-pa-xs">
-                <div class="text-right">SKU: {{ props.row.SKU }}</div>
+                <div
+                  class="row justify-between q-pb-sm"
+                  style="display: flex; justify-content: space-between;"
+                >
+                  <div class="text-capitalize text-wrap" style="flex: 1;">
+                    <div
+                      style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;"
+                    >
+                      {{ props.row.product_name }}
+                      {{ props.row.service_name }}
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div
+                      style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;"
+                    >
+                      SKU: {{ props.row.SKU }}
+                    </div>
+                  </div>
+                </div>
                 <div>{{ props.row.item_type }}</div>
                 <div>
-                  {{ $prettyMoney(props.row.regular_price) }}
-                  <small class="text-primary q-pl-sm">
-                    <strike>{{ $prettyMoney(props.row.sale_price) }}</strike>
-                  </small>
+                  <font class="text-bold text-primary">{{
+                    props.row.sale_price != ""
+                      ? $prettyMoney(props.row.sale_price)
+                      : $prettyMoney(props.row.regular_price)
+                  }}</font>
+                  <font
+                    class="text-grey q-pl-sm"
+                    v-if="props.row.sale_price != ''"
+                  >
+                    <strike>{{ $prettyMoney(props.row.regular_price) }}</strike>
+                  </font>
                 </div>
               </div>
             </div>
-            <q-separator />
-            <div align="center">
+            <!-- <q-separator /> -->
+
+            <!-- <div align="center">
               <AdvertiseButton
                 v-if="$compareToCurrentDate(props.row.expiry) != 'past'"
                 :related_id="props.row._id"
                 item_type="product"
               />
-            </div>
+            </div> -->
+
+            <!-- <q-card-actions align="around">
+              <AdvertiseButton
+                v-if="$compareToCurrentDate(props.row.expiry) != 'past'"
+                :related_id="props.row._id"
+                item_type="product"
+              />
+            </q-card-actions> -->
           </div>
           <div v-show="currentItem == props.row.__index">
             <div class="q-pa-xs row text-caption">
@@ -192,72 +214,96 @@
               <div
                 class="q-mb-sm"
                 style="cursor: pointer"
-                 @click="current_item_id=props.row._id , $refs.manageproduct.openadjuststock(props.row._id)"
+                @click="
+                  (current_item_id = props.row._id),
+                    $refs.manageproduct.openadjuststock(props.row._id)
+                "
                 v-if="props.row.item_type == 'Product'"
               >
                 <q-icon
                   name="fa fa-edit"
                   class="text-primary q-mr-sm"
-                 
                 />Add/Deduct inventory
               </div>
               <div class="q-mb-sm" v-else style="cursor: pointer">
-                <q-icon name="fa fa-edit" class="text-primary q-mr-sm" />Booking
-                Calendar
+                <!-- <q-icon name="fa fa-edit" class="text-primary q-mr-sm" />Booking
+                Calendar -->
               </div>
-              <div class="q-mb-sm" style="cursor: pointer" @click="current_item_id=props.row._id , $refs.manageproduct.openeditproduct(props.row._id)">
+              <div
+                class="q-mb-sm"
+                style="cursor: pointer"
+                @click="
+                  (current_item_id = props.row._id),
+                    ifCategoryIsService(props.row.category)
+                      ? $refs.manageService.openEditService(props.row._id)
+                      : $refs.manageproduct.openeditproduct(props.row._id)
+                "
+              >
                 <q-icon name="fa fa-edit" class="text-primary q-mr-sm" />Edit
                 details
               </div>
-              <div class="q-mb-sm" style="cursor: pointer" @click="current_item_id=props.row._id , $refs.manageproduct.deleteProduct(props.row._id)">
+              <div
+                class="q-mb-sm"
+                style="cursor: pointer"
+                @click="
+                  () => {
+                    // (current_item_id = props.row._id),
+                    ifCategoryIsService(props.row.category)
+                      ? $refs.manageService.deleteService(props.row._id)
+                      : $refs.manageproduct.deleteProduct(props.row._id);
+                  }
+                "
+              >
                 <q-icon name="fa fa-edit" class="text-primary q-mr-sm" />Delete
                 item
               </div>
             </div>
+
             <div class="q-ml-sm">
               <font size="2">
                 <table v-if="props.row.item_type == 'Product'">
                   <tr>
                     <td>On-hand</td>
-                    <td class="text-primary">25</td>
+                    <td class="text-primary">{{ props.row.stock }}</td>
                   </tr>
                   <tr>
                     <td>Sold</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.sold }}</td>
                   </tr>
                   <tr>
                     <td>Cancelled</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.cancelled }}</td>
                   </tr>
                   <tr>
                     <td>Returned</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.returned }}</td>
                   </tr>
                   <tr>
                     <td>Gift-wrapped</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.gift_wrapped }}</td>
                   </tr>
                 </table>
+
                 <table v-else>
                   <tr>
                     <td>Available</td>
-                    <td class="text-primary">25</td>
+                    <td class="text-primary">{{ props.row.available }}</td>
                   </tr>
                   <tr>
                     <td>Booked</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.booked }}</td>
                   </tr>
                   <tr>
                     <td>Completed</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.completed }}</td>
                   </tr>
                   <tr>
                     <td>Cancelled</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.cancelled }}</td>
                   </tr>
                   <tr>
                     <td>Refunded</td>
-                    <td class="text-primary">1</td>
+                    <td class="text-primary">{{ props.row.refunded }}</td>
                   </tr>
                 </table>
               </font>
@@ -348,11 +394,8 @@
         </div>-->
       </template>
     </q-table>
-    <q-dialog
-      v-model="opened"
-      persistent
-      :maximized="$q.screen.lt.md"
-    >
+    <!-- card item for adding -->
+    <q-dialog v-model="opened" persistent :maximized="$q.screen.lt.md">
       <q-card style="width: 80vh">
         <q-card-section class="row items-center text-grey-10">
           <div class="text-h6" v-if="step == 1">Add an item</div>
@@ -408,6 +451,7 @@
               :category.sync="category.value"
             />
           </div>
+
           <div
             v-if="step != 1 && category.type == 'Service'"
             class="row justify-center"
@@ -426,16 +470,10 @@
               @click="step = 2"
               no-caps
               ref="btn_save_next"
-              @mouseover="
-                ($refs.btn_save_next.unelevated = true),
-                  ($refs.btn_save_next.outline = false)
-              "
-              @mouseleave="
-                ($refs.btn_save_next.outline = true),
-                  ($refs.btn_save_next.unelevated = false)
-              "
-              outline
+              :unelevated="this.$q.platform.is.mobile ? true : false"
+              :outline="this.$q.platform.is.mobile ? false : true"
             />
+
             <div v-if="step != 1">
               <q-btn
                 color="grey"
@@ -443,30 +481,30 @@
                 @click="step--"
                 no-caps
                 ref="btn_back"
-                @mouseover="
-                  ($refs.btn_back.unelevated = true),
-                    ($refs.btn_back.flat = false)
-                "
-                @mouseleave="
-                  ($refs.btn_back.flat = true),
-                    ($refs.btn_back.unelevated = false)
-                "
+                :unelevated="this.$q.platform.is.mobile ? true : false"
+                :outline="this.$q.platform.is.mobile ? false : true"
                 flat
               />
               <q-btn
                 class="q-ml-sm"
                 color="primary"
-                label="Continue"
+                label="Continues"
                 @click="step++"
                 no-caps
                 ref="btn_save_next"
+                :unelevated="this.$q.platform.is.mobile ? true : false"
+                :outline="this.$q.platform.is.mobile ? false : true"
                 @mouseover="
-                  ($refs.btn_save_next.unelevated = true),
-                    ($refs.btn_save_next.outline = false)
+                  () => {
+                    $refs.btn_save_next.unelevated = true;
+                    $refs.btn_save_next.outline = false;
+                  }
                 "
                 @mouseleave="
-                  ($refs.btn_save_next.outline = true),
-                    ($refs.btn_save_next.unelevated = false)
+                  () => {
+                    $refs.btn_save_next.outline = true;
+                    $refs.btn_save_next.unelevated = false;
+                  }
                 "
                 outline
               />
@@ -475,7 +513,8 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-  <ManageProduct ref="manageproduct"   />
+    <ManageProduct ref="manageproduct" />
+    <ManageService ref="manageService" />
   </div>
 </template>
 
@@ -486,6 +525,7 @@ import AdvertiseButton from "./Inventory/advertiseButton.vue";
 import AddMoreItem from "./Inventory/addMoreItem.vue";
 import AddCategory from "./Inventory/addCategory.vue";
 import ManageProduct from "./Inventory/manageProduct.vue";
+import ManageService from "./Inventory/manageService.vue";
 export default {
   components: {
     AddProduct,
@@ -493,7 +533,8 @@ export default {
     AdvertiseButton,
     AddMoreItem,
     AddCategory,
-    ManageProduct
+    ManageProduct,
+    ManageService
   },
   data() {
     return {
@@ -514,49 +555,55 @@ export default {
           required: true,
           label: "SKU",
           align: "left",
-          field: "SKU",
+          field: "SKU"
         },
         {
           name: "product_name",
           required: true,
           label: "Product Name",
           align: "left",
-          field: "product_name",
+          field: "product_name"
         },
         {
           name: "category",
           align: "center",
           label: "Category",
-          field: "category",
+          field: "category"
         },
         {
           name: "regular_price",
           label: "Regular Price",
-          field: "regular_price",
+          field: "regular_price"
         },
         { name: "sale_price", label: "Sale Price", field: "sale_price" },
-        { name: "stock", label: "Stock", field: "stock" },
-      ],
+        { name: "stock", label: "Stock", field: "stock" }
+      ]
     };
   },
   methods: {
-    max_items: function () {
+    ifCategoryIsService(data) {
+      return (
+        this.category_options.filter(cat => cat.value === data)[0].type ===
+        "Service"
+      );
+    },
+    max_items: function() {
       this.$q.dialog({
         title: "Maximum number of Products reached!",
         message:
-          "To add more product, you may avail it via Bank Deposit or Layaway",
+          "To add more product, you may avail it via Bank Deposit or Layaway"
       });
     },
-    getData: async function () {
+    getData: async function() {
       var products = await this.$dbCon
         .service("products")
         .find({
           query: {
             store_id: this.$local.getItem("store_token"),
-            deleted: false,
-          },
+            deleted: false
+          }
         })
-        .then((results) => {
+        .then(results => {
           results.data.map((service, index) => {
             results.data[index].item_type = "Product";
           });
@@ -568,10 +615,10 @@ export default {
         .find({
           query: {
             store_id: this.$local.getItem("store_token"),
-            deleted: false,
-          },
+            deleted: false
+          }
         })
-        .then((results) => {
+        .then(results => {
           results.data.map((service, index) => {
             results.data[index].item_type = "Service";
           });
@@ -580,22 +627,22 @@ export default {
 
       this.data = products.concat(services);
     },
-    unavailableMessage: function () {
+    unavailableMessage: function() {
       this.$q.dialog({
         title: "Unavailable Item",
         message:
-          "This item is no longer available due to expired item subscription. You may reactivate this item again by purchasing a subscription.",
+          "This item is no longer available due to expired item subscription. You may reactivate this item again by purchasing a subscription."
       });
-    },
+    }
   },
   watch: {
-    step: async function () {
+    step: async function() {
       //VALIDATION PER STEP
       if (this.step == 2 && this.category.value == undefined) {
         this.step = 1;
         this.$q.dialog({
           title: "Choose Item Category",
-          message: "Please choose an Item Category to proceed.",
+          message: "Please choose an Item Category to proceed."
         });
       }
       if (this.step == 3) {
@@ -614,35 +661,35 @@ export default {
         this.step = 1;
       }
     },
-    opened: function () {
+    opened: function() {
       if (this.opened == false) {
         this.step = 1;
         this.item_type = "";
       }
-    },
+    }
   },
   async mounted() {
-    this.$EventBus.$on("update-category", (chosen_category) => {
+    this.$EventBus.$on("update-category", chosen_category => {
       this.$dbCon
         .service("store")
         .get(this.$local.getItem("store_token"))
-        .then((store) => {
+        .then(store => {
           this.$dbCon
             .service("categories")
             .find({
               query: {
                 category_name: {
-                  $in: store.categories,
-                },
-              },
+                  $in: store.categories
+                }
+              }
             })
-            .then((results) => {
+            .then(results => {
               this.category_options = [];
-              results.data.map((category) => {
+              results.data.map(category => {
                 this.category_options.push({
                   label: category.category_name,
                   value: category.category_name,
-                  type: category.classification,
+                  type: category.classification
                 });
                 this.$forceUpdate();
                 for (var x = 0; x < this.category_options.length; x++) {
@@ -654,7 +701,7 @@ export default {
             });
         });
     });
-    this.$EventBus.$on("update-step", (stp) => {
+    this.$EventBus.$on("update-step", stp => {
       this.step = stp;
     });
     this.$dbCon.service("products").onDataChange(() => {
@@ -676,20 +723,19 @@ export default {
           $or: [
             {
               date_end: {
-                $gte: new Date(),
+                $gte: new Date()
               },
-              status: "Paid",
+              status: "Paid"
             },
             {
-              status: "Free",
-            },
-          ],
-        },
+              status: "Free"
+            }
+          ]
+        }
       })
-      .then((results) => {
-        console.log(results);
+      .then(results => {
         var maximum_items = 0;
-        results.data.map((sub) => {
+        results.data.map(sub => {
           maximum_items += sub.items;
         });
         this.maximum_items = maximum_items;
@@ -698,31 +744,30 @@ export default {
     this.$dbCon
       .service("store")
       .get(this.$local.getItem("store_token"))
-      .then((store) => {
+      .then(store => {
         this.$dbCon
           .service("categories")
           .find({
             query: {
               category_name: {
-                $in: store.categories,
-              },
-            },
+                $in: store.categories
+              }
+            }
           })
-          .then((results) => {
+          .then(results => {
             this.category_options = [];
-            results.data.map((category) => {
+            results.data.map(category => {
               this.category_options.push({
                 label: category.category_name,
                 value: category.category_name,
-                type: category.classification,
+                type: category.classification
               });
               this.$forceUpdate();
             });
           });
       });
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

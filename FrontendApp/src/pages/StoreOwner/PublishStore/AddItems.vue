@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ManageItems from "pages/StoreOwner/ManageItems.vue"
+import ManageItems from "pages/StoreOwner/ManageItems.vue";
 import ManageProducts from "pages/StoreOwner/ManageProducts.vue";
 import ManageServices from "pages/StoreOwner/ManageServices.vue";
 export default {
@@ -19,5 +19,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

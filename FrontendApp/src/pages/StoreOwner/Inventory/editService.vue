@@ -2,7 +2,7 @@
   <div class="row">
     <q-btn
       class="col-11"
-      @click="opened=true"
+      @click="opened = true"
       outline
       color="primary"
       size="sm"
@@ -32,7 +32,14 @@
               :options="category_options"
               label="Category"
             />
-            <q-input class="col-6" square outlined dense stack label="Stock Keeping Unit(SKU)" />
+            <q-input
+              class="col-6"
+              square
+              outlined
+              dense
+              stack
+              label="Stock Keeping Unit(SKU)"
+            />
             <q-input
               class="col-12 q-pt-sm"
               square
@@ -42,7 +49,7 @@
               label="Service Name"
               ref="inp_service_name"
               v-model="data.service_name"
-              :rules="[ val => val.trim()!='' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
               counter
             />
@@ -64,7 +71,7 @@
               @focus="toInputRegularPrice"
               @blur="toChangeRegularPrice"
               ref="inp_regular_price"
-              :rules="[ val => val.trim()!='' || 'Required']"
+              :rules="[val => val.trim() != '' || 'Required']"
               lazy-rules
             />
             <q-input
@@ -78,56 +85,62 @@
               @blur="toChangeSalePrice"
               v-model="temp_sale_price"
               :rules="[
-                val =>  parseFloat(data.regular_price)> parseFloat(data.sale_price)  || 'Invalid Sale Price',
+                val =>
+                  parseFloat(data.regular_price) >
+                    parseFloat(data.sale_price) || 'Invalid Sale Price'
               ]"
               lazy-rules
             />
           </div>
-           <div class="col-12 q-pt-sm" />
-            <q-card class="col-6" flat bordered>
-              <q-card-section class="row">
-                <p class="col-12 text-title text-bold text-grey">Enable Cash on Fulfillment?</p>
-                <q-btn-toggle
-                  class="col-12"
-                  spread
-                  value="one"
-                  style="border:1px solid grey"
-                  no-caps
-                  rounded
-                  unelevated
-                  :toggle-color="data.cof? 'primary': 'grey'"
-                  color="white"
-                  text-color="grey"
-                  v-model="data.cof"
-                  :options="[
-                                {label: 'Yes', value: true},
-                                {label: 'No', value: false}
-                            ]"
-                />
-              </q-card-section>
-            </q-card>
-             <q-card class="col-6" flat bordered>
-              <q-card-section class="row">
-                <p class="col-12 text-title text-bold text-grey">Enable Lay-away?</p>
-                <q-btn-toggle
-                  class="col-12"
-                  spread
-                  value="one"
-                  style="border:1px solid grey"
-                  no-caps
-                  rounded
-                  unelevated
-                  :toggle-color="data.lay_away? 'primary': 'grey'"
-                  color="white"
-                  text-color="grey"
-                  v-model="data.lay_away"
-                  :options="[
-                                {label: 'Yes', value: true},
-                                {label: 'No', value: false}
-                            ]"
-                />
-              </q-card-section>
-            </q-card>
+          <div class="col-12 q-pt-sm" />
+          <q-card class="col-6" flat bordered>
+            <q-card-section class="row">
+              <p class="col-12 text-title text-bold text-grey">
+                Enable Cash on Fulfillment?
+              </p>
+              <q-btn-toggle
+                class="col-12"
+                spread
+                value="one"
+                style="border:1px solid grey"
+                no-caps
+                rounded
+                unelevated
+                :toggle-color="data.cof ? 'primary' : 'grey'"
+                color="white"
+                text-color="grey"
+                v-model="data.cof"
+                :options="[
+                  { label: 'Yes', value: true },
+                  { label: 'No', value: false }
+                ]"
+              />
+            </q-card-section>
+          </q-card>
+          <q-card class="col-6" flat bordered>
+            <q-card-section class="row">
+              <p class="col-12 text-title text-bold text-grey">
+                Enable Lay-away?
+              </p>
+              <q-btn-toggle
+                class="col-12"
+                spread
+                value="one"
+                style="border:1px solid grey"
+                no-caps
+                rounded
+                unelevated
+                :toggle-color="data.lay_away ? 'primary' : 'grey'"
+                color="white"
+                text-color="grey"
+                v-model="data.lay_away"
+                :options="[
+                  { label: 'Yes', value: true },
+                  { label: 'No', value: false }
+                ]"
+              />
+            </q-card-section>
+          </q-card>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -150,8 +163,8 @@ export default {
     };
   },
   methods: {
-    openModal: function(){
-      this.opened=true
+    openModal: function() {
+      this.opened = true;
     },
     save: async function() {
       var toSubmit = !(await this.validate());
@@ -173,7 +186,7 @@ export default {
                 persistent: true
               })
               .onOk(() => {
-                this.opened=false
+                this.opened = false;
               });
           });
       }
@@ -225,5 +238,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

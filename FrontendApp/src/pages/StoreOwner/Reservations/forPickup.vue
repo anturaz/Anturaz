@@ -1,6 +1,11 @@
 <template>
   <div>
-     <ServiceDetails :order="order" :updateFunction="update" buttonLabel="Pickup" :buttonVisible="true" />
+    <ServiceDetails
+      :order="order"
+      :updateFunction="update"
+      buttonLabel="Pickup"
+      :buttonVisible="true"
+    />
   </div>
 </template>
 
@@ -8,7 +13,7 @@
 import ServiceDetails from "components/ItemDetails/serviceDetails.vue";
 export default {
   props: ["order"],
-   components: {
+  components: {
     ServiceDetails
   },
   methods: {
@@ -33,12 +38,16 @@ export default {
             event: "Received",
             date: new Date()
           });
+          this.order.recieved_date = new Date().toISOString();
+
           this.$dbCon
             .service("service-transactions")
             .patch(this.order._id, this.order)
             .then(() => {
               this.opened = false;
             });
+          this.$createSalesRecord(this.order, "Product");
+
           //EMAIL
         });
     }
@@ -46,5 +55,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

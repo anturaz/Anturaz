@@ -16,21 +16,27 @@
         <q-card-section class="row">
           <div class="col-md-8 col-sm-12">Transaction Fee</div>
           <div class="q-pb-sm col-md-2 col-sm-12" align="right">
-            <q-input square outlined dense type="number" v-model="temporaryData.transaction_fee" />
+            <q-input
+              square
+              outlined
+              dense
+              type="number"
+              v-model="temporaryData.transaction_fee"
+            />
           </div>
           <div class="col-md-2 col-sm-12" align="right">
             <q-btn
               label="SAVE"
               color="primary"
               @click="save('transaction_fee')"
-              :disable="temporaryData.transaction_fee==data.transaction_fee"
+              :disable="temporaryData.transaction_fee == data.transaction_fee"
             />
             <q-btn
               class="q-ml-sm"
               label="RESET"
               color="grey"
-              :disable="temporaryData.transaction_fee==data.transaction_fee"
-              @click="temporaryData.transaction_fee=data.transaction_fee"
+              :disable="temporaryData.transaction_fee == data.transaction_fee"
+              @click="temporaryData.transaction_fee = data.transaction_fee"
             />
           </div>
         </q-card-section>
@@ -38,21 +44,27 @@
         <q-card-section class="row">
           <div class="col-md-8 col-sm-12">MDR</div>
           <div class="q-pb-sm col-md-2 col-sm-12" align="right">
-            <q-input square outlined dense type="number" v-model="temporaryData.MDR" />
+            <q-input
+              square
+              outlined
+              dense
+              type="number"
+              v-model="temporaryData.MDR"
+            />
           </div>
           <div class="col-md-2 col-sm-12" align="right">
             <q-btn
               label="SAVE"
               color="primary"
               @click="save('MDR')"
-              :disable="temporaryData.MDR==data.MDR"
+              :disable="temporaryData.MDR == data.MDR"
             />
             <q-btn
               class="q-ml-sm"
               label="RESET"
               color="grey"
-              :disable="temporaryData.MDR==data.MDR"
-              @click="temporaryData.MDR=data.MDR"
+              :disable="temporaryData.MDR == data.MDR"
+              @click="temporaryData.MDR = data.MDR"
             />
           </div>
         </q-card-section>
@@ -60,21 +72,86 @@
         <q-card-section class="row">
           <div class="col-md-8 col-sm-12">Web Service Fee</div>
           <div class="q-pb-sm col-md-2 col-sm-12" align="right">
-            <q-input square outlined dense type="number" v-model="temporaryData.web_service_fee" />
+            <q-input
+              square
+              outlined
+              dense
+              type="number"
+              v-model="temporaryData.web_service_fee"
+            />
           </div>
           <div class="col-md-2 col-sm-12" align="right">
             <q-btn
               label="SAVE"
-              color="primary" 
+              color="primary"
               @click="save('web_service_fee')"
-              :disable="temporaryData.web_service_fee==data.web_service_fee"
+              :disable="temporaryData.web_service_fee == data.web_service_fee"
             />
             <q-btn
               class="q-ml-sm"
               label="RESET"
               color="grey"
-              :disable="temporaryData.web_service_fee==data.web_service_fee"
-              @click="temporaryData.web_service_fee=data.web_service_fee"
+              :disable="temporaryData.web_service_fee == data.web_service_fee"
+              @click="temporaryData.web_service_fee = data.web_service_fee"
+            />
+          </div>
+        </q-card-section>
+        <q-separator />
+
+        <q-card-section class="row">
+          <div class="col-md-8 col-sm-12">Withholding Tax</div>
+          <div class="q-pb-sm col-md-2 col-sm-12" align="right">
+            <q-input
+              square
+              outlined
+              dense
+              type="number"
+              v-model="temporaryData.tax"
+            />
+          </div>
+          <div class="col-md-2 col-sm-12" align="right">
+            <q-btn
+              label="SAVE"
+              color="primary"
+              @click="save('tax')"
+              :disable="temporaryData.tax == data.tax"
+            />
+            <q-btn
+              class="q-ml-sm"
+              label="RESET"
+              color="grey"
+              :disable="temporaryData.tax == data.tax"
+              @click="temporaryData.tax = data.tax"
+            />
+          </div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section class="row">
+          <div class="col-md-8 col-sm-12">Sales Commission</div>
+          <div class="q-pb-sm col-md-2 col-sm-12" align="right">
+            <q-input
+              square
+              outlined
+              dense
+              type="number"
+              v-model="temporaryData.sales_commission"
+            />
+          </div>
+          <div class="col-md-2 col-sm-12" align="right">
+            <q-btn
+              label="SAVE"
+              color="primary"
+              @click="save('sales_commission')"
+              :disable="temporaryData.sales_commission == data.sales_commission"
+            />
+            <q-btn
+              class="q-ml-sm"
+              label="RESET"
+              color="grey"
+              :disable="temporaryData.sales_commission == data.sales_commission"
+              @click="temporaryData.sales_commission = data.sales_commission"
             />
           </div>
         </q-card-section>

@@ -1,5 +1,8 @@
 <template>
-  <div class="q-pa-lg row">
+  <div
+    class=" row"
+    :class="!$q.screen.lt.md ? ' q-pa-lg' : 'q-pt-lg q-pl-sm q-pr-sm'"
+  >
     <div class="col-12">
       <q-breadcrumbs class="q-pb-md text-primary">
         <template v-slot:separator>
@@ -11,10 +14,15 @@
       <q-separator />
     </div>
     <div class="col-1"></div>
-    <q-card class="col-10" flat>
-      <q-card-section>
+    <q-card
+      class="col-10"
+      flat
+      :class="!$q.screen.lt.md ? '' : 'col-12 '"
+      v-if="!$q.screen.lt.md"
+    >
+      <q-card-section class="q-pl-none q-pr-none">
         <q-list bordered separator>
-          <div v-if="cart.length==0" class="q-pa-md" align="center">
+          <div v-if="cart.length == 0" class="q-pa-md" align="center">
             <div>
               <q-icon name="shopping_cart" color="grey" size="200px" />
             </div>
@@ -28,11 +36,29 @@
               />
             </div>
           </div>
-          <CartItem v-for="(item,index) in cart" :item="item" :index="index" :key="item" />
+          <CartItem
+            v-for="(item, index) in cart"
+            :item="item"
+            :index="index"
+            :key="item"
+          />
           <q-separator />
         </q-list>
       </q-card-section>
     </q-card>
+
+    <div v-else>
+      <CartItem
+        v-for="(item, index) in cart"
+        :item="item"
+        :index="index"
+        :key="item"
+      />
+      <q-separator />
+    </div>
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 <script>
@@ -53,6 +79,7 @@ export default {
         .authenticate()
         .then(async () => {
           this.user = await this.$getUser();
+          // console.log(this.user._id);
           await this.$dbCon
             .service("cart")
             .find({
@@ -71,7 +98,6 @@ export default {
   },
   async mounted() {
     this.$dbCon.service("cart").onDataChange(async () => {
-
       await this.getData();
       this.$forceUpdate();
     });

@@ -42,9 +42,20 @@ export default {
           field: "transaction_date"
         },
         {
+          label: "Date Recieved",
+          field: "recieved_date"
+        },
+        {
+          label: "Store name",
+          field: "store_name"
+        },
+        {
+          label: "Store ID",
+          field: "store_id"
+        },
+        {
           label: "SKU",
-
-          field: "SKU"
+          field: "sku"
         },
         {
           label: "Description",
@@ -71,24 +82,16 @@ export default {
           field: "gross_sales"
         },
         {
-          label: "MDR",
-          field: "mdr"
+          label: "With Holding Tax",
+          field: "with_holding_tax"
         },
         {
-          label: "Service Fees",
-          field: "service_fee"
+          label: "Sales Commission",
+          field: "sales_commission"
         },
         {
           label: "Net Sales",
           field: "net_sales"
-        },
-        {
-          label: "Convenience Fee",
-          field: "convenience_fee"
-        },
-        {
-          label: "Revenue",
-          field: "revenue"
         }
       ],
       stores: [],
@@ -158,21 +161,39 @@ export default {
       this.$dbCon
         .service("report-sales")
         .find({
-          query: {
-            store_id: this.selectedStore.value
-          }
+          query: { store_id: this.selectedStore.value }
         })
         .then(results => {
-          this.data = results.data;
+          let totalGrossSales = 0,
+            totalMdr = 0,
+            totalServiceFee = 0,
+            totalNetSales = 0;
 
-          this.data.map((record, index) => {
-            this.data[index].transaction_date = this.$formatDate(
-              this.data[index].transaction_date
-            );
-            delete this.data[0].store_id;
-            delete this.data[index]._id;
-            
+          this.data = results.data.map((record, index) => {
+            totalGrossSales += parseFloat(record.gross_sales);
+            totalMdr += parseFloat(record.mdr);
+            totalServiceFee += parseFloat(record.service_fee);
+            totalNetSales += parseFloat(record.net_sales);
+
+            return {
+              ...record,
+              transaction_date: this.$formatDate(record.transaction_date),
+              recieved_date: this.$formatDate(record.recieved_date),
+
+              regular_price: this.$prettyMoney(record.regular_price),
+              sale_price: this.$prettyMoney(record.sale_price),
+              gross_sales: this.$prettyMoney(record.gross_sales),
+              net_sale: this.$prettyMoney(record.net_sale),
+              mdr: this.$prettyMoney(record.mdr),
+              service_fee: this.$prettyMoney(record.service_fee),
+              net_sales: this.$prettyMoney(record.net_sales)
+            };
           });
+
+          // Remove duplicates based on `_id`
+          this.data = [
+            ...new Map(this.data.map(item => [item._id, item])).values()
+          ];
         });
     }
   },
@@ -184,5 +205,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

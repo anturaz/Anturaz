@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{$parent.current}}
+    {{ $parent.current }}
     <div ref="paypal"></div>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
     };
   },
   mounted: function() {
+    if (!process.env.CLIENT) return;
     const script = document.createElement("script");
     script.src =
       "https://www.paypal.com/sdk/js?client-id=AbMl1FMdNBwQNcfJueIR0ZgMt0FhbrgJZsINCGcD-KuMGOBcajJxciK6NwbOk9UFe-5LZZJuWzqgCkGO";
@@ -27,6 +28,7 @@ export default {
   methods: {
     setLoaded: function() {
       this.loaded = true;
+      if (!process.env.CLIENT) return;
       window.paypal
         .Buttons({
           createOrder: (data, actions) => {

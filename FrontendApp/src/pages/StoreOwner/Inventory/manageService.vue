@@ -1,5 +1,5 @@
-<template >
-  <div class="q-pa-md row">
+<template>
+  <!-- <div class="q-pa-md row">
     <div class="col-12">
       <q-breadcrumbs class="text-grey">
         <q-breadcrumbs-el label="Store" icon="store" />
@@ -139,93 +139,528 @@
         </q-card-section>
       </q-card>
     </div>
+  </div> -->
+  <div class="q-pa-md row">
+    <q-dialog v-model="editService" persistent :maximized="$q.screen.lt.md">
+      <q-card style="width: 80vh">
+        <q-card-section class="row items-center text-grey-10">
+          <div class="text-h6">Edit Service</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-separator />
+        <q-card-section class="row">
+          <div class="col-12 row">
+            <q-select
+              class="col-md-12 col-xs-12 q-pt-sm"
+              v-model="data.category"
+              dense
+              stack
+              label="Category"
+              :options="category_options"
+            />
+
+            <q-input
+              class="col-md-12 col-xs-12 q-pt-sm"
+              v-model="data.service_name"
+              dense
+              stack
+              label="Service name"
+              :rules="[val => val.trim() != '' || 'Required']"
+              ref="inp_service_name"
+            />
+
+            <q-input
+              class="col-md-12 col-xs-12 q-pt-sm"
+              v-model="data.SKU"
+              dense
+              stack
+              label="Stock Keeping Unit(SKU)"
+              :rules="[val => val.trim() != '' || 'Required']"
+              ref="inp_sku"
+            />
+            <div class="col-12">
+              <p class="text-title text-black">
+                Description
+                <span class="text-italic">
+                  ( Please indicate full description of the item )
+                </span>
+              </p>
+              <q-editor
+                class="col-12 q-pt-sm"
+                v-model="data.description"
+                min-height="4rem"
+                ref="inp_description"
+                @input="
+                  () => {
+                    validateDescription();
+                  }
+                "
+                :style="description_error ? 'border:solid red 1px' : ''"
+              />
+              <div v-if="!description_error" align="right">
+                <small class="text-grey"
+                  >{{ description_counter }} / 1000 words</small
+                >
+              </div>
+              <small class="text-red" v-if="description_error">{{
+                description_error_message
+              }}</small>
+            </div>
+
+            <q-input
+              class="col-6 q-pt-sm q-pr-sm"
+              dense
+              stack
+              label="Regular Price"
+              v-model="data.regular_price"
+              @focus="toInputRegularPrice"
+              @blur="toChangeRegularPrice"
+              ref="inp_regular_price"
+              :rules="[
+                val => val == 0 || 'Invalid Regular Price',
+                val => val.trim() != '' || 'Required',
+                val =>
+                  val < this.temp_sale_price ||
+                  'this Regular Price is higher than sale price'
+              ]"
+              lazy-rules
+            />
+            <q-input
+              class="col-6 q-pt-sm q-pr-sm"
+              dense
+              stack
+              label="Sale Price"
+              @focus="toInputSalePrice"
+              @blur="toChangeSalePrice"
+              v-model="data.sale_price"
+              :rules="[]"
+              lazy-rules
+            />
+
+            <!-- <q-select
+              class="col-6 q-pr-sm"
+              dense
+              square
+              outlined
+              v-model="data.category"
+              :options="category_options"
+              label="Category"
+            />
+            <q-input
+              class="col-6"
+              square
+              outlined
+              dense
+              stack
+              label="Stock Keeping Unit(SKU)"
+            />
+            <q-input
+              class="col-12 q-pt-sm"
+              square
+              outlined
+              dense
+              stack
+              label="Service Name"
+              ref="inp_service_name"
+              v-model="data.service_name"
+              :rules="[val => val.trim() != '' || 'Required']"
+              lazy-rules
+              counter
+            />
+            <p class="text-caption text-grey">Description:</p>
+            <q-editor
+              class="col-12 q-pt-sm"
+              v-model="data.description"
+              min-height="4rem"
+              ref="inp_description"
+            />
+            <q-input
+              class="col-6 q-pt-sm q-pr-sm"
+              square
+              outlined
+              dense
+              stack
+              label="Regular Price"
+              v-model="temp_regular_price"
+              @focus="toInputRegularPrice"
+              @blur="toChangeRegularPrice"
+              ref="inp_regular_price"
+              :rules="[val => val.trim() != '' || 'Required']"
+              lazy-rules
+            />
+            <q-input
+              class="col-6 q-pt-sm q-pr-sm"
+              square
+              outlined
+              dense
+              stack
+              label="Sale Price"
+              @focus="toInputSalePrice"
+              @blur="toChangeSalePrice"
+              v-model="temp_sale_price"
+              :rules="[
+                val =>
+                  parseFloat(data.regular_price) >
+                    parseFloat(data.sale_price) || 'Invalid Sale Price'
+              ]"
+              lazy-rules
+            />
+          </div>
+          <div class="row col-12">
+            <q-card class="col-md-6 col-sm-12" flat bordered>
+              <q-card-section class="row">
+                <p class="col-12 text-title text-bold text-grey">
+                  Enable Cash on Fulfillment?
+                </p>
+                <q-btn-toggle
+                  class="col-12"
+                  spread
+                  value="one"
+                  style="border:1px solid grey"
+                  no-caps
+                  rounded
+                  unelevated
+                  :toggle-color="data.cof ? 'primary' : 'grey'"
+                  color="white"
+                  text-color="grey"
+                  v-model="data.cof"
+                  :options="[
+                    { label: 'Yes', value: true },
+                    { label: 'No', value: false }
+                  ]"
+                />
+              </q-card-section>
+            </q-card>
+            <q-card class="col-md-6 col-sm-12" flat bordered>
+              <q-card-section class="row">
+                <p class="col-12 text-title text-bold text-grey">
+                  Enable Lay-away?
+                </p>
+                <q-btn-toggle
+                  class="col-12"
+                  spread
+                  value="one"
+                  style="border:1px solid grey"
+                  no-caps
+                  rounded
+                  unelevated
+                  :toggle-color="data.lay_away ? 'primary' : 'grey'"
+                  color="white"
+                  text-color="grey"
+                  v-model="data.lay_away"
+                  :options="[
+                    { label: 'Yes', value: true },
+                    { label: 'No', value: false }
+                  ]"
+                /> -->
+            <!-- </q-card-section>
+            </q-card> -->
+          </div>
+        </q-card-section>
+
+        <q-card-section class="row ">
+          <p class="col-6 text-title text-bold text-grey">
+            Enable Cash on Fulfillment?
+          </p>
+          <q-btn-toggle
+            class="col-6"
+            spread
+            value="one"
+            style="border:1px solid grey"
+            no-caps
+            rounded
+            unelevated
+            :toggle-color="data.cof ? 'primary' : 'grey'"
+            color="white"
+            text-color="grey"
+            v-model="data.cof"
+            :options="[
+              { label: 'Yes', value: true },
+              { label: 'No', value: false }
+            ]"
+          />
+        </q-card-section>
+
+        <q-card-section class="row ">
+          <p class="col-6 text-title text-bold text-grey">
+            Enable In-Store Service?
+          </p>
+          <q-btn-toggle
+            class="col-6"
+            spread
+            value="one"
+            style="border:1px solid grey"
+            no-caps
+            rounded
+            unelevated
+            :toggle-color="data.in_store_service ? 'primary' : 'grey'"
+            color="white"
+            text-color="grey"
+            v-model="data.in_store_service"
+            :options="[
+              { label: 'Yes', value: true },
+              { label: 'No', value: false }
+            ]"
+          />
+        </q-card-section>
+
+        <q-card-section class="row ">
+          <p class="col-6 text-title text-bold text-grey">
+            Enable Service at Preferred Location?
+          </p>
+          <q-btn-toggle
+            class="col-6"
+            spread
+            value="one"
+            style="border:1px solid grey"
+            no-caps
+            rounded
+            unelevated
+            :toggle-color="data.prefered_location ? 'primary' : 'grey'"
+            color="white"
+            text-color="grey"
+            v-model="data.prefered_location"
+            :options="[
+              { label: 'Yes', value: true },
+              { label: 'No', value: false }
+            ]"
+          />
+        </q-card-section>
+
+        <q-card-section class="row" v-if="isVisible">
+          <div class="col-6 text-title text-bold text-grey">
+            Require 20% downpayment upon booking if Cash on Fulfillment?
+          </div>
+          <q-btn-toggle
+            class="col-6"
+            spread
+            value="one"
+            style="border:1px solid grey"
+            no-caps
+            rounded
+            unelevated
+            :toggle-color="data.cof ? 'primary' : 'grey'"
+            color="white"
+            text-color="grey"
+            v-model="data.dp_cof"
+            :options="[
+              { label: 'Yes', value: true },
+              { label: 'No', value: false }
+            ]"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right" class="q-pt-md">
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            label="Save"
+            @click="save"
+            no-caps
+            ref="btn_edit"
+            @mouseover="
+              ($refs.btn_edit.unelevated = true),
+                ($refs.btn_edit.outline = false)
+            "
+            @mouseleave="
+              ($refs.btn_edit.outline = true),
+                ($refs.btn_edit.unelevated = false)
+            "
+            outline
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
-import EditService from "./editService.vue";
+import { data } from "jquery";
+
+// import EditService from "./editService.vue";
 export default {
   components: {
-    EditService
+    // EditService
   },
   data() {
     return {
       data: {},
       currentPicture: "",
-      currentIndexPicture:0,
-      fileSelected: {}
+      currentIndexPicture: 0,
+      fileSelected: {},
+      editService: false,
+      temp_regular_price: "",
+      temp_sale_price: "",
+
+      description_error: false,
+      description_error_message: "",
+      description_counter: 0,
+      category_options: [],
+      description: "",
+      isVisible: false
     };
   },
+
+  watch: {
+    "data.in_store_service": function(newVal) {
+      if (!newVal && !this.data.prefered_location) {
+        this.data.prefered_location = true; // Enforce one to be true
+      }
+    },
+    "data.prefered_location": function(newVal) {
+      if (!newVal && !this.data.in_store_service) {
+        this.data.in_store_service = true; // Enforce one to be true
+      }
+    }
+  },
   methods: {
-    deleteService: function() {
+    openEditService: async function(serviceId) {
+      await this.getData(serviceId);
+      this.editService = true;
+    },
+    toInputRegularPrice() {
+      this.temp_regular_price = this.data.regular_price;
+    },
+    toChangeRegularPrice() {
+      if (this.data.regular_price == 0 || this.data.regular_price == "") {
+        this.data.regular_price = 0;
+      }
+
+      this.temp_regular_price = this.data.regular_price;
+      this.data.regular_price = this.$prettyMoney(this.data.regular_price);
+    },
+
+    toInputSalePrice() {
+      this.temp_sale_price = this.data.sale_price;
+    },
+
+    toChangeSalePrice() {
+      this.temp_sale_price = this.data.sale_price;
+      this.data.sale_price = this.$prettyMoney(this.data.sale_price);
+    },
+
+    validateForm: function() {
+      let errors = [];
+
+      const text = this.data.description
+        .replace(/<br\s*\/?>|&nbsp;|\s+/g, "")
+        .trim();
+      this.description_error = text === "";
+      this.description_error_message = this.description_error
+        ? "Description is required."
+        : "";
+
+      if (!this.data.SKU.trim()) errors.push("SKU is required.");
+      if (!this.data.service_name.trim())
+        errors.push("Product Name is required.");
+
+      if (!this.data.regular_price.trim())
+        errors.push("Regular Price is required.");
+
+      if (!this.data.sale_price.trim())
+        errors.push("Regular Price is required.");
+
+      if (errors.length > 0) {
+        let message = "";
+        for (let i = 0; i < errors.length; i++) {
+          message += errors[i];
+          if (i < errors.length - 1) {
+            message += "\n"; // Add a line break after each error except the last one
+          }
+        }
+        this.$q.notify({
+          type: "negative",
+          message: message,
+          timeout: 3000,
+          html: true,
+          color: "red"
+        });
+        return false;
+      }
+      return true;
+    },
+
+    save: async function() {
+      if (this.temp_regular_price == 0) {
+        this.data.regular_price = "";
+        return this.$q.notify({
+          message: "Regular Price must not be 0",
+          position: "top-right",
+          color: "negative",
+          timeout: 2000,
+          icon: "report_problem"
+        });
+      }
+
+      if (+this.temp_regular_price <= +this.temp_sale_price) {
+        this.data.regular_price = "";
+        return this.$q.notify({
+          message: "Sale Price must be higher than Regular Price",
+          position: "top-right",
+          color: "negative",
+          timeout: 2000,
+          icon: "report_problem"
+        });
+      }
+      if (!this.validateForm()) return;
+
+      this.data.regular_price = +this.temp_regular_price;
+      this.data.sale_price = +this.temp_sale_price;
+      this.$dbCon
+        .service("services")
+        .patch(this.data._id, this.data)
+        .then(() => {
+          this.$q
+            .dialog({
+              title: "Success!",
+              message: "You successfully updated a Service.",
+              persistent: true
+            })
+            .onOk(() => {
+              this.editService = false;
+            });
+        });
+    },
+    deleteService: function(serviceId) {
+      this.getData(serviceId);
       this.$q
         .dialog({
           title: "Confirmation",
-          message: "Do you really want to delete this service?",
-          cancel: {
-            push: true,
-            color: "grey",
-            flat: true
-          }
+          message:
+            "Do you really want to delete this service? if yes Enter your password",
+          prompt: {
+            model: "",
+            type: "password" // optional
+          },
+          cancel: true,
+          persistent: true
         })
-        .onOk(() => {
-          this.$q
-            .dialog({
-              title: "Confirmation",
-              message: "Enter your password",
-              prompt: {
-                model: "",
-                type: "password" // optional
-              },
-              cancel: true,
-              persistent: true
-            })
-            .onOk(data => {
-              this.$dbCon
-                .service("shop")
-                .find({
-                  query: {
-                    _id: this.$local.getItem("store_token")
-                  }
-                })
-                .then(result => {
-                  if (result.data[0].password == data) {
-                    this.data.deleted = true;
-                    this.$dbCon
-                      .service("services")
-                      .patch(this.data._id, this.data)
-                      .then(() => {
-                        this.$q.dialog({
-                          title: "Success!",
-                          message: "You have successfully deleted a service."
-                        });
-                        this.$router.push("/StoreOwner/Inventory/Services");
-                      });
-                    this.$dbCon
-                      .service("shop")
-                      .find({
-                        query: {
-                          _id: this.$local.getItem("store_token")
-                        }
-                      })
-                      .then(result => {
-                        this.$axios.post(this.$appLink + "/customizableEmail", {
-                          receiver: result.data[0].email,
-                          subject: "Deleted Service",
-                          message: `<h3>Deleted Service</h3>
-                  <p>Your service has been deleted!</p>
-                  `
-                        });
-                      });
-                  } else {
-                    this.$q.dialog({
-                      title: "Error!",
-                      message:
-                        "Unable to delete service. You have entered wrong password"
-                    });
-                  }
-                });
+        .onOk(async password => {
+          this.$q.loading.show();
+          try {
+            const loggedUser = await this.$dbCon.services.users.get(
+              this.$local.getItem("user_token")
+            );
+            await this.$axios.post(this.$appLink + "/authentication", {
+              email: loggedUser.email,
+              password: password,
+              strategy: "local"
             });
+            this.data.deleted = true;
+            this.$dbCon.service("services").patch(this.data._id, this.data);
+            this.$q.dialog({
+              title: "Success!",
+              message: "You have successfully deleted a service."
+            });
+
+            if (this.$route.fullPath == "/StoreOwner/PublishStore")
+              this.$router.push("/StoreOwner/PublishStore");
+            else this.$router.push("/StoreOwner/Inventory/Services");
+          } catch (e) {
+            console.log(e);
+          }
+          this.$q.loading.hide();
         });
     },
     changeCurrentPicture: function() {
@@ -245,7 +680,7 @@ export default {
         });
     },
     onFileSelected: async function() {
-      this.$q.loading.show()
+      this.$q.loading.show();
       this.fileSelected = event.target.files[0];
       var result = await this.uploadImage(this.fileSelected);
       this.data.photos[this.currentIndexPicture] = result;
@@ -255,7 +690,7 @@ export default {
         .service("services")
         .patch(this.data._id, this.data)
         .then(() => {
-           this.$q.loading.hide()
+          this.$q.loading.hide();
           this.$q.notify({
             message: "Successfully Updated!",
             position: "top-right",
@@ -273,28 +708,71 @@ export default {
         formData
       );
       return result.data;
+    },
+    getData: async function(serviceId) {
+      await this.$dbCon
+        .service("services")
+        .find({
+          query: {
+            _id: serviceId,
+            store_id: this.$local.getItem("store_token")
+          }
+        })
+        .then(result => {
+          if (result.data.length == 0) {
+            // this.$router.push("/StoreOwner/Inventory");
+          } else {
+            this.data = result.data[0];
+            this.temp_regular_price = result.data[0].regular_price;
+            this.temp_sale_price = result.data[0].sale_price;
+            // this.temp_sale_price
+            this.data.regular_price = this.$prettyMoney(
+              this.data.regular_price
+            );
+            this.data.sale_price = this.$prettyMoney(this.data.sale_price);
+            this.currentPicture = this.data.photos[0];
+          }
+        });
+    },
+
+    validateDescription: function() {
+      if (this.$sanitize(this.data.description).trim() == "") {
+        this.description_error = true;
+        this.description_error_message = "This field is required.";
+        return;
+      } else {
+        this.description_error = false;
+      }
+      this.description_counter = this.$wordsCount(
+        this.$sanitize(this.data.description).trim()
+      );
+      if (this.description_counter > 1000) {
+        this.description_error = true;
+        this.description_error_message = "Maximum of 1000 words only.";
+      } else {
+        this.description_error = false;
+      }
     }
   },
   mounted() {
-    this.$dbCon
-      .service("services")
-      .find({
-        query: {
-          _id: this.$route.query.service,
-          store_id: this.$local.getItem("store_token")
-        }
-      })
-      .then(result => {
-        if (result.data.length == 0) {
-          this.$router.push("/StoreOwner/Inventory");
-        } else {
-          this.data = result.data[0];
-          this.currentPicture = this.data.photos[0];
-        }
-      });
+    // this.$dbCon
+    //   .service("services")
+    //   .find({
+    //     query: {
+    //       _id: this.$route.query.service,
+    //       store_id: this.$local.getItem("store_token")
+    //     }
+    //   })
+    //   .then(result => {
+    //     if (result.data.length == 0) {
+    //       this.$router.push("/StoreOwner/Inventory");
+    //     } else {
+    //       this.data = result.data[0];
+    //       this.currentPicture = this.data.photos[0];
+    //     }
+    //   });
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

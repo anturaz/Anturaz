@@ -3,13 +3,15 @@
     <q-btn
       icon="add"
       label="ADD USER"
-      @click="opened=true"
+      @click="opened = true"
       unelevated
       color="primary"
     />
 
     <q-dialog v-model="opened" persistent>
-      <q-card :style="$q.screen.lt.sm? '': 'min-width: 700px; max-width: 40vw;'">
+      <q-card
+        :style="$q.screen.lt.sm ? '' : 'min-width: 700px; max-width: 40vw;'"
+      >
         <q-card-section class="bg-primary text-white">
           <div class="text-h6">Add New Store User</div>
         </q-card-section>
@@ -22,7 +24,9 @@
               <q-icon name="error" color="white" />
             </template>
             <ul>
-              <li v-for="(err,index) in error" v-bind:key="index">{{err}}</li>
+              <li v-for="(err, index) in error" v-bind:key="index">
+                {{ err }}
+              </li>
             </ul>
           </q-banner>
           <div>
@@ -31,7 +35,11 @@
               <q-input v-model="lname" label="Last Name" />
               <q-input v-model="position" label="Position" />
               <q-input v-model="email" label="Email Address" />
-              <q-select v-model="user_type" :options="['Admin','Employee']" label="User Type" />
+              <q-select
+                v-model="user_type"
+                :options="['Admin', 'Employee']"
+                label="User Type"
+              />
               <q-select
                 v-model="permission"
                 :options="permission_options"
@@ -73,7 +81,7 @@ export default {
       lname: "",
       position: "",
       email: "",
-      password: this.password_generator(),  
+      password: this.password_generator(),
       user_type: "Admin",
       permission: [
         "Store Owner Management",
@@ -143,7 +151,7 @@ export default {
           }
         })
         .onOk(async () => {
-           await this.$dbCon.authenticate();
+          await this.$dbCon.authenticate();
           this.$dbCon
             .service("users")
             .create({
@@ -161,18 +169,51 @@ export default {
               store_account_type: this.user_type,
               system_user_type: "Store Owner"
             })
-            .then(() => {
+            .then(result => {
+              const link =
+                this.$appLink == "http://localhost:8081"
+                  ? "http://localhost:8080"
+                  : this.$appLink;
+
               this.$axios.post(this.$appLink + "/customizableEmail", {
                 receiver: this.email,
                 subject: "New Registered Employee",
-                message: `<h3>Welcome to Anturaz!</h3>
-                  <p>Congratulation! You are now part of Anturaz as Store Employee. To continue, kindly click the link below and verify your account using the credential below.</p>
-                  <br><a href="`+this.$appLink+`/VerifyAccount/StoreEmployee">`+this.$appLink+`/VerifyAccount/StoreEmployee</a>
-                  <br><br>
-                  <b>Email Address: </b>`+this.email+`<br>
-                  <b>Password: </b> `+this.password+`
+                message:
+                  `<div
+                      style="font-family:'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
+                      >
+                      Hello ` +
+                  result.fname +
+                  " " +
+                  result.lname +
+                  `!
+                      <div><br></div>
+                      <div>You have been registered as ` +
+                  result.position +
+                  ` of the Anturaz system.</div>
+                      <div>To verify your account, follow the instruction below:</div>
+                      <ol>
+                      <li>Click this link(it will redirect you to the account verification page): <a href="` +
+                  link +
+                  `/#/Admin/VerifyAccount?email=` +
+                  result.email +
+                  `">` +
+                  link +
+                  `/#/Admin/VerifyAccount</a></li>
+                      <li>Use the credentials below to fill up the account verification form.</li>
+                      </ol>
+                      <div style="padding-left:80px">
+                      <div><b>Email Address:</b> ` +
+                  this.email +
+                  `</div>
+                      <div><b>Password:</b> ` +
+                  this.password +
+                  `</div>
+                        </div>
+                      </div>
                   `
               });
+
               this.close();
               this.$q.dialog({
                 title: "Success!",
@@ -260,5 +301,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,237 +1,150 @@
 <template>
-
-  <div class="q-pa-lg" v-if="data.length">
-    
-        <h6><span>Featured Shops</span></h6><q-separator vertical/>
-          <!-- <q-btn class="text-primary bg-white"  label="Shop Now" /> -->
-        <div class=" row text-black">
-          <!-- <q-scroll-area horizontal style="overflow: overlay; height: 175px; width: 100%;"> -->
-            <div class="float-left" style="cursor:pointer; height: 100px">
-                <q-btn @click="moveCurrentIndex(1)"  v-show="currentIndex >= 6"  flat> 
-                  <q-icon  name="fas fa-angle-left" style="height:150px;"/> 
-                </q-btn>
-            </div>
-            <div class="row no-wrap">
-              
-              <div class="row no-wrap justify-center " v-for="(store) in selectedData" :key="store._id" >
-                
-                <!-- <div v-else style="cursor:pointer; height: 100px">
-                    <q-btn @click="moveCurrentIndex(1)" v-if="currentIndex != 0" flat> <q-icon  name="fas fa-angle-left" style="height:150px;"/> </q-btn>
-                </div> -->
-                    
-                    <q-separator vertical inset />
-                    <q-card flat style="cursor:pointer; height: 150px; width: 210px">
-                    
-                      <q-card-section  class="column items-center">
-                        <div class="row inline">
-                            <q-avatar  size="100px" >
-                              <img class="my-fb-logo"/> 
-                            </q-avatar>
-                          <!-- <div>
-                          <q-icon :name="store.logo" class="my-fb-logo" size="80px"/>
-                          </div> -->
-                        </div>
-                      
-                        
-                      </q-card-section>
-                      <q-card-section class="column items-center">
-                        
-                        <div class="text-h6" v-if="'store_name' in store">
-                          {{ store.store_name }}
-                        </div>
-                      </q-card-section>
-                
-                  </q-card>
-                  <q-separator vertical inset />
-                  
-                    
-          
-                
-
+  <div class="q-pa-lg bg-white" v-if="data.length">
+    <br />
+    <h5><span>Featured Shops</span></h5>
+    <div class="row text-black">
+      <div
+        class="scroll-container"
+        ref="scrollContainer"
+        @mouseenter="stopScroll"
+        @mouseleave="autoScroll"
+      >
+        <div class="scroll-item" v-for="store in data" :key="store._id">
+          <q-card flat class="card-content">
+            <q-card-section class="column items-center">
+              <q-avatar size="100px">
+                <q-icon v-if="store.logo == ''" name="store" color="grey" />
+                <q-img v-if="store.logo != ''" :src="store.logo" :ratio="1" />
+              </q-avatar>
+            </q-card-section>
+            <q-card-section class="column items-center">
+              <div
+                class="text-h6"
+                v-if="'store_name' in store"
+                style="width: 180px; text-align: center;"
+                @click="$router.push('/StoreDetails?store=' + store._id)"
+              >
+                <p
+                  style="margin:0px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                >
+                  {{ store.store_name }}
+                </p>
               </div>
-         
-              
-              <!-- <div class="q-ma-md" v-for="store in data" :key="store._id" style="width: 200px">
-                
-                <q-icon name="img:/../assets/facebook_logo.png" color="primary" size="150px"/>
-              
-                <div class="text-bold" >{{store.store_name}}
-                  
-                </div>  
-                
-                 <q-separator vertical />
-
-                <q-card-section style="height:55px;width:200px" align="right">
-                  <q-btn color="primary" label="View >" unelevated @click="$router.push('/store/'+store.unique_link)" />
-                </q-card-section>  
-              </div> -->
-              
-             </div>
-            <div class="float-right"  style="cursor:pointer; height: 100px"  >
-              <q-btn @click="moveCurrentIndex(2)" flat v-show="currentIndex+6 <= data.length"> <q-icon  name="fas fa-angle-right" style="height:150px;"  /> </q-btn>
-            </div>
-            
-          <!-- </q-scroll-area> -->
+            </q-card-section>
+          </q-card>
         </div>
+      </div>
+    </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
     return {
-      slide: "1",
-      currentIndex: 0,
-      data:[
-        {
-          _id: "1",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 1"
-        },
-        {
-          _id: "2",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 2"
-        },
-        {
-          _id: "3",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 3"
-        },
-        {
-          _id: "4",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 4"
-        },
-        {
-          _id: "5",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 5"
-        },
-        {
-          _id: "6",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 6"
-        },
-        {
-          _id: "7",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 7"
-        },
-        {
-          _id: "8",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 8"
-        },
-        {
-          _id: "9",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 9"
-        },
-        {
-          _id: "5",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 10"
-        },
-        {
-          _id: "6",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 11"
-        },
-        {
-          _id: "7",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 12"
-        },
-        {
-          _id: "8",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 13"
-        },
-        {
-          _id: "9",
-          // logo: "img:/../assets/facebook_logo.png",
-          store_name: "store name 14"
-        },
-
-
-
-      ]
+      autoScrollInterval: null,
+      scrollSpeed: 3,
+      data: []
     };
   },
-  computed: {
-    // readonly
-    selectedData() {
-      let selArr = this.data.slice(this.currentIndex,this.currentIndex+6)
-      return selArr
-    },
-  },
   methods: {
-    moveCurrentIndex(mode) {
-      if (mode == 1){
-        if(this.data.length > this.currentIndex  ){
-          this.currentIndex -= 6
+    async getData() {
+      try {
+        const response = await this.$dbCon.service("store").find({
+          query: {
+            logo: {
+              $nin: [null, ""]
+            }
+          }
+        });
+        this.data = response.data;
+        this.$nextTick(() => {
+          this.autoScroll();
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    autoScroll() {
+      if (this.data.length === 0) return; // Prevent autoScroll if there's no data
+
+      const container = this.$refs.scrollContainer;
+      const totalWidth = container.scrollWidth;
+      const containerWidth = container.offsetWidth;
+
+      // Stop any existing interval
+      if (this.autoScrollInterval) {
+        clearInterval(this.autoScrollInterval);
+      }
+
+      // Start the scrolling interval
+      this.autoScrollInterval = setInterval(() => {
+        container.scrollLeft += this.scrollSpeed;
+
+        // Reset to the start if the scroll reaches the end
+        if (container.scrollLeft + containerWidth >= totalWidth) {
+          container.scrollLeft = 0;
         }
-      }else{
-        if(this.data.length > this.currentIndex  )
-          this.currentIndex += 6
+      }, 70); // Adjust for smoother scrolling
+    },
+    stopScroll() {
+      // Clear the scrolling interval when hovered
+      if (this.autoScrollInterval) {
+        clearInterval(this.autoScrollInterval);
+        this.autoScrollInterval = null;
       }
     }
   },
-  
-  async mounted() {
-
-    var stores = await this.$dbCon.service("store-advertisment").find({
-      query: {
-        "$select": ['store_id'],
-        "subscriptions.date_end": {
-          $gte: Date.now()
-        }
-      }
-    }).then(featuredStoresId=>{
-      var arrFeaturedStoresId=[]
-      console.log("featuredStoresId",featuredStoresId)
-      featuredStoresId.data.forEach(function(featureStore){
-        console.log("IDD",featureStore)
-        arrFeaturedStoresId.push(featureStore.store_id)
-      });
-      return arrFeaturedStoresId
-    });
-    
-    await this.$dbCon.service("store").find({
-      query:{
-        _id: {
-          $in: stores
-        }
-      }
-    }).then(results=>{
-     console.log("resres", results)
-     this.data=results.data
-    })
+  mounted() {
+    this.getData();
+  },
+  beforeDestroy() {
+    // Clear interval on component destroy
+    if (this.autoScrollInterval) {
+      clearInterval(this.autoScrollInterval);
+    }
   }
 };
 </script>
+
 <style scoped>
-h6 {
-   width: 100%; 
-   text-align: center; 
-   border-bottom: 1px solid #d8a957; 
-   line-height: 0.1em;
-   margin: 10px 0 20px; 
-} 
-
-h6 span { 
-    background:#fff;
-    padding:0 10px; 
+.scroll-container {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  gap: 16px;
+  padding: 16px;
+  position: relative;
 }
-.vl {
-  border-left: 1.5px solid #d8a957;
-  height: 220px;
+.scroll-item {
+  flex: 0 0 auto;
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.5s ease;
 }
-.my-fb-logo {
-  background-image: url(../../../assets/anturaz_logo.png);
-	background-size: 50px;
-  
+.scroll-item:hover {
+  transform: scale(1.05);
 }
-
-
+.card-content {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+h5 {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #d8a957;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+}
+h5 span {
+  background: #fff;
+  padding: 0 10px;
+}
 </style>

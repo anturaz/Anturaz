@@ -3,18 +3,23 @@
     <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
       <q-header elevated class="bg-primary">
         <q-toolbar>
-          <img :src="$appLink+'/uploads/admin/sample_logo.png'" width="40px" />
-          <q-toolbar-title class="text-black text-subtitle1">STOREOWNER DASHBOARD</q-toolbar-title>
+          <img
+            :src="$appLink + '/uploads/admin/sample_logo.png'"
+            width="40px"
+          />
+          <q-toolbar-title class="text-black text-subtitle1"
+            >STOREOWNER DASHBOARD</q-toolbar-title
+          >
           <div class="text-black">Logout</div>
           <q-btn flat color="black" round dense icon="logout" @click="logout" />
         </q-toolbar>
       </q-header>
 
       <q-page-container>
-        <q-page v-if="this.store.current_step== -1" padding >
+        <q-page v-if="this.store.current_step == -1" padding>
           <Dashboard />
         </q-page>
-        <q-page v-if="this.store.current_step!= -1" padding>
+        <q-page v-if="this.store.current_step != -1" padding>
           <router-view />
         </q-page>
       </q-page-container>
@@ -47,11 +52,11 @@ export default {
           }
         })
         .then(results => {
-          console.log('results', results)
-          console.log('this.$local.getItem("store_token")', this.$local.getItem("store_token"))
-          console.log("results data 0", results.data[0])
+          // console.log('results', results)
+          // console.log('this.$local.getItem("store_token")', this.$local.getItem("store_token"))
+          // console.log("results data 0", results.data[0])
           this.store = results.data[0];
-          console.log('this.store', this.store)
+          // console.log('this.store', this.store)
           if (this.store.current_step != -1) {
             this.$router.push("/StoreOwner/PublishStore");
           }
@@ -65,20 +70,16 @@ export default {
     }
   },
   mounted() {
-
-   this.$dbCon.service("store").onDataChange(() => {
+    this.$dbCon.service("store").onDataChange(() => {
       this.getData();
-      
-    }); 
+    });
   },
   created() {
-    if (!this.$local.has(this.$appLink+"-jwt")) {
+    if (!this.$local.has(this.$appLink + "-jwt")) {
       this.$local.clear();
       this.$router.push("/StoreOwner/Login");
     }
   }
 };
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

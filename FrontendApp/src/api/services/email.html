@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:o="urn:schemas-microsoft-com:office:office">
+    <title>Transaction Receipt - Anturaz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #d8a96e;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            height: 150px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+            margin-top: 50px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #000;
+            margin-top: 50px;
+        }
+
+        .header-text p {
+            margin: 5px 0 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .content p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #e6b980;
+            /* Light brown color */
+            color: black;
+            /* Text color */
+            padding: 13px 70px;
+            text-decoration: none;
+            /* Remove underline */
+            border-radius: 50px;
+            /* Makes the button rounded */
+            font-size: 16px;
+            border: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+
+        .button-container {
+            margin: 50px 0px;
+        }
+
+        .footer {
+            padding: 20px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://anturaz.io/uploads/admin/logo.png" alt="Anturaz Logo">
+                <!-- Replace with actual logo file -->
+            </div>
+            <div class="header-text">
+                <h1>ANTURAZ</h1>
+                <p>The most secured event suppliers marketplace.</p>
+            </div>
+        </div>
+
+
+        <!-- Content -->
+        <div class="content">
+            <p>Dear Mr./Ms. ${user.last_name},</p>
+
+            <p style="padding-bottom: 15px;">
+                Congratulations! A purchase was made from your Gift Registry with the following details.</p>
+
+            <p style="padding-bottom: 15px;">Gift Registry Reference No: ${data.reference_number}<br>
+                Event Name: ${data.event_name} <br>
+                Event Date: ${data.event_date} <br>
+                Name of Celebrant: ${data.celebrant_name} <br>
+                Name of Groom (if Wedding): ${order.total}<br>
+                Coordinator/Contact Person: ${order.payment_option}<br>
+                Contact No: ${order.mode_of_delivery}<br>
+                Event Venue: ${primary_name}<br>
+            </p>
+
+            <p style="padding-bottom: 15px;"><strong>Purchase Info</strong><br>
+                Order No: ${order.order_number} <br>
+                Product Name: ${order.product_data.name} <br>
+                SKU No: ${order.product_data.sku} <br>
+                Amount: ${order.checkout_data.data.payment.amount}<br>
+                Guest Name: ${order.payment_option}<br>
+                Guest Contact no: ${order.mode_of_delivery}<br>
+            </p>
+
+
+            <p style="padding-bottom: 15px;"><strong> Updated Gift Registry Tally</strong><br>
+                Total Gifts: ${order.order_number} <br>
+                Purchased: ${order.product_data.name} <br>
+                Remaining: ${order.product_data.sku} <br>
+            </p>
+
+
+
+            <!-- Button -->
+            <div class="button-container">
+                <a href="${link}" class="button" style="color:#000;">VIEW GIFT REGISTRY</a>
+            </div>
+
+            <p>Celebrate Life!</p>
+
+            <div>
+                <p><strong>ANTURAZ</strong><br>
+                    OneStras Technologies Corp.<br>
+                    Unit 102, SMJ Residences Mawaque Rd,<br>
+                    Mabiga, Mabalacat City</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+
+
+        <div
+            style="background-color: #e6b980; padding: 20px; font-size: 14px; color: black; display: flex; justify-content: space-between; align-items: center;">
+            <!-- Left Section: Phone & Email -->
+            <div style="display: flex; align-items: center; gap: 30px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+63 9621260781</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>helpdesk@anturaz.io</span>
+                </div>
+            </div>
+
+            <!-- Right Section: Website -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-globe"></i>
+                <span>www.anturaz.io</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

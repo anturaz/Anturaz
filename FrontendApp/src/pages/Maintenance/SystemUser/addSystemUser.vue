@@ -1,30 +1,45 @@
 <template>
   <div>
-    <q-btn icon="add" color="primary" size="lg" @click="opened=true" round/>
-    <q-dialog v-model="opened" persistent transition-show="scale" transition-hide="scale">
-      <q-card flat class="bg-primary text-white" style="width: 700px; max-width: 80vw;">
+    <q-btn icon="add" color="primary" size="lg" @click="opened = true" round />
+    <q-dialog
+      v-model="opened"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-card
+        flat
+        class="bg-primary text-white"
+        style="width: 700px; max-width: 80vw;"
+      >
         <q-card-section>
           <div class="row">
             <div class="text-h6 col-11">Add System User</div>
             <div class="col-1">
-              <q-btn flat icon="close" @click="close()" size="xs"/>
+              <q-btn flat icon="close" @click="close()" size="xs" />
             </div>
           </div>
         </q-card-section>
         <q-card-section class="bg-white">
           <div class="q-pa-md">
-            <q-banner v-if="error.length != 0" rounded class="bg-red text-white">
+            <q-banner
+              v-if="error.length != 0"
+              rounded
+              class="bg-red text-white"
+            >
               <template v-slot:avatar>
-                <q-icon name="error" color="white"/>
+                <q-icon name="error" color="white" />
               </template>
               <ul>
-                <li v-for="(err,index) in error" v-bind:key="index">{{err}}</li>
+                <li v-for="(err, index) in error" v-bind:key="index">
+                  {{ err }}
+                </li>
               </ul>
             </q-banner>
-            <q-input class="q-pa-sm" v-model="fname" label="First Name*"/>
-            <q-input class="q-pa-sm" v-model="lname" label="Last Name*"/>
-            <q-input class="q-pa-sm" v-model="email" label="Email Address*"/>
-            <q-input class="q-pa-sm" v-model="position" label="Position*"/>
+            <q-input class="q-pa-sm" v-model="fname" label="First Name*" />
+            <q-input class="q-pa-sm" v-model="lname" label="Last Name*" />
+            <q-input class="q-pa-sm" v-model="email" label="Email Address*" />
+            <q-input class="q-pa-sm" v-model="position" label="Position*" />
             <q-select
               class="q-pa-sm"
               v-model="user_classification"
@@ -41,7 +56,7 @@
             />
           </div>
           <div class="q-pa-md" align="right">
-            <q-btn label="submit" @click="validate" outline color="primary"/>
+            <q-btn label="submit" @click="validate" outline color="primary" />
           </div>
         </q-card-section>
       </q-card>

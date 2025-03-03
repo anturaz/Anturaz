@@ -1,16 +1,29 @@
 <template>
   <div>
-     <ServiceDetails :order="order" :updateFunction="update"  :buttonVisible="false" />
-     
+    <ServiceDetails
+      v-if="!$q.screen.lt.md"
+      :order="order"
+      :updateFunction="update"
+      :buttonVisible="false"
+    />
+    <ServiceDetailsMobile
+      :order="order"
+      :updateFunction="update"
+      :buttonVisible="false"
+      v-else
+    />
   </div>
 </template>
 
 <script>
 import ServiceDetails from "components/ItemDetails/serviceDetails.vue";
+import ServiceDetailsMobile from "components/ItemDetails/serviceDetailsMobile.vue";
+
 export default {
   props: ["order"],
-   components: {
-    ServiceDetails
+  components: {
+    ServiceDetails,
+    ServiceDetailsMobile
   },
   methods: {
     update: function() {
@@ -47,5 +60,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -66,7 +66,7 @@ export default {
       });
 
     stores.map(async (store, index) => {
-      console.log("STORE", store);
+      // console.log("STORE", store);
       var gross_sales = 0;
       //GET ALL PRODUCT TRANSACTION OF THE CURRENT STORE
       var product_transactions = await this.$dbCon
@@ -105,12 +105,12 @@ export default {
           })
           .then(result => {
             gross_sales += result.data[0].total;
-            console.log(gross_sales);
+            // console.log(gross_sales);
           });
         if (i == transactions.length - 1) {
           stores[index].gross_sales = gross_sales;
           delete stores[index]._id;
-          console.log("HIIII", stores[index]);
+          // console.log("HIIII", stores[index]);
           this.data = stores;
         }
       });
@@ -120,5 +120,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

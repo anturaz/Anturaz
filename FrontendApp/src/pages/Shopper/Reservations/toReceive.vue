@@ -5,16 +5,28 @@
       buttonLabel="Receive"
       :updateFunction="update"
       :buttonVisible="true"
+      v-if="!$q.screen.lt.md"
+    />
+
+    <ServiceDetailsMobile
+      v-else
+      buttonLabel="Receive"
+      :updateFunction="update"
+      :order="order"
+      :buttonVisible="true"
     />
   </div>
 </template>
 
 <script>
 import ServiceDetails from "components/ItemDetails/serviceDetails.vue";
+import ServiceDetailsMobile from "../../../components/ItemDetails/serviceDetailsMobile.vue";
+
 export default {
   props: ["order"],
   components: {
-    ServiceDetails
+    ServiceDetails,
+    ServiceDetailsMobile
   },
   methods: {
     update: function() {
@@ -30,7 +42,7 @@ export default {
         })
         .onOk(() => {
           this.order.status = "For Rating";
-
+          this.order.recieved_date = new Date().toISOString();
           this.order.logs.push({
             event: "Received",
             date: new Date()
@@ -41,6 +53,7 @@ export default {
             .then(() => {
               this.opened = false;
               this.$createSalesRecord(this.order, "Service");
+              console.log("trigger");
             });
           //EMAIL
         });
@@ -49,5 +62,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

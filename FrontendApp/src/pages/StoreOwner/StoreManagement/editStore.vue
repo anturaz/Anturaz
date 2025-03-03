@@ -1,18 +1,18 @@
 <template>
   <div class="q-gutter-sm">
     <q-tabs
-        v-model="tab"
-        dense
-        no-caps
-        align="left"
-        inline-label
-        class="bg-primary text-white"
-      >
-        <q-tab name="Store Details" icon="list" label="Store Details" />
-        <q-tab name="Portfolio" icon="dashboard" label="Profolio" />
-      </q-tabs>
+      v-model="tab"
+      dense
+      no-caps
+      align="left"
+      inline-label
+      class="bg-primary text-white"
+    >
+      <q-tab name="Store Details" icon="list" label="Store Details" />
+      <q-tab name="Portfolio" icon="dashboard" label="Profolio" />
+    </q-tabs>
 
-    <StoreProfile v-if="tab=='Store Details'" />
+    <StoreProfile v-if="tab == 'Store Details'" />
     <Portfolio class="q-pa-lg" v-else />
   </div>
 </template>
@@ -27,11 +27,10 @@ export default {
   },
   data() {
     return {
-     tab: "Store Details"
+      tab: "Store Details"
     };
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

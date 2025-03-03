@@ -7,13 +7,13 @@
         <q-card square bordered class="q-pa-lg shadow-1">
           <q-card-section class="column items-center">
             <img
-              :src="$appLink + '/uploads/admin/sample_logo.png'"
+              :src="$appLink + '/uploads/admin/logo.png'"
               style="width: 80px"
             />
 
             <div class="text-h5 text-black col-12">Anturaz Store Owner</div>
             <div class="text-subtitle2 text-black col-12">
-              A One-stop-shop Online Event Marketplace
+              The First One-Stop-Shop Event Marketplace
             </div>
           </q-card-section>
           <q-card-section>
@@ -25,12 +25,16 @@
               </q-input>
               <q-input
                 color="primary"
-                type="password"
                 v-model="password"
                 label="Password"
+                :type="isPwd ? 'password' : 'text'"
               >
                 <template v-slot:prepend>
-                  <q-icon name="lock" />
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
                 </template>
               </q-input>
             </q-form>
@@ -45,8 +49,22 @@
               @click="login"
             />
           </q-card-actions>
-          <q-card-section class="text-center q-pa-none" style="cursor:pointer" @click="$router.push('/StoreOwner/CreateStore')">
+          <q-card-section
+            class="text-center q-pa-none"
+            style="cursor:pointer"
+            @click="$router.push('/StoreOwner/CreateStore')"
+          >
             <p class="text-grey-6">Not registered? Create an account</p>
+          </q-card-section>
+
+          <q-card-section
+            class="text-center q-pa-none"
+            @click="$router.push('/ForgotPassword')"
+            style="cursor: pointer"
+          >
+            <p class="text-grey-6">
+              Forgot Password?
+            </p>
           </q-card-section>
         </q-card>
       </div>
@@ -61,13 +79,26 @@ export default {
     return {
       email: "",
       password: "",
+      isPwd: true
     };
   },
   methods: {
-    login: async function () {
-      this.$StoreUserLogin(this.email, this.password);
+    normalizeEmail(email) {
+      const [localPart, domain] = email.split("@");
+      const normalizedLocalPart = localPart.toLowerCase();
+      const normalizedDomain = domain.toLowerCase();
+
+      return `${normalizedLocalPart}@${normalizedDomain}`;
     },
-  },
+    login: async function() {
+      const normalizedEmail = this.normalizeEmail(this.email);
+      try {
+        const response = this.$StoreUserLogin(normalizedEmail, this.password);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 };
 </script>
 

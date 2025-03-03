@@ -1,6 +1,12 @@
 <template>
   <div>
-    <q-btn icon="delete" @click="deleteFeaturedPhoto" color="primary" flat dense/>
+    <q-btn
+      icon="delete"
+      @click="deleteFeaturedPhoto"
+      color="primary"
+      flat
+      dense
+    />
   </div>
 </template>
 
@@ -26,7 +32,7 @@ export default {
             .then(() => {
               fs.unlink(this.featuredPhoto.path, err => {
                 if (err) throw err;
-                console.log(this.featuredPhoto.path+" was deleted");
+                // console.log(this.featuredPhoto.path+" was deleted");
               });
               this.$q.dialog({
                 title: "Deleted",
@@ -44,5 +50,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

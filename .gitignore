@@ -1,2 +1,7 @@
 
 *.db
+/FrontEndApp/dist
+/FrontEndApp/node_modules
+/BackendApp/node_modules
+*.rar
+

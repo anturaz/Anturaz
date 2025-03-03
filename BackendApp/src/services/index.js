@@ -31,6 +31,7 @@ const productSubscriptions = require('./product-subscriptions/product-subscripti
 const serviceSubscriptions = require('./service-subscriptions/service-subscriptions.service.js');
 const gallerySubscription = require('./gallery-subscription/gallery-subscription.service.js');
 const itemSubscriptions = require('./item-subscriptions/item-subscriptions.service.js');
+const productReviews = require('./product-reviews/product-reviews.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(categories);
@@ -66,4 +67,5 @@ module.exports = function (app) {
   app.configure(serviceSubscriptions);
   app.configure(gallerySubscription);
   app.configure(itemSubscriptions);
+  app.configure(productReviews);
 };

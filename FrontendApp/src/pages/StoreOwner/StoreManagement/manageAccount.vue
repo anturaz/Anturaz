@@ -3,21 +3,29 @@
     <q-list bordered separator>
       <q-item>
         <q-item-section>Store Status</q-item-section>
-        <q-item-section avatar >
+        <q-item-section avatar>
           <q-toggle
             :value="data.published"
             dense
             color="primary"
             @input="unpublish_status()"
           />
-          <span class="text-primary-8">{{data.published ? 'PUBLISHED' : 'UNPUBLISHED'}}</span>
+          <span class="text-primary-8">{{
+            data.published ? "PUBLISHED" : "UNPUBLISHED"
+          }}</span>
         </q-item-section>
       </q-item>
       <q-item>
         <q-item-section>Store Account</q-item-section>
         <q-item-section avatar class="row">
           <span class="text-primary-8">
-            <q-btn flat icon="info" label="DEACTIVATE" @click="deactivate" color="red" />
+            <q-btn
+              flat
+              icon="info"
+              label="DEACTIVATE"
+              @click="deactivate"
+              color="red"
+            />
           </span>
         </q-item-section>
       </q-item>
@@ -33,35 +41,93 @@ export default {
     };
   },
   methods: {
-    unpublish_status: function() {
+    unpublish_status: async function() {
       this.$q
         .dialog({
           title: "Confirmation",
           message:
-            "Are you sure you want to " +
-            (!this.data.published? "Publish" : "Unpublish") +
-            " this Store?",
-          cancel: {
-            push: true,
-            color: "grey",
-            flat: true
-          }
+            "Do you really want to unpublished the store? if yes Enter your password",
+          prompt: {
+            model: "",
+            type: "password" // optional
+          },
+          cancel: true,
+          persistent: true
         })
-        .onOk(() => {
-           this.data.published=!this.data.published
-         
-          this.$dbCon
-            .service("store")
-            .update(this.data._id, this.data)
-            .then(() => {
-              this.$q.dialog({
-                title: "Success",
-                message: "Store details updated!"
+        .onOk(async password => {
+          try {
+            this.$q.loading.show();
+            const loggedUser = await this.$dbCon.services.users.get(
+              this.$local.getItem("user_token")
+            );
+
+            const user = await this.$axios.post(
+              this.$appLink + "/authentication",
+              {
+                email: loggedUser.email,
+                password: password,
+                strategy: "local"
+              }
+            );
+            this.data.published = !this.data.published;
+            this.$dbCon
+              .service("store")
+              .update(this.data._id, this.data)
+              .then(() => {
+                this.$q.dialog({
+                  title: "Success",
+                  message: "Store details updated!"
+                });
               });
+          } catch (e) {
+            this.$q.dialog({
+              title: "Alert",
+              message: "Wrong Password"
             });
+          }
+          this.$q.loading.hide();
         });
     },
-    deactivate: function() {
+    deactivate: async function() {
+      // this.$q
+      //   .dialog({
+      //     title: "Confirmation",
+      //     message:
+      //       "Are you sure you want to Deactivate your Store? if yes Enter your password",
+      //     prompt: {
+      //       model: "",
+      //       type: "password" // optional
+      //     },
+      //     cancel: true,
+      //     persistent: true
+
+      //     //  After deactivating, you have 30 days to reactive your Store.
+      //   })
+      //   .onOk(async password => {
+      //     try {
+      //       this.$q.loading.show();
+      //       const loggedUser = await this.$dbCon.services.users.get(
+      //         this.$local.getItem("user_token")
+      //       );
+
+      //       const user = await this.$axios.post(
+      //         this.$appLink + "/authentication",
+      //         {
+      //           email: loggedUser.email,
+      //           password: password,
+      //           strategy: "local"
+      //         }
+      //       );
+
+      //     } catch (e) {
+      //       this.$q.dialog({
+      //         title: "Alert",
+      //         message: "Wrong Password"
+      //       });
+      //     }
+      //   });
+
+      // old
       this.$q
         .dialog({
           title: "Confirmation",
@@ -103,7 +169,6 @@ export default {
                         persistent: true
                       })
                       .onOk(() => {
-                     
                         this.$dbCon
                           .service("store")
                           .update(this.data._id, this.data);
@@ -134,5 +199,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,11 +1,9 @@
-<template >
+<template>
   <div class="column">
     <q-card
       flat
       class="col justify-center row text-grey text-caption "
       :class="$q.screen.lt.sm ? 'q-ma-md' : 'q-pa-xl'"
-      
-     
     >
       <div
         v-for="menu in menus"
@@ -22,12 +20,12 @@
           unelevated
           size="20px"
         >
-          <div class="col-3 text-right" >
-            <q-icon :name="menu.icon" class="q-pr-md"  />
+          <div class="col-3 text-right">
+            <q-icon :name="menu.icon" class="q-pr-md" />
           </div>
-          <div class="col-9 text-left text-h6">
+          <div class="col-9 text-left text-body1 text-black">
             {{ menu.label }}
-            <div class="text-left text-caption">{{ menu.desc }}</div>
+            <div class="text-left text-caption text-grey">{{ menu.desc }}</div>
           </div>
         </q-btn>
       </div>
@@ -37,6 +35,7 @@
       full-height
       :maximized="$q.screen.lt.md"
       class="column"
+      no-route-dismiss
     >
       <q-card
         :style="$q.screen.lt.md ? '' : 'width: 75vw; max-width: 80vw;'"
@@ -56,7 +55,10 @@
             <Users v-if="currentMenu == 'EMPLOYEES'" />
             <!-- <Portfolio v-if="currentMenu=='Portfolio'" /> -->
             <StoreProfile v-if="currentMenu == 'SUBSCRIPTIONS'" current="3" />
-            <StoreProfile v-if="currentMenu == 'ACCOUNT AND SECURITY'" current="1" />
+            <StoreProfile
+              v-if="currentMenu == 'ACCOUNT AND SECURITY'"
+              current="1"
+            />
             <!-- <RatingsAndReviews v-if="currentMenu=='Ratings and Reviews'" /> -->
             <BookingSystem v-if="currentMenu == 'BOOKING CALENDAR'" />
             <GiftWrappingServices v-if="currentMenu == 'GIFT WRAPPING'" />
@@ -89,7 +91,7 @@ export default {
     BookingSystem,
     GiftWrappingServices,
     Delivery,
-    FuelTranspo,
+    FuelTranspo
   },
   data() {
     return {
@@ -97,59 +99,58 @@ export default {
         {
           label: "STORE PROFILE",
           icon: "store",
-          desc: "Business Details | Bio | Logo | Portfolio",
+          desc: "Business Details | Bio | Logo | Portfolio"
         },
         {
           label: "BOOKING CALENDAR",
           icon: "calendar_today",
-          desc: "Available | Booked",
+          desc: "Available | Booked"
         },
         {
           label: "GIFT WRAPPING",
           icon: "card_giftcard",
-          desc: "Charges | Size Classification",
+          desc: "Charges | Size Classification"
         },
         {
           label: "SUBSCRIPTIONS",
           icon: "fa fa-retweet",
-          desc: "Advertisements | Add-ons",
+          desc: "Advertisements | Add-ons"
         },
         {
           label: "DELIVERY",
           icon: "motorcycle",
-          desc: "Charges | Destinations",
+          desc: "Charges | Destinations"
         },
         {
           label: "ACCOUNT AND SECURITY",
           icon: "security",
-          desc: "Delete | Unpublish | Password | OTP",
+          desc: "Delete | Unpublish | Password | OTP"
         },
         {
           label: "FUEL AND TRANSPO",
           icon: "drive_eta",
-          desc: "Charges | Destinations",
+          desc: "Charges | Destinations"
         },
 
         {
           label: "EMPLOYEES",
           icon: "people",
-          desc: "Add | Delete | Edit",
-        },
+          desc: "Add | Delete | Edit"
+        }
       ],
       opened: false,
       currentMenu: "",
-      currentInventoryMenu: "products",
+      currentInventoryMenu: "products"
     };
   },
   methods: {
-    openModal: function (tab) {
+    openModal: function(tab) {
       this.opened = false;
       this.currentMenu = tab;
       this.opened = true;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

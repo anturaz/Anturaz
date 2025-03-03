@@ -10,39 +10,88 @@
       </q-breadcrumbs>
       <q-separator />
     </div>
-    <div class="q-pt-sm col-12">
-      <div align="right">
+
+    <!-- <div
+      class="q-pt-sm col-12"
+      style="display: flex; justify-content: space-between; align-items: center;"
+    >
+      <div style="flex-grow: 1; text-align: center;">
+        <SearchGiftRegistry />
+      </div>
+      <div>
         <CreateGiftRegistry />
       </div>
+    </div> -->
+
+    <div
+      class="q-pt-sm col-12"
+      style="display: flex; justify-content: flex-end; align-items: center;"
+    >
+      <SearchGiftRegistry class="q-mr-sm" />
+      <CreateGiftRegistry />
     </div>
+
+    <!-- 
+    <div class="q-pt-sm col-12">
+      <div align="right">
+        <SearchGiftRegistry />
+        <CreateGiftRegistry />
+      </div>
+    </div> -->
     <div class="q-pt-md col-12">
       <q-list bordered separator>
-        <q-item :active="active" v-for="giftregistry in data" :key="giftregistry._id">
+        <q-item
+          :active="active"
+          v-for="giftregistry in data"
+          :key="giftregistry._id"
+        >
           <q-item-section>
-            <div class="text-bold text-h5">{{giftregistry.event_name}}</div>
+            <div class="text-bold text-h5">{{ giftregistry.event_name }}</div>
             <div>
+              <b>Celebrant:</b>
+              {{ giftregistry.celebrant_name }}
+            </div>
+            <div v-if="giftregistry.grooms_name">
               <b>Groom:</b>
-              {{giftregistry.grooms_name}}
+              {{ giftregistry.grooms_name }}
             </div>
             <div>
-              <b>Bride:</b>
-              {{giftregistry.brides_name}}
-            </div>
-            <div>
-              <b>Wedding Date:</b>
-              {{giftregistry.wedding_date}}
+              <b>Event Date:</b>
+              {{ giftregistry.event_date }}
             </div>
             <div>
               <b>Shipping Address:</b>
-              {{giftregistry.house_bldg_st+" "+giftregistry.barangay_district+", "+giftregistry.city_municipality+", "+giftregistry.state_province+", "+giftregistry.country+` (${giftregistry.zip_code})`}}
+              {{
+                giftregistry.house_bldg_st +
+                  " " +
+                  giftregistry.barangay_district +
+                  ", " +
+                  giftregistry.city_municipality.name +
+                  ", " +
+                  giftregistry.state_province.name +
+                  ", " +
+                  giftregistry.country +
+                  ` (${giftregistry.zip_code})`
+              }}
             </div>
           </q-item-section>
           <q-item-section class="column" side>
             <div class="col self-start">
               <b>Reference Number:</b>
-              {{giftregistry.reference_number}}
+              {{ giftregistry.reference_number }}
             </div>
-            <q-btn class="col-3 self-end" label="VIEW >" @click="$router.push('/GiftRegistry/Event/Manage/'+giftregistry.reference_number)" flat unelevated color="primary" />
+            <q-btn
+              class="col-3 self-end"
+              label="VIEW >"
+              @click="
+                $router.push(
+                  '/GiftRegistry/Event/Manage/' + giftregistry.reference_number
+                )
+              "
+              flat
+              unelevated
+              color="primary"
+            />
           </q-item-section>
         </q-item>
       </q-list>
@@ -52,9 +101,11 @@
 
 <script>
 import CreateGiftRegistry from "./CreateGiftRegistry";
+import SearchGiftRegistry from "./SearchGiftRegistry.vue";
 export default {
   components: {
-    CreateGiftRegistry
+    CreateGiftRegistry,
+    SearchGiftRegistry
   },
   data() {
     return {
@@ -80,5 +131,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

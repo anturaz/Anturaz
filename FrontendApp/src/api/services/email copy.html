@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:o="urn:schemas-microsoft-com:office:office">
+    <title>Transaction Receipt - Anturaz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #d8a96e;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            height: 150px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+            margin-top: 50px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #000;
+            margin-top: 50px;
+        }
+
+        .header-text p {
+            margin: 5px 0 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .content p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #e6b980;
+            /* Light brown color */
+            color: black;
+            /* Text color */
+            padding: 13px 70px;
+            text-decoration: none;
+            /* Remove underline */
+            border-radius: 50px;
+            /* Makes the button rounded */
+            font-size: 16px;
+            border: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+
+        .button-container {
+            margin: 50px 0px;
+        }
+
+        .footer {
+            padding: 20px;
+            font-size: 14px;
+            color: #666;
+            text-align: left;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://anturaz.io/uploads/admin/logo.png" alt="Anturaz Logo">
+                <!-- Replace with actual logo file -->
+            </div>
+            <div class="header-text">
+                <h1>ANTURAZ</h1>
+                <p>The most secured event suppliers marketplace.</p>
+            </div>
+        </div>
+
+
+        <!-- Content -->
+        <div class="content">
+            <p>Dear Mr./Ms. &lt;${order.checkout_data.data.customer.last_name}&gt;,</p>
+
+            <p style=" padding-bottom: 15px;"><strong style="color: black;">
+                    Congratulations! You have successfully published your store!</strong></p>
+
+            <p>Below are the details of your store:</p>
+            <p>Store Name: ${store_name}<br>
+                Business address: ${house_st} ${barangay} ${city_num} ${region}<br>
+                Contact No: ${contact_num}<br>
+                Email Address: ${email}<br>
+            </p>
+
+            <p>Our team will continue to assess your profile to see if it complies with our terms of use.
+                If no issues are identified, you can continue enjoying our platform.
+            </p>
+
+            <p>Helpful References:</p>
+
+            <p>
+                <span>Terms of Use</span>
+                <br>
+                <span>Privacy Policy</span>
+                <br>
+                <span>Return Policy</span>
+                <br>
+                <span>FAQ</span>
+                <br>
+            </p>
+
+            <!-- Button -->
+            <div class="button-container">
+                <a href="${link}" class="button" style="color:#000;">SHOP NOW</a>
+            </div>
+
+
+            <p>Celebrate Life!</p>
+
+            <p><strong>ANTURAZ</strong><br>
+                OneStras Technologies Corp.<br>
+                Unit 102, SMJ Residences Mawaque Rd,<br>
+                Mabiga, Mabalacat City
+
+            </p>
+        </div>
+
+        <!-- Footer -->
+
+        <!-- Footer -->
+        <div
+            style="background-color: #e6b980; padding: 20px; font-size: 14px; color: black; display: flex; justify-content: space-between; align-items: center;">
+            <!-- Left Section: Phone & Email -->
+            <div style="display: flex; align-items: center; gap: 30px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+63 9621260781</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>helpdesk@anturaz.io</span>
+                </div>
+            </div>
+
+            <!-- Right Section: Website -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-globe"></i>
+                <span>www.anturaz.io</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

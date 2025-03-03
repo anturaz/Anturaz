@@ -1,27 +1,44 @@
 <template>
   <div class="row flex-center q-gutter-md">
-    <div class="col-11" style="height:70px"/>
+    <div class="col-11" style="height:70px" />
     <div class="q-pa-md" style="width:400px">
       <q-card class="row">
         <q-card-section class="col-12" style="height:40%" align="center">
-          <img :src="$appLink+'/uploads/admin/logo.png'" style="width:80px">
+          <img :src="$appLink + '/uploads/admin/logo.png'" style="width:80px" />
           <div class="text-h4">Anturaz Admin</div>
-          <div class="text-subtitle1">A One-stop-shop Online Event Marketplace</div>
-          <br>
+          <div class="text-subtitle1">
+            A One-stop-shop Online Event Marketplace
+          </div>
+          <br />
           <q-banner v-if="error.length != 0" rounded class="bg-red text-white">
             <ul class="text-caption text-left">
-              <li v-for="(err,index) in error" v-bind:key="index">{{err}}</li>
+              <li v-for="(err, index) in error" v-bind:key="index">
+                {{ err }}
+              </li>
             </ul>
           </q-banner>
 
           <div class="q-gutter-sm" style="width:80%">
-            <q-input v-model="email" label="Email Address"/>
-            <q-input v-model="system_pw" type="password" label="System Generated Password"/>
-            <q-input v-model="new_pw" type="password" label="New Password"/>
-            <q-input v-model="confirm_pw" type="password" label="Confirm Password"/>
-            <br>
-            <q-btn class="full-width" @click="validate" label="Verify account" color="primary"/>
-            <br>
+            <q-input v-model="email" label="Email Address" />
+            <q-input
+              v-model="system_pw"
+              type="password"
+              label="System Generated Password"
+            />
+            <q-input v-model="new_pw" type="password" label="New Password" />
+            <q-input
+              v-model="confirm_pw"
+              type="password"
+              label="Confirm Password"
+            />
+            <br />
+            <q-btn
+              class="full-width"
+              @click="validate"
+              label="Verify account"
+              color="primary"
+            />
+            <br />
           </div>
         </q-card-section>
       </q-card>
@@ -37,7 +54,8 @@ export default {
       system_pw: "",
       new_pw: "",
       confirm_pw: "",
-      error: []
+      error: [],
+      data: {}
     };
   },
   methods: {
@@ -61,35 +79,33 @@ export default {
     },
     verify: async function() {
       await this.$dbCon
-        .service("users")
-        .find({
-          query: {
-            email: this.email,
-            password: this.system_pw
-          }
+        .authenticate({
+          strategy: "local",
+          email: this.email,
+          password: this.system_pw
         })
-        .then(result => {
-          if (result.total == 1) {
+        .then(async result => {
+          let payLoad = await this.$dbCon.passport.verifyJWT(
+            this.$local.getItem(this.$appLink + "-jwt")
+          );
+          var logged_in_user = await this.$dbCon.services.users.get(
+            payLoad.userId
+          );
+          this.data = logged_in_user;
+          console.log(logged_in_user);
+
+          if (logged_in_user) {
             if (this.new_pw != this.confirm_pw) {
               this.error.push(
                 "New Password and Confirm Password doesn't match."
               );
             } else {
-              if (result.data[0].status == "Verified") {
-                this.$q
-                  .dialog({
-                    title: "Account has already verified!",
-                    message: "Login to continue."
-                  })
-                  .onOk(() => {
-                    this.$router.push("/Admin/Login");
-                  });
-              } else {
-                result.data[0].password = this.new_pw;
-                result.data[0].status = "Verified";
+              if (!logged_in_user.verified) {
+                logged_in_user.password = this.new_pw;
+                logged_in_user.verified = true;
                 this.$dbCon
                   .service("users")
-                  .update(result.data[0]._id, result.data[0])
+                  .update(logged_in_user._id, logged_in_user)
                   .then(() => {
                     this.$q.loading.show();
                     this.$axios({
@@ -97,7 +113,7 @@ export default {
                       url:
                         this.$appLink +
                         "/ConfirmationSystemUserVerification?id=" +
-                        result.data[0]._id
+                        logged_in_user._id
                     }).then(() => {
                       this.$q.loading.hide();
                       this.$q
@@ -106,9 +122,18 @@ export default {
                           message: "Login to continue."
                         })
                         .onOk(() => {
-                          this.$router.push("/Admin/Login");
+                          this.$router.push("/StoreOwner/Login");
                         });
                     });
+                  });
+              } else {
+                this.$q
+                  .dialog({
+                    title: "Account has already verified!",
+                    message: "Login to continue."
+                  })
+                  .onOk(() => {
+                    this.$router.push("/StoreOwner/Login");
                   });
               }
             }
@@ -122,5 +147,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
