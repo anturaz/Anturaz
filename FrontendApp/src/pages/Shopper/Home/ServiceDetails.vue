@@ -421,12 +421,12 @@
                 class="custom-radio"
               />
             </div> -->
-
+            <!-- 
             <div class="q-gutter-sm q-pl-md q-mt-xs text-grey">
               Downpayment option is available only using credit card. Remaining
               balance will be automatically charged 24 hours prior to the date
               of fulfillment
-            </div>
+            </div> -->
           </div>
 
           <div class="col-12 q-mt-sm">

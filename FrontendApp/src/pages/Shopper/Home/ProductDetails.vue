@@ -264,10 +264,14 @@
                     class="col-1"
                     :disable="data.stock == 0"
                     v-model="quantity"
-                    debounce="200"
+                    debounce="0"
                     outlined
                     squared
                     dense
+                    :min="1"
+                    :max="data.stock"
+                    step="1"
+                    @change="validateQuantity"
                   />
                 </div>
                 <div
@@ -584,10 +588,13 @@
                     class="col-1"
                     :disable="data.stock == 0"
                     v-model="quantity"
-                    debounce="200"
                     outlined
                     squared
                     dense
+                    :min="1"
+                    :max="data.stock"
+                    step="1"
+                    @change="validateQuantity"
                   />
                 </div>
                 <div
@@ -912,7 +919,7 @@ export default {
       giftwrapping_size: "small",
       date_needed: null,
       payment_option: "",
-      quantity: "1",
+      quantity: 0,
       loginForm: false,
       checkout: false,
       service_transactions: []
@@ -1136,20 +1143,23 @@ export default {
         console.log(e);
       }
       this.$q.loading.hide();
+    },
+    validateQuantity() {
+      this.quantity = Math.max(1, Math.min(this.quantity, this.data.stock));
     }
   },
   watch: {
-    quantity: function() {
-      if (this.quantity < 1) {
-        this.quantity = 1;
-      }
-      if (this.quantity % 2 == 0) {
-        this.quantity = this.quantity - (this.quantity % 2);
-      }
-      if (this.quantity > this.data.stock) {
-        this.quantity = this.data.stock;
-      }
-    }
+    // quantity: function() {
+    //   if (this.quantity < 1) {
+    //     this.quantity = 1;
+    //   }
+    //   if (this.quantity % 2 == 0) {
+    //     this.quantity = this.quantity - (this.quantity % 2);
+    //   }
+    //   if (this.quantity >= this.data.stock) {
+    //     this.quantity = this.data.stock;
+    //   }
+    // }
   },
   async mounted() {
     //GET ALL PRODUCT TRANSACTIONS

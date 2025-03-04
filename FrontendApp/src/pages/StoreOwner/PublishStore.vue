@@ -295,7 +295,7 @@ export default {
         if (totProducts + totServices < 1) {
           this.$q.dialog({
             title: "Must add 1 Item",
-            message: "Minimum of add atleast one(1) item to proceed"
+            message: "Add at least one (1) item to proceed"
           });
           return;
         }

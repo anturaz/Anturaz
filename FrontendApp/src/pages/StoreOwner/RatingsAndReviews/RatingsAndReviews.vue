@@ -6,7 +6,7 @@
         :class="$q.screen.lt.md ? 'col-4' : 'col-2'"
       >
         Store Rating
-        <q-badge color="primary">3.0</q-badge>
+        <q-badge color="primary">0</q-badge>
       </div>
       <div :class="$q.screen.lt.md ? 'col-8' : 'col-3'">
         <q-input filled v-model="search" label="Search" dense>
